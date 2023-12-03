@@ -1,0 +1,42 @@
+/* (The previous CSS styles will still be used here) */
+
+.main-content {
+    /* Same as previous CSS */
+    max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #dddddd;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.payment-option input[type="radio"] {
+    margin-right: 10px;
+}
+
+.payment-option label {
+    font-size: 16px;
+}
+
+.checkout-btn {
+    /* Same as previous CSS */
+
+    padding: 10px 20px;
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+}

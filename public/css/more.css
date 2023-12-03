@@ -1,0 +1,12 @@
+@import "stylemain.css";
+body{
+
+    background-color: white;
+
+}
+.main{
+    margin:14rem;
+    text-align: center;
+    justify-content: center;
+}
+

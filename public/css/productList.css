@@ -1,0 +1,313 @@
+@import "stylemain.css";
+
+
+#layer2 {
+    background-color: rgb(243, 240, 235);
+    border-left: .6px solid rgb(190, 189, 189);
+    border-right: .6px solid rgb(190, 189, 189);
+}
+
+body {
+    background-color: white;
+}
+
+.productz {
+    padding-top: 1.5rem;
+    margin: 0rem 4.5rem 0rem;
+}
+
+.banner {
+    width: 100%;
+    padding-top: .6rem;
+}
+
+.banner1 {
+    width: 100%;
+    height: 11.5rem;
+    padding-top: .6rem;
+}
+
+.product-container {
+    height: 13.5rem;
+    margin-bottom: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid black;
+    padding: 1rem 1rem 1rem 2.6rem;
+    border-radius: .3rem;
+    background-color: white;
+    box-shadow: 0px 3px 8px #383838;
+
+
+}
+
+.product-container img:hover {
+    transform: scale(1.03);
+    transition: 0.3s ease-in-out;
+}
+
+
+
+.product-info {
+    width: 76%;
+    padding-right: 2rem;
+    position: relative;
+
+}
+
+/* wishlist btn */
+
+.product-info button {
+    position: absolute;
+    right: 2%;
+    padding-bottom: .4rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.product-info .fa-heart {
+    color: rgba(161, 160, 160, 0.9);
+}
+
+.product-info button:hover .fa-heart {
+    color: rgb(253, 82, 82);
+}
+
+.product-info button:focus .fa-heart {
+
+    color: rgb(253, 82, 82);
+}
+
+.product-info h4 {
+    padding-top: .3rem;
+    display: inline;
+
+}
+
+
+.product-info h5:nth-of-type(3) {
+    padding: .3rem;
+    color: rgb(164, 13, 13);
+
+}
+
+.disc {
+    display: inline;
+    text-decoration: line-through;
+    color: rgb(84, 83, 83);
+}
+
+.disc1 {
+    padding-left: .5rem;
+    display: inline;
+    color: rgb(3, 100, 3);
+
+}
+
+
+.pro:hover .product-info h4:nth-of-type(1) {
+    color: rgb(24, 91, 168);
+}
+
+.product-info li {
+    font-size: small;
+}
+
+.rev {
+    display: flex;
+    align-items: center;
+}
+
+.fa-star,
+.fa-star-half-stroke {
+    color: goldenrod;
+    padding-top: 0.3rem;
+    padding-bottom: 0.5rem;
+    border-color: 1px solid black;
+}
+
+.rev h6 {
+    padding-left: .7rem;
+}
+
+.context {
+    padding: 0.5rem 1.9rem 0.5rem 2.6rem;
+}
+
+
+.laptop {
+
+    width: 12.1rem;
+    height: 10rem;
+
+}
+
+
+.mobile {
+
+    width: 11.5rem;
+    height: 11.5rem;
+}
+
+.acces {
+    width: 13.5rem;
+
+    height: 12rem;
+}
+
+.tablet1 {
+
+    width: 11.5rem;
+    height: 11.8rem;
+}
+
+.tablet {
+    width: 11rem;
+    height: 9.9rem;
+}
+/* dkjshksafaddsfjkdsfdsjfkldsjfkljdklfj dksfjkldsjkfljdsklfjkldsjfkldsjkfljsdklfjkldsjfkdsjkfjsdkljfkdsjfkjdkjfkdjkfjkldjfl */
+
+
+@media only screen and (max-width: 767px) {
+
+    #layer2 {
+        background-color: rgb(243, 240, 235);
+        border-left: .6px solid rgb(190, 189, 189);
+        border-right: .6px solid rgb(190, 189, 189);
+    }
+
+    body {
+        background-color: white;
+    }
+
+    .productz {
+        padding-top: 1.5rem;
+        margin: 0rem 1rem;
+        /* Reduce the margin for smaller devices */
+    }
+
+    .banner {
+        width: 100%;
+        padding-top: .6rem;
+    }
+
+    .banner1 {
+        width: 100%;
+        height: auto;
+        /* Allow the height to adjust based on the aspect ratio */
+        padding-top: .6rem;
+    }
+
+    .product-container {
+        height: auto;
+        margin-bottom: 1.3rem;
+        display: flex;
+        border: 1px solid black;
+        padding: 1rem;
+        border-radius: .3rem;
+        background-color: white;
+        box-shadow: 0px 3px 8px #383838;
+    }
+
+    .product-container img {
+        width: 6rem;
+        height: 5rem;
+    }
+
+
+    .product-container img:hover {
+        transform: scale(1.03);
+        transition: 0.3s ease-in-out;
+    }
+
+    .product-info {
+        width: 100%;
+        /* Adjust the width to 100% for smaller devices */
+        padding-right: 0;
+        /* Remove padding on the right for smaller devices */
+        position: relative;
+    }
+    .product-info h4{
+        font-size: 14px;
+    }
+
+    .product-info ul{
+        display: none;
+    }
+
+    /* Wishlist button styles */
+    .product-info button {
+        position: absolute;
+        right: 0;
+        bottom: 0.5rem;
+        /* Adjust the position for smaller devices */
+        padding: 0.5rem;
+        /* Increase the button's padding for better touch interaction */
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    .product-info .fa-heart {
+        color: rgba(161, 160, 160, 0.9);
+    }
+
+    .product-info button:hover .fa-heart,
+    .product-info button:focus .fa-heart {
+        color: rgb(253, 82, 82);
+    }
+
+    .product-info h4 {
+        padding-top: .3rem;
+        display: inline;
+    }
+
+    .product-info h5:nth-of-type(3) {
+        padding: .3rem;
+        color: rgb(164, 13, 13);
+    }
+
+    .disc {
+        display: inline;
+        text-decoration: line-through;
+        color: rgb(84, 83, 83);
+    }
+
+    .disc1 {
+        padding-left: .5rem;
+        display: inline;
+        color: rgb(3, 100, 3);
+    }
+
+    .product-container:hover .product-info h4:nth-of-type(1) {
+        color: rgb(24, 91, 168);
+    }
+
+    .product-info li {
+        font-size: small;
+    }
+
+    .rev {
+        display: flex;
+        align-items: center;
+    }
+
+    .fa-star,
+    .fa-star-half-stroke {
+        color: goldenrod;
+        padding-top: 0.3rem;
+        padding-bottom: 0.5rem;
+        border-color: 1px solid black;
+    }
+
+    .rev h6 {
+        padding-left: .7rem;
+    }
+
+    .context {
+        padding: 0.5rem;
+    }
+
+}

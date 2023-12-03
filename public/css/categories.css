@@ -1,0 +1,165 @@
+/* Import external styles */
+@import "stylemain.css";
+
+/* General styles */
+body {
+    background-color: white;
+}
+
+/* Category section */
+#layer2 {
+    background-color: #e5e2e2db;
+    border-left: 0.6px solid rgb(190, 189, 189);
+    border-right: 0.6px solid rgb(190, 189, 189);
+}
+
+.category-set {
+    margin-top: 0.5rem;
+    padding: 1.5rem;
+}
+
+.category-set h2 {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+}
+
+.block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+/* Items section */
+.items {
+    text-align: center;
+    align-items: center;
+    margin: 0rem;
+    padding: 1rem 0.3rem;
+    border-radius: 0.3rem;
+    background-color: white;
+    box-shadow: 0px 3px 8px #383838;
+    transition: 0.2s ease;
+}
+
+.items img {
+    height: 10rem;
+    width: 10.2rem;
+    padding-top: 1rem;
+}
+
+.items h3 {
+    padding-top: 0.6rem;
+}
+
+.items:hover {
+    color: rgb(42, 85, 165);
+    box-shadow: 0 5px 10px cyan;
+}
+
+/* New Launch section */
+.zx,
+.zx1 {
+    margin-top: 0.5rem;
+    width: 100%;
+    height: 19rem;
+}
+
+.newlaunch {
+    margin-top: 0.5rem;
+}
+
+.newlaunch h1 {
+    padding: 1.5rem;
+}
+
+.zx1 {
+    height: 16rem;
+}
+
+/* Most Bought Items section */
+.most-bought-items {
+    margin-top: 0.3rem;
+    padding: 1.5rem;
+    padding-bottom: .5rem;
+}
+
+.most-bought-items h2 {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+}
+
+.prodemo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pro {
+    background-color: white;
+    height: 12rem;
+    margin-top: 1rem;
+    box-shadow: 0px 3px 8px #383838;
+    transition: 0.2s ease;
+}
+
+.pro img {
+    width: 22rem;
+    height: 12rem;
+}
+
+.pro:hover {
+    color: rgb(42, 85, 165);
+    box-shadow: 0 5px 10px cyan;
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 767px) {
+    #catego {
+        margin-top: 0.3rem;
+        padding: 0.5rem;
+    }
+
+    #catego h2 {
+        padding-top: 0.5rem;
+        padding-bottom: 1rem;
+    }
+
+    .block {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem;
+    }
+
+    .items {
+        flex: 0 0 calc(33.3333% - 1rem);
+        padding: 0.5rem 0.3rem;
+    }
+
+    .items img {
+        height: 4rem;
+        width: 4rem;
+        padding-top: 1rem;
+    }
+
+    .items h3 {
+        padding-top: 0.6rem;
+    }
+
+    .zx,
+    .zx1 {
+        height: 9rem;
+    }
+
+    .pro {
+        height: 7rem;
+    }
+
+    .pro img {
+        width: 10rem;
+        height: 7rem;
+    }
+}

@@ -1,0 +1,67 @@
+<navbar id="layer1">
+    <!-- sublayer 1 -->
+    <div id="sublayer1">
+
+        <div class="part1">
+            <!-- logo -->
+            <a href="/"><img src="/resources/logo6.png" class="logoimg" alt="logo of site"> </a>
+            <!-- search bar -->
+            <div class="search">
+                <input type="search" name="search" class="search-field" placeholder="Search Product, Brand">
+                <button type="submit" class="searchbtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
+        <div class="part2">
+            <!-- login-signup -->
+            <div class="login-signup">
+                <p>
+                    <i class="fa-solid fa-user fa-lg"> </i>
+                    <a href="user/login" class="ls">
+                        Login
+                    </a>
+                    or
+                    <a href="user/signup" class="ls">
+
+                        Sign Up
+
+
+                    </a>
+                </p>
+
+            </div>
+
+            <!-- wishlist & cart -->
+
+            <a href="#" class="wishlist">
+                <i class="fa-regular fa-heart fa-xl"> </i>
+                <p> Wishlist</p>
+            </a>
+            <a href="#" class="cart">
+                <i class="fa-solid fa-cart-shopping fa-xl"> </i>
+                <p>My Cart</p>
+            </a>
+
+        </div>
+
+    </div>
+    <!-- sublayer 1 ends -->
+
+    <!-- subplayer 2 starts -->
+    <div id="sublayer2">
+        <ul id="navibaritems">
+
+            <li class="<%= activePage === 'Home' ? 'active' : ''  %>"><a href="/">Home</a></li>
+            <li class="<%= activePage === 'Categories' ? 'active' : ''  %>"><a href="category">Categories</a></li>
+            <li class="<%= activePage === 'Support' ? 'active' : ''  %>"><a href="support">Support</a></li>
+            <li class="<%= activePage === 'Seller' ? 'active' : ''  %>"><a href="seller">Sell here</a></li>
+
+        </ul>
+
+    </div>
+
+    <!-- sublayer 1 ends -->
+
+
+</navbar>

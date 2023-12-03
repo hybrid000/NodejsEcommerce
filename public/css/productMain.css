@@ -1,0 +1,461 @@
+@import "stylemain.css";
+@import "productslider.css";
+
+
+a {
+    display: flex;
+}
+
+.hide {
+    display: none;
+}
+
+.prodetails h4,
+h2,
+h5 {
+
+    padding-bottom: 0.4rem;
+
+}
+
+#llayer1 {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    box-shadow: 0 2.5px 5px #b1b1b18e;
+    background-color: rgb(222, 225, 218);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 3rem;
+
+}
+
+.logoimg {
+    margin-left: 0.5rem;
+    height: 4rem;
+    width: 4.5rem;
+    border: none;
+}
+
+#llayer2 {
+    padding: .5rem 1rem 2.2rem 1rem;
+    display: flex;
+    background-color: white;
+}
+
+#left {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 1;
+    top: 82.5px;
+    width: 36%;
+    padding: 1rem;
+    box-sizing: border-box;
+    margin-left: .4rem;
+    height: max-content;
+    border: 1.2px solid rgb(185, 184, 184);
+    border-radius: .2rem;
+
+}
+
+.single-single {
+    display: flex;
+    align-content: center;
+    height: 22rem;
+    justify-content: center;
+
+}
+
+
+
+#wishlistbtn {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    padding: .5rem .4rem .5rem .4rem;
+    background-color: rgb(250, 250, 250);
+    border: 0.5px solid rgb(250, 250, 250);
+    border-radius: 10rem;
+    cursor: pointer;
+
+
+}
+
+.singleproimg .fa-heart {
+    color: rgba(176, 176, 176, 0.9);
+}
+
+.singleproimg button:hover .fa-heart {
+    color: rgb(253, 82, 82);
+}
+
+.singleproimg button:focus .fa-heart {
+
+    color: rgb(253, 82, 82);
+}
+
+#mainimg {
+    padding: 0rem 0 .5rem 0;
+}
+
+.smallimggroup {
+    padding: .6rem;
+}
+
+.prev-btn {
+    display: none;
+    width: 2vw;
+    height: 100%;
+    position: absolute;
+    align-items: center;
+    border: .3px solid rgb(156, 156, 156);
+    cursor: pointer;
+    z-index: 1;
+
+}
+
+.next-btn {
+    display: block;
+    width: 2vw;
+    height: 100%;
+    position: absolute;
+    border: .3px solid rgb(156, 156, 156);
+    cursor: pointer;
+    z-index: 1;
+    right: 0px;
+}
+
+.image-container {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+.image-container::-webkit-scrollbar {
+    display: none;
+}
+
+.smallimgcol {
+
+    flex: 0 0 auto;
+    padding: .5rem .2rem;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 81px;
+    height: 80px;
+    border: 1.5px solid rgb(218, 218, 218);
+    border-radius: .12rem;
+    transition: .2s ease-out;
+    cursor: pointer;
+
+}
+
+.buyCart {
+    display: flex;
+    width: 95%;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+.buybtn,
+.cartbtn {
+    display: flex;
+    padding: 1rem;
+    background-color: rgb(238, 173, 52);
+    border: none;
+    margin: 0;
+    width: 49%;
+    cursor: pointer;
+    align-items: center;
+}
+
+.buybtn a,
+.cartbtn a {
+    margin: auto;
+}
+
+.buyCart h3 {
+    display: inline;
+}
+
+.buyCart:hover i,
+h3 {
+    scale: 1.1;
+}
+
+#right {
+    width: 60%;
+    position: relative;
+    left: 2%;
+}
+
+.prodetails {
+    display: block;
+
+}
+
+.prodetails h4,
+h2,
+h5 {
+
+    padding-bottom: 0.4rem;
+
+}
+
+.prodetails p:first-child {
+    padding: 0.5rem 0rem 0.3rem 0rem;
+    font-size: smaller;
+}
+
+.rati button {
+
+    background-color: green;
+    width: fit-content;
+    padding: .1rem 0.2rem .1rem .2rem;
+    border-radius: .2rem;
+    border: none;
+    color: white;
+    font-size: small;
+}
+
+.rati p {
+    display: inline-flex;
+    padding: .7rem;
+    font-size: smaller;
+
+}
+
+.disc {
+    display: inline;
+    text-decoration: line-through;
+    color: rgb(84, 83, 83);
+    padding-bottom: 5rem;
+}
+
+.disc1 {
+    padding-left: .5rem;
+    display: inline;
+    color: rgb(3, 100, 3);
+
+}
+
+
+.warranty {
+
+    display: flex;
+    font-size: medium;
+    margin-top: .5rem;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.TnC {
+    font-size: small;
+    color: #2980b9;
+}
+
+
+
+ul li {
+    list-style-type: none;
+    font-size: medium;
+    padding-left: 0rem;
+    padding-bottom: 0.3rem;
+
+}
+
+.fa-tag {
+    color: rgb(5, 109, 5);
+
+}
+
+
+
+.description {
+    border: 1px solid rgba(184, 184, 184, 0.742);
+    padding-bottom: 0.8rem;
+    box-sizing: border-box;
+    padding: 0.7rem .8rem .7rem 1rem;
+    border-radius: .1rem;
+    margin-bottom: 1rem;
+}
+
+#myBtn {
+    background-color: transparent;
+    border: none;
+    color: rgb(50, 50, 156);
+    padding-top: .5rem;
+    padding-left: 0.3rem;
+    font-size: medium;
+    cursor: pointer;
+}
+
+th {
+    align-content: initial;
+    text-align: left;
+    text-align: start;
+    width: fit-content;
+    padding: 1rem 2rem .5rem 0rem;
+
+}
+
+td {
+    font-size: smaller;
+    align-content: initial;
+    text-align: left;
+    text-align: start;
+    width: 30rem;
+    padding: 0.3rem 2rem .2rem .5rem;
+}
+
+td:nth-of-type(1) {
+    width: 12rem;
+    color: #979696;
+    font-weight: 600;
+}
+
+
+
+
+.ratingsNreviews {
+    display: block;
+}
+
+
+#more {
+    display: none;
+}
+
+.istar {
+    display: inline;
+    background-color: green;
+    width: fit-content;
+    padding: .1rem 0.2rem .1rem .2rem;
+    border-radius: .2rem;
+    border: none;
+    color: white;
+    font-size: small;
+}
+
+.istar-p {
+    display: inline;
+    font-size: small;
+}
+
+.llayer3 h2 {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    padding-left: 1.2rem;
+
+}
+
+.llayer3 {
+    padding-bottom: .5rem;
+    margin: 0;
+}
+
+.userReviewInput {
+    height: auto !important;
+    border: 1px solid rgba(184, 184, 184, 0.742);
+    padding-bottom: 0.8rem;
+    box-sizing: border-box;
+    padding: 0.7rem .8rem .7rem 1rem;
+    border-radius: .1rem;
+    margin: 1rem 0;
+}
+.stars{
+    color: grey;
+    cursor: pointer;
+    margin-right:5px;
+}
+.revText{
+    width: 100%;
+    margin-top: 2rem;
+    border:1px solid black
+}
+.revText textarea{
+    padding: .3rem;
+    font-size: medium;
+    width:100%;
+    resize: none;
+}
+
+.revText button{
+    width: 100%;
+    color:green;
+    height:40px
+}
+
+
+.userReviewBlock {
+    border: 1px solid rgba(184, 184, 184, 0.742);
+    box-sizing: border-box;
+    padding: 0.7rem .8rem .7rem 1rem;
+    border-radius: .1rem;
+
+}
+
+.userReviewBlock h4 {
+    display: inline;
+}
+
+.userReviewContent {
+    padding: 0.4rem 0rem 0rem 0rem;
+}
+
+.userReviewBlock button {
+
+    border: none;
+    background-color: transparent;
+    color: rgb(25, 25, 201);
+    cursor: pointer;
+    padding-top: .3rem;
+
+}
+
+.userReviewName {
+
+    font-size: smaller;
+    color: rgb(147, 150, 150);
+    padding: 0.3rem 0rem 0.5rem 0rem;
+
+}
+
+.post {
+
+    border: 1px solid grey;
+}
+
+
+#star1 {
+    background: red;
+}
+
+#star2 {
+    background-color: orange;
+
+}
+
+#star3 {
+    background-color: rgb(198, 217, 75);
+}
+
+#star4 {
+    background-color: rgb(154, 227, 46);
+
+}
+
+pre {
+    white-space: pre-wrap;
+    /* Since CSS 2.1 */
+}
