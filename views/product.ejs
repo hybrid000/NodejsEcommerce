@@ -21,49 +21,36 @@
             <!-- full product images -->
             <div id="left">
 
-                <div class="singleproimg">
-                    <div class="single-single">
-                        <img src="/resources/products/lap1.1.png" width="90%" height="100%" id="mainimg" alt="">
+                
+                    <div class="main-img-block">
+                        <img src="<%=imgPath%>/img1.png" width="90%" height="100%" id="main-img" alt="">
+                   
                     </div>
 
                     <button id="wishlistbtn"><i class="fa-solid fa-heart fa-xl"></i></button>
-                    <div class="smallimggroup">
-                        <section class="product">
 
-                            <button class="prev-btn" id="sexy"><i class="fa-solid fa-chevron-left fa-lg"></i></button>
-                            <button class="next-btn" id="sex"><i class="fa-solid fa-chevron-right fa-lg"></i></button>
+                    <div class="small-img-section">
 
-                            <div class="image-container">
+                        <button class="pre-btn" id="pre-small-img-btn"><i
+                                class="fa-solid fa-chevron-left fa-lg"></i></button>
+                        <button class="next-btn" id="next-small-img-btn"><i
+                                class="fa-solid fa-chevron-right fa-lg"></i></button>
 
-                                <div class="smallimgcol">
-                                    <img src="/resources/products/lap1.1.png" width="100%" height="100%"
-                                        class="smallimg" alt="">
-                                </div>
+                        <div class="image-container">
 
-                                <div class="smallimgcol">
-                                    <img src="/resources/products/lap15.png" width="100%" height="100%" class="smallimg"
-                                        alt="">
-                                </div>
-                                <div class="smallimgcol">
-                                    <img src="/resources/products/lap13.png" width="100%" height="100%" class="smallimg"
-                                        alt="">
-                                </div>
-                                <div class="smallimgcol">
-                                    <img src="/resources/products/lap14.png" width="100%" height="100%" class="smallimg"
-                                        alt="">
-                                </div>
-                                <div class="smallimgcol">
-                                    <img src="/resources/products/lap12.png" width="100%" height="100%" class="smallimg"
-                                        alt="">
-                                </div>
+                        <% imgFiles.forEach(img=>{ %>
+
+                            <div class="small-img-block">
+                                <img src="<%=imgPath%>/<%=img%>" width="100%" height="100%" class="smallimg" alt="">
                             </div>
+                     <%   }) %>
 
-                        </section>
 
+                        </div>
 
                     </div>
 
-                    <div class="buyCart">
+                    <div class="buy-cart">
                         <button class="cartbtn">
                             <i class="fa-solid fa-cart-shopping fa-xl"></i>
                             <a href="/checkout.html">
@@ -79,11 +66,10 @@
                             </a>
                         </button>
                     </div>
-                </div>
-
+            
 
             </div>
-            <!-- full product images end here -->
+            <!-- full product images end here left ends -->
 
 
             <!-- Full product info starts -->
@@ -114,10 +100,12 @@
                         <%= ((product.productPrice-product.discountedPrice) / product.productPrice)*100 %> % off
                     </h4>
 
-                    <div class="rati"><button><i class="fa-solid fa-star fa-2xs"></i>&nbsp;
+                    <div class="rating-screen">
+                        <button>
+                            <i class="fa-solid fa-star fa-2xs"></i>&nbsp; <%=roundToOneDecimalPlace(averageRating)%>
                         </button>
                         <p>
-                            <%=product.reviews.length %> Ratings
+                            <%=numberOfRatings %> Ratings and <%=numberOfReviews%> Reviews
                         </p>
                     </div>
                     <h4>Free Delivery</h4>
@@ -303,16 +291,18 @@
                     <hr>
                     <button onclick="myFunction()" id="myBtn">See more</button>
                 </div>
+
                 <div class="ratingsNreviews">
 
                     <!-- Overall rating starts -->
-                    <div class="istar">
-                        <i class="fa-solid fa-star fa-2xs"></i>
-                    </div>
-
-                    <p class="istar-p"> &nbsp; <%=product.reviews.length %> Ratings
-                    </p>
-
+<div class="rating-screen">
+    <button>
+        <i class="fa-solid fa-star fa-2xs"></i>&nbsp; <%=roundToOneDecimalPlace(averageRating)%>
+    </button>
+    <p>
+        <%=numberOfRatings %> Ratings and <%=numberOfReviews%> Reviews
+    </p>
+</div>
                     <!-- Overall rating ends -->
                     <div class="userReviewInput">
                         <h2>Rate this product</h2>
@@ -320,12 +310,16 @@
                         <!-- Customer rating and review input -->
                         <form action="/product/<%=product._id %>" method="post">
                             <br>
-                            <span class="stars" data-rating="5"> <i class="fa-solid fa-star fa-xl"></i> </span>
-                            <span class="stars" data-rating="4"> <i class="fa-solid fa-star fa-xl"></i> </span>
-                            <span class="stars" data-rating="3"> <i class="fa-solid fa-star fa-xl"></i> </span>
-                            <span class="stars" data-rating="2"> <i class="fa-solid fa-star fa-xl"></i> </span>
-                            <span class="stars" data-rating="1"> <i class="fa-solid fa-star fa-xl"></i> </span>
-                            <input type="hidden" name="ratings">
+
+
+                            <span class="star" data-rating="1"><i class="fa-solid fa-star"></i></span>
+                            <span class="star" data-rating="2"><i class="fa-solid fa-star"></i></span>
+                            <span class="star" data-rating="3"><i class="fa-solid fa-star"></i></span>
+                            <span class="star" data-rating="4"><i class="fa-solid fa-star"></i></span>
+                            <span class="star" data-rating="5"><i class="fa-solid fa-star"></i></span>
+
+                            <!-- Hidden input field to store the selected rating -->
+                            <input type="hidden" id="rating" name="rating" value="1">
                             <div class="revText">
                                 <label for="input">Write your detailed review of the product</label>
                                 <br>
@@ -341,35 +335,42 @@
                     <!-- Customer review output -->
                     <div class="userReviewContainer">
                         <h2>Product Reviews:</h2>
-
-                        <% if (product.reviews && product.reviews.length> 0 && product.reviews.some(element => element.review)) { %>
+                        <% if (product.reviews && product.reviews.length> 0 && product.reviews.some(element =>element.review)) { %>
                             <% product.reviews.forEach(element=> { %>
                                 <% if (element.review) { %>
-
                                     <div class="userReviewBlock">
-                                        <div class="istar"><i class="fa-solid fa-star fa-2xs"></i>
+                                        <div class="istar">
+                                            <i class="fa-solid fa-star fa-2xs"></i>
                                             <%= element.rating %>
                                         </div>
-                                        <h4>&nbsp; <%= ratingTocomment[element.rating] %>
+                                        <h4>&nbsp;<%= ratingTocomment[element.rating] %>
                                         </h4>
                                         <p class="userReviewContent">
                                             <%= element.review %>
                                         </p>
-                                        <button onclick="readMore(this)">Read More</button>
-                                        <p class="userReviewName"><b>
+                                        <button>Read More</button>
+                                        <p class="userReviewName">
+                                            <b>
                                                 <%= element.user %>
-                                            </b>, <%= element.reviewDate %>
+                                            </b>,
+                                            <% if (element.reviewDate) { %>
+                                                <%= element.reviewDate.toLocaleDateString('en-US', { weekday: 'short' , year: 'numeric' , month: 'short' , day: 'numeric' }) %>
+                                                    <% } else { %>
+                                                        Date Not Available
+                                                        <% } %>
                                         </p>
                                     </div>
-
                                     <% } %>
                                         <% }); %>
                                             <% } else { %>
-                                                <p
-                                                    style="font-size: medium; color:darkgray; text-align: center; border: 1px solid rgba(184, 184, 184, 0.742); box-sizing: border-box; padding: 0.7rem .8rem .7rem 1rem;">
-                                                    No reviews yet </p>
+                                                <p style="font-size: medium; color: darkgray; text-align: center; border: 1px solid rgba(184, 184, 184, 0.742); box-sizing: border-box; padding: 0.7rem .8rem .7rem 1rem;">
+                                                    No reviews yet
+                                                </p>
                                                 <% } %>
+
                     </div>
+
+
                 </div>
 
 
@@ -395,254 +396,40 @@
 
 
 
-        <div class="llayer3">
-            <h2>Similar Products</h2>
-            <section class="product">
-
-                <button class="prev-button"><img src="../resources/products/arrow.png" alt=""></button>
-                <button class="next-button"><img src="../resources/products/arrow.png" alt=""></button>
-
-                <div class="product-container">
-                    <a href="laptop_hp.html">
-                        <div class="product-card">
-                            <div class="product-image">
-                                <span class="discount-tag">Bestseller</span>
-                                <img src="../resources/products/lap21.png" width="100%" height="100%" alt="">
-                                <button class="card-btn"><i class="fa-solid fa-heart fa-lg"></i></button>
-                            </div>
-                            <div class="product-info">
-                                <h5>HP Ryzen 3 Quad Core 5300U - 14s-fq1089au (8 GB/ 512 GB SSD/ Windows 11 Home)</h5>
-
-                                <div class="price">
-                                    <h4> ₹39,490</h4>
-                                    <h5 class="discount"> ₹50,597 </h5>
-                                    <h5 class="discount1"> 21% off </h5>
-                                </div>
-
-                                <div class="rev">
-
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-
-                                    <i class="fa-regular fa-star fa-sm"></i>&nbsp;
-                                    <h6> 9,283 ratings</h6>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                    <a href="laptop_redmi.html">
-                        <div class="product-card">
-                            <div class="product-image">
-                                <!-- <span class="discount-tag">Best Value</span> -->
-                                <img src="../resources/products/lap31.png" width="100%" height="100%" alt="">
-                                <button class="card-btn"><i class="fa-solid fa-heart fa-lg"></i></button>
-                            </div>
-                            <div class="product-info">
-                                <h5>RedmiBook Pro Core i5 11th Gen (8 GB/ 512 GB SSD/ Windows 10 Home/ 1.8 kg)</h5>
-
-                                <div class="price">
-                                    <h4> ₹42,990</h4>
-                                    <h5 class="discount"> ₹59,999 </h5>
-                                    <h5 class="discount1"> 28% off </h5>
-                                </div>
-
-                                <div class="rev">
-
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-
-                                    <i class="fa-solid fa-star-half-stroke fa-sm"></i>&nbsp;
-                                    <h6> 5,865 ratings</h6>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                    <a href="laptop_macbook.html">
-                        <div class="product-card">
-                            <div class="product-image">
-                                <span class="discount-tag">Trending</span>
-                                <img src="../resources/products/lap41.png" width="100%" height="100%" alt="">
-                                <button class="card-btn"><i class="fa-solid fa-heart fa-lg"></i></button>
-                            </div>
-                            <div class="product-info">
-                                <h5>APPLE Macbook Air M1 - (8 GB/512 GB SSD/Mac OS Big Sur, 13.3 inch, Space Grey, 1.29
-                                    kg)
-                                </h5>
-
-                                <div class="price">
-                                    <h4> ₹1,17,900</h4>
-                                    <h5 class="discount"> ₹1,20,990 </h5>
-                                    <h5 class="discount1"> &nbsp; </h5>
-                                </div>
-
-                                <div class="rev">
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>&nbsp;
-                                    <h6> 2,268 ratings</h6>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                    <a href="laptop_hp.html">
-                        <div class="product-card">
-                            <div class="product-image">
-                                <span class="discount-tag">Bestseller</span>
-                                <img src="../resources/products/lap21.png" width="100%" height="100%" alt="">
-                                <button class="card-btn"><i class="fa-solid fa-heart fa-lg"></i></button>
-                            </div>
-                            <div class="product-info">
-                                <h5>HP Ryzen 3 Quad Core 5300U - 14s-fq1089au (8 GB/ 512 GB SSD/ Windows 11 Home)</h5>
-
-                                <div class="price">
-                                    <h4> ₹39,490</h4>
-                                    <h5 class="discount"> ₹50,597 </h5>
-                                    <h5 class="discount1"> 21% off </h5>
-                                </div>
-
-                                <div class="rev">
-
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-
-                                    <i class="fa-regular fa-star fa-sm"></i>&nbsp;
-                                    <h6> 9,283 ratings</h6>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="product-card">
-                            <div class="product-image">
-                                <!-- <span class="discount-tag">Best Value</span> -->
-                                <img src="../resources/products/lap31.png" width="100%" height="100%" alt="">
-                                <button class="card-btn"><i class="fa-solid fa-heart fa-lg"></i></button>
-                            </div>
-                            <div class="product-info">
-                                <h5>RedmiBook Pro Core i5 11th Gen (8 GB/ 512 GB SSD/ Windows 10 Home/ 1.8 kg)</h5>
-
-                                <div class="price">
-                                    <h4> ₹42,990</h4>
-                                    <h5 class="discount"> ₹59,999 </h5>
-                                    <h5 class="discount1"> 28% off </h5>
-                                </div>
-
-                                <div class="rev">
-
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-
-                                    <i class="fa-solid fa-star-half-stroke fa-sm"></i>&nbsp;
-                                    <h6> 5,865 ratings</h6>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="product-card">
-                            <div class="product-image">
-                                <span class="discount-tag">Bestseller</span>
-                                <img src="../resources/products/lap21.png" width="100%" height="100%" alt="">
-                                <button class="card-btn"><i class="fa-solid fa-heart fa-lg"></i></button>
-                            </div>
-                            <div class="product-info">
-                                <h5>HP Ryzen 3 Quad Core 5300U - 14s-fq1089au (8 GB/ 512 GB SSD/ Windows 11 Home)</h5>
-
-                                <div class="price">
-                                    <h4> ₹39,490</h4>
-                                    <h5 class="discount"> ₹50,597 </h5>
-                                    <h5 class="discount1"> 21% off </h5>
-                                </div>
-
-                                <div class="rev">
-
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-
-                                    <i class="fa-regular fa-star fa-sm"></i>&nbsp;
-                                    <h6> 9,283 ratings</h6>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="product-card">
-                            <div class="product-image">
-                                <span class="discount-tag">Bestseller</span>
-                                <img src="../resources/products/lap21.png" width="100%" height="100%" alt="">
-                                <button class="card-btn"><i class="fa-solid fa-heart fa-lg"></i></button>
-                            </div>
-                            <div class="product-info">
-                                <h5>HP Ryzen 3 Quad Core 5300U - 14s-fq1089au (8 GB/ 512 GB SSD/ Windows 11 Home)</h5>
-
-                                <div class="price">
-                                    <h4> ₹39,490</h4>
-                                    <h5 class="discount"> ₹50,597 </h5>
-                                    <h5 class="discount1"> 21% off </h5>
-                                </div>
-
-                                <div class="rev">
-
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-                                    <i class="fa-solid fa-star fa-sm"></i>
-
-                                    <i class="fa-regular fa-star fa-sm"></i>&nbsp;
-                                    <h6> 9,283 ratings</h6>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-            </section>
-        </div>
-
 
 
         <!-- footer -->
         <%- include('partials/footer') %>
+            <script>
 
+                // Get all the star elements
+                const stars = document.querySelectorAll('.star');
+
+                // Add a click event listener to each star
+                stars.forEach((star) => {
+                    star.addEventListener('click', () => {
+                        // Get the rating value from the data-rating attribute
+                        const rating = parseInt(star.getAttribute('data-rating'));
+
+
+                        // Update the hidden input field value
+                        document.getElementById('rating').value = rating;
+
+                        // Remove the 'active' class from all stars
+                        stars.forEach((s) => s.classList.remove('activate'));
+
+                        // Add the 'active' class to the clicked star and previous stars
+                        for (let i = 0; i < rating; i++) {
+                            stars[i].classList.add('activate');
+                        }
+                    });
+                });
+
+            </script>
             <script src="/js/imgswitch.js"></script>
             <script src="/js/seemore.js"></script>
             <script src="/js/readmore.js"></script>
-            <script src="/js/lightbox-plus-jquery.js"></script>
             <script src="/js/smallimgslider.js"></script>
-            <script src="/js/revimgslider.js"></script>
             <script src="/js/productslider.js"></script>
             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
             <script>
@@ -666,19 +453,8 @@
 
 
             </script>
-            <script>
 
-                stars.forEach((star) => {
-                    star.addEventListener('click', () => {
-                        // Get the rating value from the data-rating attribute
-                        const rating = parseInt(star.getAttribute('data-rating'));
 
-                        // Update the hidden input field value
-                        document.getElementById('ratings').value = rating;
-
-                    })
-                });
-            </script>
 
 
     </body>

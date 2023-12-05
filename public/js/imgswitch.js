@@ -1,4 +1,4 @@
-var mainimg = document.getElementById("mainimg");
+var mainimg = document.getElementById("main-img");
 var smal_limg = document.getElementsByClassName("smallimg");
 smal_limg[0].onclick = function () {
     mainimg.src = smal_limg[0].src;

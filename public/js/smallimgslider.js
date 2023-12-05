@@ -1,5 +1,5 @@
-const nbtn = document.getElementById('sex');
-const pbtn = document.getElementById('sexy');
+const nbtn = document.getElementById('next-small-img-btn');
+const pbtn = document.getElementById('pre-small-img-btn');
 
 nbtn.addEventListener('click', () => {
     pbtn.style.display = 'block';

@@ -22,7 +22,7 @@ const getProductList = async (req, res) => {
         res.status(500).send(`Internal Server Error: ${error.message}`);
     }
 };
-
+router.use(express.static('public'));
 const getProduct = async (req, res) => {
     // function 
     const ratingTocomment = {
@@ -60,31 +60,60 @@ const getProduct = async (req, res) => {
             return res.status(404).send('Product not found');
         }
 
-        res.render('product', { product, averageCalculator, roundToOneDecimalPlace, ratingTocomment });
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).send(`Internal Server Error: ${error.message}`);
+        const imgPath = `/resources/products/${product._id}`;
+        const folderPath = path.join('public', 'resources', 'products', productId);
+        const filesReader = async (path) => {
+            try {
+                const files = await fs.readdir(path); // Using fs.promises to handle promises
+                return files;
+            } catch (err) {
+                console.error(err);
+                throw err; 
+            }
+        };
+        const imgFiles = await filesReader(folderPath); // Wait for the result of the asynchronous function
 
-    }
-};
-const postReviews = async (req, res) => {
-    try{
-    const getCurrentDate = () => {
-        const currentDate = new Date();
-        const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+        const numberOfRatings=product.reviews.length;
 
-        return currentDate.toLocaleDateString('en-US', options);
-    };
-
-        const date = getCurrentDate();
-        console.log(date); // Output: Sun, Dec 03, 2023
+        let numberOfReviews= 0;
+        let averageRating=0;
+        product.reviews.forEach(element=>{
+            if(element.review){
+                numberOfReviews++;
+            }
+            averageRating+=parseInt(element.rating);
+        });
+        averageRating=averageRating/product.reviews.length;
 
         
 
-        const productId = req.params.productId;
+        res.render('product', {
+            product,
+            averageCalculator,
+            roundToOneDecimalPlace,
+            ratingTocomment,
+            folderPath,
+            imgPath,
+            imgFiles,
+            numberOfRatings,
+            numberOfReviews,
+            averageRating
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(`Internal Server Error: ${error.message}`);
+    }
 
-        const ratings = req.body.ratings;
+};
+const postReviews = async (req, res) => {
+    try {
+        const getCurrentDate = () => {
+            const currentDate = new Date();
+            return currentDate;
+        };
+
+        const productId = req.params.productId;
+        const ratings = req.body.rating;
         const reviewText = req.body.reviewText;
 
         // Assuming you have a Mongoose model called Product
@@ -100,7 +129,7 @@ const postReviews = async (req, res) => {
             user: "Sushant",
             rating: ratings,
             review: reviewText,
-            reviewDate: date,
+            reviewDate: getCurrentDate(), // Call the function to get the current date
         };
 
         // Use $push to add the new review to the 'reviews' array
@@ -114,6 +143,7 @@ const postReviews = async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 };
+
 
 
 module.exports = { getProductList, getProduct, postReviews };
