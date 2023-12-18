@@ -3,12 +3,23 @@ const router = express.Router();
 const fs = require('fs').promises;
 const path = require('path');
 const Product = require("../models/product");
+const Category=require("../models/category");
+const User=require("../models/user");
 const { set } = require("mongoose");
-
 const getProductList = async (req, res) => {
     try {
         const categoryName = req.params.categoryName;
-        const products = await Product.find({ category: categoryName });
+
+        // Find the category by name to get its _id
+        const category = await Category.findOne({ categoryName });
+
+        if (!category) {
+            return res.status(404).send('Category not found');
+        }
+
+        // Use the category _id to query products
+        const products = await Product.find({ category: category._id });
+
         console.log(products);
 
         const productsWithImages = products.map(product => ({
@@ -22,7 +33,8 @@ const getProductList = async (req, res) => {
         res.status(500).send(`Internal Server Error: ${error.message}`);
     }
 };
-router.use(express.static('public'));
+
+
 const getProduct = async (req, res) => {
     // function 
     const ratingTocomment = {
@@ -83,9 +95,27 @@ const getProduct = async (req, res) => {
             }
             averageRating+=parseInt(element.rating);
         });
+
         averageRating=averageRating/product.reviews.length;
 
-        
+      const getBackgroundColorStyle=(averageRating)=>{
+            let backgroundColor;
+
+            if (averageRating >= 4) {
+                backgroundColor = 'background-color: green';
+            } else if (averageRating >= 3) {
+                backgroundColor = ' background-color:  rgb(5, 189, 2)';
+            } else if (averageRating >= 2) {
+                backgroundColor = 'background-color: rgb(240, 158, 4);';
+            } else if (averageRating >= 1) {
+                backgroundColor = 'background-color: red;';
+            } else {
+                backgroundColor = 'grey'; // Default background color if none of the conditions match
+            }
+
+            return backgroundColor;
+        }
+    
 
         res.render('product', {
             product,
@@ -97,7 +127,8 @@ const getProduct = async (req, res) => {
             imgFiles,
             numberOfRatings,
             numberOfReviews,
-            averageRating
+            averageRating,
+            getBackgroundColorStyle
         });
     } catch (error) {
         console.error(error);

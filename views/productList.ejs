@@ -26,20 +26,23 @@
                     <%= product.productName %>
                 </h4>
                 <div class="rev">
+
+                    
+
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star-half-stroke"></i>
-                    <h6>3,258 ratings</h6>
+                    <h6><%= product.reviews.length %> Ratings</h6>
                 </div>
                 <h4> <i class="fa fa-inr"></i>
-                    <%= product.productPrice %>
+                    <%= product.discountedPrice %>
                 </h4>
                 <h5 class="disc">
-                    <%= product.discountedPrice %>
+                    <%= product.productPrice %>
                 </h5>
-                <h5 class="disc1">22% off</h5>
+                <h5 class="disc1"><%= ((product.productPrice-product.discountedPrice) / product.productPrice)*100 %> % off</h5>
                 <h5>Free Delivery</h5>
                 <ul>
                     <li>

@@ -1,0 +1,52 @@
+<%- include('partials/head') %>
+    <link rel="stylesheet" href="/css/login.css">
+    <title>Login</title>
+    </head>
+
+    <body>
+
+        <div id="layer1">
+            <!-- logo -->
+            <a href="/"><img src="/resources/logo6.png" class="logoimg" alt="logo of site"></a>
+        </div>
+
+        <div id="llayer2">
+            <div id="mainbox">
+                <h2>Login</h2>
+                <p>Get access to your Orders, Wishlist and Offers</p>
+
+                <form method="post" action="/login">
+                    <div class="box">
+                        <i class="fa fa-envelope fa-xl"></i>
+                        <input type="email" name="username" id="username" placeholder="Enter Your Email" required>
+                    </div>
+
+                    <div class="box">
+                        <i class="fa-solid fa-key fa-xl"></i>
+                        <input type="password" name="password" id="password" placeholder="Enter Your Password" required>
+                    </div>
+
+                    <div class="reme-forgot">
+                        <div class="checkboxt">
+                            <input type="checkbox" id="logcheck">&nbsp; Remember me
+                        </div>
+                        <a href="#" class="forgopass">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="button">
+                        <i class="fa-solid fa-arrow-right-to-bracket ">&nbsp;</i>Login
+                    </button>
+                </form>
+
+                <div class="login-signup">
+                    Don't have an account?
+                    <a href="/register" class="text signup-link"> &nbsp; Signup Now</a>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <%- include('partials/footer') %>
+    </body>
+
+    </html>

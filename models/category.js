@@ -7,7 +7,10 @@ const categorySchema = new mongoose.Schema({
         unique: true,
     },
     categoryDescription: String,
-    categoryAllProducts: [{}, {}, {}]
+    categoryAllProducts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+    }],
 });
 
 const Category = mongoose.model('Category', categorySchema);

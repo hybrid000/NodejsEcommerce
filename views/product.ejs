@@ -1,7 +1,7 @@
 <%-include('partials/head')%>
 
+<link rel="stylesheet" href="/css/styleMain.css">
     <link rel="stylesheet" href="/css/productMain.css">
-    <link rel="stylesheet" href="/css/styleMain.css">
 
 
 
@@ -20,8 +20,7 @@
 
             <!-- full product images -->
             <div id="left">
-
-                
+       
                     <div class="main-img-block">
                         <img src="<%=imgPath%>/img1.png" width="90%" height="100%" id="main-img" alt="">
                    
@@ -31,27 +30,19 @@
 
                     <div class="small-img-section">
 
-                        <button class="pre-btn" id="pre-small-img-btn"><i
-                                class="fa-solid fa-chevron-left fa-lg"></i></button>
-                        <button class="next-btn" id="next-small-img-btn"><i
-                                class="fa-solid fa-chevron-right fa-lg"></i></button>
-
-                        <div class="image-container">
-
                         <% imgFiles.forEach(img=>{ %>
-
                             <div class="small-img-block">
                                 <img src="<%=imgPath%>/<%=img%>" width="100%" height="100%" class="smallimg" alt="">
                             </div>
-                     <%   }) %>
+                        <%  }) %>
 
-
-                        </div>
+                        
 
                     </div>
 
                     <div class="buy-cart">
-                        <button class="cartbtn">
+
+                        <button class="cart-btn">
                             <i class="fa-solid fa-cart-shopping fa-xl"></i>
                             <a href="/checkout.html">
 
@@ -59,7 +50,7 @@
 
                         </button>
 
-                        <button class="buybtn">
+                        <button class="buy-btn">
                             <i class="fa-regular fa-credit-card fa-xl"></i>
                             <a href="/checkout.html">
                                 <h3> Buy Now</h3>
@@ -75,56 +66,63 @@
             <!-- Full product info starts -->
             <div id="right">
 
-                <div class="prodetails">
-                    <p style="display: flex;">
-                        <a href="/category">Categories</a>/<a href="/category/<%= product.category %>">
+                <div class="product-details">
+
+                    <p style="display: flex;" class="category-heading">
+                        <a href="/category">Categories</a> &nbsp;> &nbsp;<a href="/category/<%= product.category %>">
                             <%= product.category %>
                         </a>
-
                     </p>
 
-                    <h4>
+                    <h3>
                         <%= product.productName %>
-                    </h4>
+                    </h3>
 
 
-                    <h2><i class="fa fa-inr"></i>
+                    <h3>
+                        <i class="fa fa-inr"></i>
                         <%= product.discountedPrice %>
-                    </h2>
+                    </h3>
 
-                    <h4 class="disc">
+                    <h4 class="regular-price">
                         <%= product.productPrice %>
                     </h4>
 
-                    <h4 class="disc1">
+                    <h4 class="off-percentage">
                         <%= ((product.productPrice-product.discountedPrice) / product.productPrice)*100 %> % off
                     </h4>
-
                     <div class="rating-screen">
-                        <button>
-                            <i class="fa-solid fa-star fa-2xs"></i>&nbsp; <%=roundToOneDecimalPlace(averageRating)%>
+                    <% if (numberOfRatings>0) { %>
+                     
+                        <button style=" <%= getBackgroundColorStyle(averageRating) %>">
+                         <i class="fa-solid fa-star fa-2xs"></i> <%= roundToOneDecimalPlace(averageRating) %>
                         </button>
+                        <%} %>
+                    
                         <p>
-                            <%=numberOfRatings %> Ratings and <%=numberOfReviews%> Reviews
+                          <%= numberOfRatings %> Ratings and <%= numberOfReviews %> Reviews
                         </p>
                     </div>
-                    <h4>Free Delivery</h4>
-
-                    <h4>Available Offers</h4>
-                    <ul>
-                        <% product.offers.forEach(offer=> { %>
-                            <li><span><i class="fa-solid fa-tag"></i>
-                                    <%= offer %>
-                                </span></li>
-                            <% }); %>
-                    </ul>
-
+                    
+                <i class="fa-solid fa-truck-fast"> <h4 class="shipping">Free Shipping</h4></i>
+                    <% if (product.offers && product.offers.length> 0) { %>
+                        <h4>Available Offers</h4>
+                        <ul class="offer-list">
+                            <% product.offers.forEach(offer=> { %>
+                                <li>
+                                    <span><i class="fa-solid fa-tag"></i>
+                                        <%= offer %>
+                                    </span>
+                                </li>
+                                <% }); %>
+                        </ul>
+                        <% } %>
 
                 </div>
 
                 <div class="description">
 
-                    <h2>Description</h2>
+                    <h3>Description</h3>
                     <p style="margin-bottom: 0.5rem;">
                         <%= product.description %>
                     </p>
@@ -142,9 +140,10 @@
                         <% } %>
 
                 </div>
+
                 <div class="description">
-                    <h2>Specifications</h2>
-                    <hr>
+                    <h3>Specifications</h3>
+                 
                     <table>
                         <tbody>
                             <tr>
@@ -288,45 +287,51 @@
                         </tbody>
                     </table>
 
-                    <hr>
+                 
                     <button onclick="myFunction()" id="myBtn">See more</button>
                 </div>
 
                 <div class="ratingsNreviews">
 
                     <!-- Overall rating starts -->
-<div class="rating-screen">
-    <button>
-        <i class="fa-solid fa-star fa-2xs"></i>&nbsp; <%=roundToOneDecimalPlace(averageRating)%>
-    </button>
-    <p>
-        <%=numberOfRatings %> Ratings and <%=numberOfReviews%> Reviews
-    </p>
-</div>
-                    <!-- Overall rating ends -->
+    <div class="rating-screen">
+        <% if (numberOfRatings>0) { %>
+    
+            <button style=" <%= getBackgroundColorStyle(averageRating) %>">
+                <i class="fa-solid fa-star fa-2xs"></i>
+                <%= roundToOneDecimalPlace(averageRating) %>
+            </button>
+            <%} %>
+    
+                <p>
+                    <%= numberOfRatings %> Ratings and <%= numberOfReviews %> Reviews
+                </p>
+    </div>            <!-- Overall rating ends -->
+
+
                     <div class="userReviewInput">
-                        <h2>Rate this product</h2>
-                        <hr>
+                        <h3>Rate and review this product</h3>
+                   
                         <!-- Customer rating and review input -->
-                        <form action="/product/<%=product._id %>" method="post">
-                            <br>
+                        <form class="review-form" action="/product/<%=product._id %>" method="post">
+                        
+                                <span class="star" data-rating="1"><i class="fa-solid fa-star"></i></span>
+                                <span class="star" data-rating="2"><i class="fa-solid fa-star"></i></span>
+                                <span class="star" data-rating="3"><i class="fa-solid fa-star"></i></span>
+                                <span class="star" data-rating="4"><i class="fa-solid fa-star"></i></span>
+                                <span class="star" data-rating="5"><i class="fa-solid fa-star"></i></span>
+                                <input type="hidden" id="rating" name="rating" value="1">
+                        
+                        
+                        
+                            
 
-
-                            <span class="star" data-rating="1"><i class="fa-solid fa-star"></i></span>
-                            <span class="star" data-rating="2"><i class="fa-solid fa-star"></i></span>
-                            <span class="star" data-rating="3"><i class="fa-solid fa-star"></i></span>
-                            <span class="star" data-rating="4"><i class="fa-solid fa-star"></i></span>
-                            <span class="star" data-rating="5"><i class="fa-solid fa-star"></i></span>
-
-                            <!-- Hidden input field to store the selected rating -->
-                            <input type="hidden" id="rating" name="rating" value="1">
-                            <div class="revText">
-                                <label for="input">Write your detailed review of the product</label>
-                                <br>
-                                <textarea name="reviewText" id="" cols="30" rows="10" placeholder="Optional"></textarea>
-                                <br>
-                                <button type="submit">Submit</button>
-                            </div>
+                        
+                                <textarea name="reviewText" id="" cols="30" rows="10" placeholder="Write a review. (Optional)"></textarea>
+                        
+                            
+                            <button type="submit">Submit</button>
+                        
                         </form>
                     </div>
 
@@ -334,30 +339,32 @@
 
                     <!-- Customer review output -->
                     <div class="userReviewContainer">
-                        <h2>Product Reviews:</h2>
+                        <h3>Product Reviews:</h3>
                         <% if (product.reviews && product.reviews.length> 0 && product.reviews.some(element =>element.review)) { %>
                             <% product.reviews.forEach(element=> { %>
                                 <% if (element.review) { %>
+
                                     <div class="userReviewBlock">
-                                        <div class="istar">
-                                            <i class="fa-solid fa-star fa-2xs"></i>
-                                            <%= element.rating %>
+
+                                        <div class="rating-screen-detailed">
+                                            <button style=" <%= getBackgroundColorStyle(element.rating) %>">
+                                                <i class="fa-solid fa-star fa-2xs"></i> <%= element.rating %>
+                                            </button>
+                                            <p>
+                                           <%= ratingTocomment[element.rating] %>
+                                            </p>
                                         </div>
-                                        <h4>&nbsp;<%= ratingTocomment[element.rating] %>
-                                        </h4>
+
                                         <p class="userReviewContent">
                                             <%= element.review %>
                                         </p>
-                                        <button>Read More</button>
+
                                         <p class="userReviewName">
-                                            <b>
+                                        
                                                 <%= element.user %>
-                                            </b>,
-                                            <% if (element.reviewDate) { %>
+                                  ,
                                                 <%= element.reviewDate.toLocaleDateString('en-US', { weekday: 'short' , year: 'numeric' , month: 'short' , day: 'numeric' }) %>
-                                                    <% } else { %>
-                                                        Date Not Available
-                                                        <% } %>
+                                        
                                         </p>
                                     </div>
                                     <% } %>

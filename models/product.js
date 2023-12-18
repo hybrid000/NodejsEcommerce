@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
     user: {
-        type: String,  // You can use ObjectId if you have a separate User model
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: 'User',
+        type:String,
     },
     rating: {
         type: Number,
@@ -26,7 +28,10 @@ const productSchema = new mongoose.Schema({
     offers: [{
         type: String,
     }],
-    category: { type: String },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+    },
     description: {
         type: String,
         required: true,
@@ -37,8 +42,9 @@ const productSchema = new mongoose.Schema({
     warranty: String,
     reviews: [reviewSchema],
     numberofOrders: Number,
+    stock: Number,
 });
 
 const Product = mongoose.model('Product', productSchema);
 
-module.exports = Product;
+module.exports =Product;
