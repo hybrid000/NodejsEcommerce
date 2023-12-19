@@ -16,19 +16,21 @@
         <div class="part2">
             <!-- login-signup -->
             <div class="login-signup">
-                <p>
-                    <i class="fa-solid fa-user fa-lg"> </i>
-                    <a href="/login" class="ls">
-                        Login
-                    </a>
-                    or
-                    <a href="/register" class="ls">
 
-                        Sign Up
-
-
-                    </a>
-                </p>
+                <% if (isAuthenticated) { %>
+                    <p>
+                        <i class="fa-solid fa-user fa-lg"> </i>
+                        <%= username %>!
+                    </p>
+                    <!-- Other content for authenticated users -->
+                    <% } else { %>
+                        <p>
+                            <i class="fa-solid fa-user fa-lg"> </i>
+                            <a href="/login" class="ls">Login</a>
+                            or
+                            <a href="/register" class="ls">Sign Up</a>
+                        </p>
+                        <% } %>
 
             </div>
 

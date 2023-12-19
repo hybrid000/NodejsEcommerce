@@ -2,6 +2,13 @@ const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
 const Product = require('./product');
 
+
+const addressSchema = new mongoose.Schema({
+    street: String,
+    city: String,
+    state: String,
+    contactNumber: Number,
+})
 const productOrderSchema = new mongoose.Schema({
     product: {
         type: mongoose.Schema.Types.ObjectId,
@@ -15,7 +22,7 @@ const productOrderSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
+    username: { type: String, required: true },
     email: {
         type: String,
         required: true,
@@ -41,6 +48,8 @@ const userSchema = new mongoose.Schema({
             required: true,
         },
     }],
+
+    address: [addressSchema]
 });
 
 // Passport-local-mongoose plugin
