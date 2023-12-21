@@ -27,7 +27,7 @@ const getProductList = async (req, res) => {
             imagePath: `/resources/products/${product._id}/img1.png`,
         }));
 
-        res.render('productList', { products: productsWithImages, activePage: "Categories" });
+        res.render('productList', { products: productsWithImages, activePage: "Categories", categoryName });
     } catch (error) {
         console.error(error);
         res.status(500).send(`Internal Server Error: ${error.message}`);
@@ -66,8 +66,11 @@ const getProduct = async (req, res) => {
 
     try {
         const productId = req.params.productId;
-        const product = await Product.findById(productId);
-
+        const product = await Product.findById(productId).populate({
+            path: 'category',
+            model: 'Category',
+          }  );
+        
         if (!product) {
             return res.status(404).send('Product not found');
         }
@@ -128,7 +131,7 @@ const getProduct = async (req, res) => {
             numberOfRatings,
             numberOfReviews,
             averageRating,
-            getBackgroundColorStyle
+            getBackgroundColorStyle,
         });
     } catch (error) {
         console.error(error);

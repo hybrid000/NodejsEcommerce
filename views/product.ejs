@@ -25,9 +25,9 @@
                         <img src="<%=imgPath%>/img1.png" width="90%" height="100%" id="main-img" alt="">
                    
                     </div>
-
-                    <button id="wishlistbtn"><i class="fa-solid fa-heart fa-xl"></i></button>
-
+<form action="/user/wishlist/<%=product._id %>" method="post">
+                 <button id=wishlistbtn type="submit"> <i class="fa-solid fa-heart fa-xl"></i></button>
+</form>
                     <div class="small-img-section">
 
                         <% imgFiles.forEach(img=>{ %>
@@ -39,24 +39,23 @@
                         
 
                     </div>
+<div class="buy-cart">
+    <form id="cartForm" action="/user/cart/<%=product._id %>" method="POST">
+        <!-- Add any necessary input fields for the cart form -->
+        <button class="cart-btn" type="submit">
+            <i class="fa-solid fa-cart-shopping fa-xl"></i>
+            <h3> Add to Cart</h3>
+        </button>
+    </form>
 
-                    <div class="buy-cart">
-
-                        <button class="cart-btn">
-                            <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                            <a href="/checkout.html">
-
-                                <h3> Add to Cart</h3>
-
-                        </button>
-
-                        <button class="buy-btn">
-                            <i class="fa-regular fa-credit-card fa-xl"></i>
-                            <a href="/checkout.html">
-                                <h3> Buy Now</h3>
-                            </a>
-                        </button>
-                    </div>
+    <form id="buyForm" action="/product/buy" method="GET">
+        <!-- Add any necessary input fields for the buy now form -->
+        <button class="buy-btn" type="submit">
+            <i class="fa-regular fa-credit-card fa-xl"></i>
+            <h3> Buy Now</h3>
+        </button>
+    </form>
+</div>
             
 
             </div>
@@ -69,9 +68,8 @@
                 <div class="product-details">
 
                     <p style="display: flex;" class="category-heading">
-                        <a href="/category">Categories</a> &nbsp;> &nbsp;<a href="/category/<%= product.category %>">
-                            <%= product.category %>
-                        </a>
+                        <a href="/category">Categories</a> &nbsp;> &nbsp;<a href="/category/<%= product.category.categoryName %>">
+                        </a><%= product.category.categoryName %>
                     </p>
 
                     <h3>
@@ -93,8 +91,8 @@
                     </h4>
                     <div class="rating-screen">
                     <% if (numberOfRatings>0) { %>
-                     
-                        <button style=" <%= getBackgroundColorStyle(averageRating) %>">
+                    <button style="<%= getBackgroundColorStyle(averageRating) %>">
+
                          <i class="fa-solid fa-star fa-2xs"></i> <%= roundToOneDecimalPlace(averageRating) %>
                         </button>
                         <%} %>
@@ -141,163 +139,13 @@
 
                 </div>
 
-                <div class="description">
-                    <h3>Specifications</h3>
-                 
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th colspan="2">General</th>
-
-
-                            </tr>
-                            <tr>
-                                <td>Sales Package</td>
-                                <td>Laptop, Power Adaptor, User Guide, Warranty Documents</td>
-                            </tr>
-                            <tr>
-                                <td>Model Number</td>
-                                <td>15IMH05</td>
-                            </tr>
-                            <tr>
-                                <td>Series</td>
-                                <td>IdeaPad Gaming 3</td>
-                            </tr>
-                            <tr>
-                                <td>Color</td>
-                                <td>Onyx Black</td>
-                            </tr>
-                            <tr>
-                                <td>Type </td>
-                                <td>Gaming Laptop</td>
-                            </tr>
-
-
-                        </tbody>
-                        <span id="dots"></span>
-
-                        <tbody id="more">
-                            <tr>
-                                <td>Suitable for</td>
-                                <td>Gaming, Processing & Multitasking</td>
-                            </tr>
-                            <tr>
-                                <td>Battery Backup</td>
-                                <td>Upto 8 hours</td>
-                            </tr>
-                            <tr>
-                                <td>Power Supply</td>
-                                <td>135 W Slim Tip Adapter</td>
-                            </tr>
-                            <tr>
-                                <th colspan="2">Processor & Memory features</th>
-
-                            </tr>
-                            <tr>
-                                <td>Dedicated Graphic Memory Type</td>
-                                <td>GDDR6</td>
-                            </tr>
-                            <tr>
-                                <td>Dedicated Graphic Memory Capacity</td>
-                                <td>4 GB</td>
-                            </tr>
-                            <tr>
-                                <td>Processor Brand</td>
-                                <td>Intel</td>
-                            </tr>
-                            <tr>
-                                <td>Processor Name</td>
-                                <td>Core i5</td>
-                            </tr>
-                            <tr>
-                                <td>Processor Generation</td>
-                                <td>11th</td>
-                            </tr>
-                            <tr>
-                                <td>SSD Capacity</td>
-                                <td>256 GB</td>
-                            </tr>
-                            <tr>
-                                <td>RAM</td>
-                                <td>8 GB</td>
-                            </tr>
-                            <tr>
-                                <td>RAM Type</td>
-                                <td>
-                                    DDR4</td>
-                            </tr>
-                            <tr>
-                                <td>Chipset</td>
-                                <td>Intel SoC Platform</td>
-                            </tr>
-                            <tr>
-                                <td>Clock Speed</td>
-                                <td>Base Clock 3.10 GHz, Max Turbo Boost Frequency Up to 4.40 GHz</td>
-                            </tr>
-                            <tr>
-                                <td>RAM Frequency</td>
-                                <td>3200 MHz</td>
-                            </tr>
-                            <tr>
-                                <td>Cache</td>
-                                <td>8 MB</td>
-                            </tr>
-                            <tr>
-                                <td>Graphic Processor</td>
-                                <td>NVIDIA GeForce RTX 3050</td>
-                            </tr>
-                            <tr>
-                                <td>Number of Cores</td>
-                                <td>4</td>
-                            </tr>
-                            <tr>
-                                <th colspan="2">Operating System</th>
-                            <tr>
-                                <td>OS Architecture</td>
-                                <td>64 bit</td>
-                            </tr>
-                            <tr>
-                                <td>Operating System</td>
-                                <td>Windows 11 Home</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                 
-                    <button onclick="myFunction()" id="myBtn">See more</button>
-                </div>
-
                 <div class="ratingsNreviews">
 
                     <!-- Overall rating starts -->
     <div class="rating-screen">
         <% if (numberOfRatings>0) { %>
     
-            <button style=" <%= getBackgroundColorStyle(averageRating) %>">
+            <button style="<%= getBackgroundColorStyle(averageRating) %>">
                 <i class="fa-solid fa-star fa-2xs"></i>
                 <%= roundToOneDecimalPlace(averageRating) %>
             </button>
@@ -347,7 +195,7 @@
                                     <div class="userReviewBlock">
 
                                         <div class="rating-screen-detailed">
-                                            <button style=" <%= getBackgroundColorStyle(element.rating) %>">
+                                            <button style="<%= getBackgroundColorStyle(averageRating) %>">
                                                 <i class="fa-solid fa-star fa-2xs"></i> <%= element.rating %>
                                             </button>
                                             <p>
@@ -407,6 +255,8 @@
 
         <!-- footer -->
         <%- include('partials/footer') %>
+
+
             <script>
 
                 // Get all the star elements
@@ -434,20 +284,8 @@
 
             </script>
             <script src="/js/imgswitch.js"></script>
-            <script src="/js/seemore.js"></script>
-            <script src="/js/readmore.js"></script>
             <script src="/js/smallimgslider.js"></script>
             <script src="/js/productslider.js"></script>
-            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-            <script>
-                $(document).ready(function () {
-                    $(".image").slice(0, 6).fadeIn();
-                    $(".load-more").click(function () {
-                        $(".image").slice(0, 14).fadeIn();
-                        $(this).fadeOut();
-                    });
-                });
-            </script>
             <script>
 
                 var matched = $(".image-container *");
@@ -462,7 +300,19 @@
             </script>
 
 
+<script>
+    function addToWishlist(productId) {
+        // Handle the "Add to Wishlist" action using fetch
+        console.log("clicked");
+      fetch(`/user/wishlist/${productId}`, {
+            method: 'POST'
+        })
+            .catch(error => {
+                console.error('Error adding to Wishlist:', error);
+            });
 
+    }
+</script>
 
     </body>
 

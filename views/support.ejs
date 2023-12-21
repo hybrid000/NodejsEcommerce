@@ -12,9 +12,45 @@
     <body>
     <%- include('partials/navbar') %>
 
-            <div class="main">
-                <h1>your assistant is here </h1>
+    <div class="contact-container">
+    
+        <div class="contact-block email">
+            <h3>Write to us:</h3>
+            <div class="contact-info">
+                <a href="mailto:<%=contactEmail %>">
+                    <i class="fa-solid fa-envelope" style="color: #000000;"></i> <b>Email:</b>
+                    <p>
+                        <%=contactEmail %>
+                    </p>
+                </a>
             </div>
+        </div>
+        <div class="contact-block phone">
+            <h3>Contact us on phone</h3>
+            <div class="contact-info">
+                <a href=tel:+91<%=contactNumber %>>
+                    <i class="fa-solid fa-phone" style="color: #000000;"></i> <b>Phone: </b>
+                    <p>
+                        <%=contactNumber %>
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="contact-block address">
+            <h3>Visit our office here:</h3>
+            <div class="contact-info">
+                <div class="map">
+    
+                </div>
+                <a href="<%=contactAddressLink %>">
+                    <i class="fa-solid fa-location-dot" style="color: #000000;"></i> &nbsp; <b>Address:</b>
+                    <p>
+                        <%=contactAddress %>
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <hr>
     <hr>

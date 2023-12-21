@@ -52,7 +52,7 @@ const linkProductsToCategories = async () => {
                 },
             }
         );
-
+ 
         await Category.findOneAndUpdate(
             { categoryName: "Smartphones" },
             {

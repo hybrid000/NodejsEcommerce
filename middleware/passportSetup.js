@@ -1,16 +1,25 @@
 const express = require('express');
 const passport = require('passport');
-const passportLocalMongoose = require('passport-local-mongoose');
 const session = require('express-session');
-
+const customLocalStrategy = require('./strategy.js'); // Import the custom local strategy
 const User = require('../models/user.js');
 
 const passportSetup = (app) => {
-    passport.use(User.createStrategy());
-    passport.serializeUser(User.serializeUser());
-    passport.deserializeUser(User.deserializeUser());
+    passport.use('custom-local', customLocalStrategy);
 
-    // Initialize authentication middleware
+    passport.serializeUser((user, done) => {
+        done(null, user.id);
+    });
+
+    passport.deserializeUser(async (id, done) => {
+        try {
+            const user = await User.findById(id);
+            done(null, user);
+        } catch (err) {
+            done(err);
+        }
+    });
+
     app.use(
         session({
             secret: 'systumm',

@@ -1,11 +1,14 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const connectdb = require('./db.js');
 const mainRouter = require('./routes/mainRoutes.js');
 const categoryRouter = require('./routes/categoryRoutes.js');
 const productRouter = require('./routes/productRoutes.js');
 const authMiddleware = require('./middleware/authMiddleware');
 const passportSetup = require('./middleware/passportSetup.js');
+
+const userRouter=require('./routes/userRoutes.js');
+
+
 const app = express();
 const PORT = 3000;
 
@@ -30,6 +33,7 @@ app.use(authMiddleware);
 app.use('/', mainRouter);
 app.use('/category', categoryRouter);
 app.use('/product', productRouter);
+app.use('/user', userRouter);
 
 // Start the server
 app.listen(PORT, () => {

@@ -18,23 +18,24 @@ async function createProducts() {
 
 
         const productEntry = [
-            {
-                productName: "Lenovo Ideapad Gaming 3",
-                productPrice: 56000,
-                discountedPrice: 48000,
-                offers: ["10% off using ICICI card", "NO cost EMI upto 12 months"],
-                category: laptopCategory, // Use the _id of the category
-                description: "A crazy gaming laptop with powerful specs.",
+             {
+                productName: "APPLE iPhone 13 (RED, 128 GB)",
+                productPrice: 69900,
+                discountedPrice: 54000,
+                offers: ["Free GirlFriend with apple Iphone"
+                , "NO cost EMI upto 12 months"],
+                category: smartphoneCategory, // Use the _id of the category
+                description: "apple ka phone",
                 descriptionPoints: [
-                    "Intel i5 10th Gen",
-                    "Nvidia 1650",
-                    "15 inch full backlit keyboard",
+                    "Super Retina XDR Display (HDR)",
+                     "Fingerprint - resistant Oleophobic Coating",
                 ],
-                warranty: "1 year warranty on product",
+                warranty: "1 year warranty on product + Apple gand faad care",
                 reviews: [], // You can add reviews later if needed
                 numberofOrders: 0,
                 stock: 1000,
             },
+
             // Add more products if needed
         ];
 
