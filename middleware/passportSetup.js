@@ -1,8 +1,10 @@
-const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
 const customLocalStrategy = require('./strategy.js'); // Import the custom local strategy
 const User = require('../models/user.js');
+const dotenv = require('dotenv');
+dotenv.config();
+
 
 const passportSetup = (app) => {
     passport.use('custom-local', customLocalStrategy);
@@ -22,7 +24,7 @@ const passportSetup = (app) => {
 
     app.use(
         session({
-            secret: 'systumm',
+            secret: process.env.SESSION_SECRET,
             resave: false,
             saveUninitialized: false,
         })

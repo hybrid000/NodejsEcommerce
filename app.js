@@ -5,12 +5,14 @@ const categoryRouter = require('./routes/categoryRoutes.js');
 const productRouter = require('./routes/productRoutes.js');
 const authMiddleware = require('./middleware/authMiddleware');
 const passportSetup = require('./middleware/passportSetup.js');
+const dotenv=require('dotenv');
+dotenv.config()
 
 const userRouter=require('./routes/userRoutes.js');
 
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');

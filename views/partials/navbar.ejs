@@ -19,16 +19,18 @@
 
                 <% if (isAuthenticated) { %>
                     <p>
+                        <a href="/user/profile">
                         <i class="fa-solid fa-user fa-lg"> </i>
-                        <%= username %>!
+                        <%= username %>
+                        </a>
                     </p>
                     <!-- Other content for authenticated users -->
                     <% } else { %>
                         <p>
                             <i class="fa-solid fa-user fa-lg"> </i>
-                            <a href="/login" class="ls">Login</a>
+                            <a href="user/login" class="ls">Login</a>
                             or
-                            <a href="/register" class="ls">Sign Up</a>
+                            <a href="/user/register" class="ls">Sign Up</a>
                         </p>
                         <% } %>
 

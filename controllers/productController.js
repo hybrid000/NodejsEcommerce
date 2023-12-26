@@ -1,11 +1,9 @@
-const express = require("express");
-const router = express.Router();
 const fs = require('fs').promises;
 const path = require('path');
 const Product = require("../models/product");
-const Category=require("../models/category");
-const User=require("../models/user");
-const { set } = require("mongoose");
+const Category = require("../models/category");
+
+
 const getProductList = async (req, res) => {
     try {
         const categoryName = req.params.categoryName;
@@ -20,7 +18,6 @@ const getProductList = async (req, res) => {
         // Use the category _id to query products
         const products = await Product.find({ category: category._id });
 
-        console.log(products);
 
         const productsWithImages = products.map(product => ({
             ...product.toObject(),
@@ -69,8 +66,8 @@ const getProduct = async (req, res) => {
         const product = await Product.findById(productId).populate({
             path: 'category',
             model: 'Category',
-          }  );
-        
+        });
+
         if (!product) {
             return res.status(404).send('Product not found');
         }
@@ -83,25 +80,25 @@ const getProduct = async (req, res) => {
                 return files;
             } catch (err) {
                 console.error(err);
-                throw err; 
+                throw err;
             }
         };
         const imgFiles = await filesReader(folderPath); // Wait for the result of the asynchronous function
 
-        const numberOfRatings=product.reviews.length;
+        const numberOfRatings = product.reviews.length;
 
-        let numberOfReviews= 0;
-        let averageRating=0;
-        product.reviews.forEach(element=>{
-            if(element.review){
+        let numberOfReviews = 0;
+        let averageRating = 0;
+        product.reviews.forEach(element => {
+            if (element.review) {
                 numberOfReviews++;
             }
-            averageRating+=parseInt(element.rating);
+            averageRating += parseInt(element.rating);
         });
 
-        averageRating=averageRating/product.reviews.length;
+        averageRating = averageRating / product.reviews.length;
 
-      const getBackgroundColorStyle=(averageRating)=>{
+        const getBackgroundColorStyle = (averageRating) => {
             let backgroundColor;
 
             if (averageRating >= 4) {
@@ -118,7 +115,7 @@ const getProduct = async (req, res) => {
 
             return backgroundColor;
         }
-    
+
 
         res.render('product', {
             product,
@@ -132,6 +129,7 @@ const getProduct = async (req, res) => {
             numberOfReviews,
             averageRating,
             getBackgroundColorStyle,
+            productId
         });
     } catch (error) {
         console.error(error);

@@ -1,6 +1,5 @@
 const passport = require('passport');
 
-
 // just to show user name in webpages, if user is loggedin.
 
 

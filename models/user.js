@@ -51,8 +51,7 @@ const userSchema = new mongoose.Schema({
     address: [addressSchema]
 });
 
-// Passport-local-mongoose plugin
-// userSchema.plugin(passportLocalMongoose);
+
 
 const User = mongoose.model('User', userSchema);
 

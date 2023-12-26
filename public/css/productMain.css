@@ -1,4 +1,3 @@
-@import "productslider.css";
 
 .hide {
     display: none;
@@ -13,19 +12,25 @@ body {
     margin: 0;
 }
 
-#llayer1 {
-    position: -webkit-sticky;
+#layer1 {
     position: sticky;
-    z-index: 2;
     top: 0;
-    box-shadow: 0 2.5px 5px #b1b1b18e;
+    left: 0;
+    z-index:3;
+    box-shadow: 0 5px 10px #9897978e;
+}
+.fa-heart{
+    color:black;
+}
+
+#sublayer1 {
     background-color: rgb(222, 225, 218);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0.5rem 3rem;
+    border-bottom: 0.7px solid #828181;
 }
-
 .logoimg {
     margin-left: 0.5rem;
     height: 4rem;
@@ -46,7 +51,7 @@ body {
 
 #left {
     position: sticky;
-    z-index: 1;
+    z-index: 2;
     top: 96.2px;
     width: 38%;
     padding: 1rem;
@@ -65,9 +70,9 @@ body {
 
 
 
-#wishlistbtn {
+#wishlistBtn {
     position: absolute;
-    top: 0.6rem;
+   top: 0.6rem;
     right: 0.6rem;
     padding: .5rem .4rem .5rem .4rem;
     background-color: rgb(250, 250, 250);
@@ -78,13 +83,13 @@ body {
 
 }
 
-#left .fa-heart {
+/* #wishlistForm .fa-heart {
     color: rgba(176, 176, 176, 0.9);
-}
+} */
 
-#left button:hover .fa-heart {
+/* #wishlistForm button:hover .fa-heart {
     color: rgb(253, 82, 82);
-}
+} */
 
 
 
