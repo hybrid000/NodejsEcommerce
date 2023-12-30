@@ -14,7 +14,7 @@ body {
 }
 
 .category-set {
-    margin-top: 0.5rem;
+    /* margin-top: 0.5rem; */
     padding: 1.5rem;
 }
 
@@ -69,7 +69,7 @@ body {
 }
 
 .items:hover {
-    color: rgb(42, 85, 165);
+    /* color: rgb(42, 85, 165); */
     transform: scale(1.05);
     cursor: pointer;
 }

@@ -14,7 +14,7 @@
 
     <!-- llayer2 -->
     <div id=layer2>
-        <img src="/resources/intel.png" class="banner1" alt="">
+       
 <div class="productz">
 <% products.forEach(product=> { %>
     <a href="/product/<%= product._id %>">
@@ -42,7 +42,7 @@
                 <h5 class="disc">
                     <%= product.productPrice %>
                 </h5>
-                <h5 class="disc1"><%= ((product.productPrice-product.discountedPrice) / product.productPrice)*100 %> % off</h5>
+                <h5 class="disc1"><%=Math.floor( ((product.productPrice-product.discountedPrice) / product.productPrice)*100) %> % off</h5>
                 <h5>Free Delivery</h5>
                 <ul>
                     <li>
@@ -69,69 +69,10 @@
 
 
 
-        <div class="context">
-            <br> olor sit, amet consectetur adipisicing elit. Molestiae, magni!
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, suscipit?Lorem ipsum dolor sit amet,
-            consectetur adipisicing elit. Laboriosam, eaque nostrum omnis adipisci provident neque, iste quos odit
-            laborum fugit, sequi ipsa corrupti voluptatem sapiente!
-            <br>
-            <br>
-            <br>
-        </div>
-
 
     </div>
 
-
-    <footer>
-        <div class="footerPart1">
-            <div class="column logo">
-                <img src="resources/logofooter.png" class="logoimg" alt="logo of site">
-            </div>
-            <div class="column contact">
-                <h4>Contact</h4>
-                <p>Address: Rudrapur, Udham Singh Nagar, <br> Uttrakhand-263153, India</p>
-                <p>Phone: 696969696</p>
-                <p>Visiting Hours: 00:00hrs to 7:00hrs</p>
-            </div>
-            <div class="column social">
-                <h4>Social</h4>
-                <ul class="footer-links">
-                    <li><a href="https://www.instagram.com/aman_pri777/?hl=en"><i
-                                class="fa-brands fa-instagram fa-lg"></i>
-                            Instagram</a></li>
-                    <li><a href="#"><i class="fa-brands fa-facebook fa-lg"></i> Facebook</a></li>
-                    <li><a href="#"><i class="fa-brands fa-twitter fa-lg"></i> Twitter</a></li>
-                    <li><a href="#"><i class="fa-brands fa-linkedin fa-lg"></i> Linkedin</a></li>
-                </ul>
-            </div>
-            <div class="column about">
-                <h4>About</h4>
-                <ul class="footer-links">
-                    <li><a href="#">About us</a></li>
-                    <li><a href="#">Delivery information</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms & Condition</a></li>
-                </ul>
-            </div>
-            <div class="column app">
-                <h4>Install our App</h4>
-                <p>From App Store or Google Play</p>
-                <div class="app-store">
-                    <a href="#"><img src="resources/gpay.png" class="store-links" alt=""></a>
-                    <a href="#"><img src="resources/appstore.png" class="store-links" alt=""></a>
-                </div>
-                <div class="pay">
-                    <img src="resources/pay.png" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="footerPart2">
-            <div class="copyright">
-                <p>&copy; justbuy (e-commerce) 2022. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+<%- include('partials/footer') %>
 </body>
 
 </html>

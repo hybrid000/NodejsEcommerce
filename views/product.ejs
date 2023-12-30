@@ -120,8 +120,8 @@
                     <p style="display: flex;" class="category-heading">
                         <a href="/category">Categories</a> &nbsp;> &nbsp;<a
                             href="/category/<%= product.category.categoryName %>">
+                            <%= product.category.categoryName %>
                         </a>
-                        <%= product.category.categoryName %>
                     </p>
 
                     <h3>
@@ -139,7 +139,7 @@
                     </h4>
 
                     <h4 class="off-percentage">
-                        <%= ((product.productPrice-product.discountedPrice) / product.productPrice)*100 %> % off
+                        <%= Math.floor(((product.productPrice-product.discountedPrice) / product.productPrice)*100) %> % off
                     </h4>
                     <div class="rating-screen">
                         <% if (numberOfRatings>0) { %>

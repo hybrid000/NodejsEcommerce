@@ -23,7 +23,7 @@ const getCart = async (req, res) => {
 
             res.render('cart', { products: productsWithImages, totalPrice });
         } else {
-            res.redirect('/login');
+            res.redirect('/user/login');
         }
     } catch (err) {
         console.error(err);
@@ -43,10 +43,10 @@ const getWishlist = async (req, res) => {
             });
 
             const productsinWishlist = foundUser.wishlist; // Use foundUser.cart directly
-            console.log("your wishlist product", productsinWishlist);
+
             res.render('wishlist', { products: productsinWishlist })
         } else {
-            res.redirect('/login');
+            res.redirect('/user/login');
         }
     } catch (err) {
         console.error(err);
@@ -75,7 +75,7 @@ const addToWishlist = async (req, res) => {
                 res.json({ message: 'Removed from wishlist', status: 'success' });
             }
         } else {
-            res.redirect('/login');
+            res.redirect('user/login');
         }
     } catch (error) {
         console.error('Error adding/removing product to/from wishlist:', error);
@@ -118,7 +118,7 @@ const addToCart = async (req, res) => {
                 res.json({ message: 'This item is already in your cart.' });
             }
         } else {
-            res.redirect('/login');
+            res.redirect('user/login');
         }
     } catch (error) {
         console.error('Error adding product to cart:', error);
