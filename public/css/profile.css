@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+@import "stylemain.css";
+
+body {}
+
+#layer1 {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    box-shadow: 0 2.5px 5px #b1b1b18e;
+    background-color: rgb(222, 225, 218);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 3rem;
+
+    border-bottom: 1px solid #383838;
+
+
+}
+
+.logoimg {
+    margin-left: 0.5rem;
+    height: 4rem;
+    width: 4.5rem;
+    border: none;
+}
+
+/* Add this to your existing CSS file */
+.div {
+    margin: 2rem;
+    margin-bottom: 0;
+
+    color: rgb(10, 125, 225);
+    width: fit-content;
+}
+
+.main-container {
+    margin: 0 auto;
+    margin-bottom: 3.5rem;
+
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+}
+
+.username {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: space-between; */
+    text-align: center;
+    padding: 0;
+
+
+}
+
+.username a:hover {
+    text-decoration: underline;
+}
+
+
+
+.username a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 0.8rem;
+    /* Added a little space between the links */
+}
+
+.username a:last-child {
+    color: #dc3545;
+    margin-top: 0.8rem;
+}
+
+.fa-pencil,
+.fa-arrow-right-from-bracket,
+.fa-angles-left {
+    margin-right: 10px;
+}
+
+.block {
+    display: flex;
+    margin-top:2rem;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.block-container {
+    border: 1px solid #ced4da;
+    padding: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f8f9fa;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+.block-container:hover{
+color: rgb(10, 125, 225);
+}

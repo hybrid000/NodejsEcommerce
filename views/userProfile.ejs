@@ -1,5 +1,7 @@
 <%- include('partials/head') %>
-    <link rel="stylesheet" href="/css/login.css">
+
+    <link rel="stylesheet" href="/css/profile.css">
+
     <title>
 
         <%=username%>
@@ -11,32 +13,66 @@
         <div id="layer1">
             <a href="/"><img src="/resources/logo6.png" class="logoimg" alt="logo of site"> </a>
         </div>
+        <div class="div">
+
+            <a href="/"><i class="fa-solid fa-angles-left"></i>Go Back</a>
+        </div>
         <div class="main-container">
 
-            <img src="/resources/userani.gif" alt="" class="user">
 
             <div class="username">
 
-                <b>
+                <img src="/resources/userProfile.gif" alt="" class="user">
+                <p>
 
                     <%=username %>
+                        <br>
 
-                </b>
+                        <a href="/user/profile/update">
+                            <i class="fa-solid fa-pencil"></i>Edit profile
+                        </a>
+                        <br>
+                        <a href="/user/logout">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+
+
+
+                </p>
 
 
             </div>
 
-            <div class="orderHistory">
+            <div class="block">
+
+                <a href="#" class="block-container">
 
 
-            </div>
+                    My Orders
 
-            <div class="logout">
-                <a href="/user/logout">Logout kar bsdk</a>
+
+
+
+                </a>
+                <a href="#" class="block-container">
+
+
+                    My Wishlist
+
+
+
+                </a>
+                <a href="#" class="block-container">
+
+
+                    My Cart
+
+
+
+                </a>
             </div>
         </div>
 
-        <%-include('partials /footer')%>
+        <%-include('partials/footer')%>
     </body>
 
     </html>
