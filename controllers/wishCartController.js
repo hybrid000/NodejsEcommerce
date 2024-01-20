@@ -68,14 +68,14 @@ const addToWishlist = async (req, res) => {
                 // If the product is not in the wishlist, add it
                 userFound.wishlist.push(productId)
                 await userFound.save();
-                res.json({ message: 'Product added to wishlist', status: 'success' });
+                res.json({ message: 'Product added to wishlist'});
             } else {
                 // If the product is already in the wishlist, remove it
                 await User.updateOne({ _id: userId }, { $pull: { wishlist: productId } }); // Fix: Use userFound instead of User
-                res.json({ message: 'Removed from wishlist', status: 'success' });
+                res.json({ message: 'Removed from wishlist'});
             }
         } else {
-            res.redirect('user/login');
+            res.redirect('/user/login');
         }
     } catch (error) {
         console.error('Error adding/removing product to/from wishlist:', error);
@@ -168,6 +168,11 @@ const deleteCartItem = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+
+
+
 
 
 

@@ -3,8 +3,6 @@
     <link rel="stylesheet" href="/css/styleMain.css">
     <link rel="stylesheet" href="/css/productMain.css">
 
-
-
     <title>
         <%=product.productName%>
     </title>
@@ -41,9 +39,9 @@
                             <% } else { %>
                                 <p>
                                     <i class="fa-solid fa-user fa-lg"> </i>
-                                    <a href="/login" class="ls">Login</a>
+                                    <a href="/user/login" class="ls">Login</a>
                                     or
-                                    <a href="/register" class="ls">Sign Up</a>
+                                    <a href="/user/register" class="ls">Sign Up</a>
                                 </p>
                                 <% } %>
 
@@ -74,7 +72,7 @@
                     <img src="<%=imgPath%>/img1.png" width="90%" height="100%" id="main-img" alt="">
 
                 </div>
-                <form id="wishlistForm" action="/user/wishlist/<%= product._id %>" method="post">
+                <form id="wishlistForm" data-product-id="<%= product._id %>">
                     <button id="wishlistBtn" type="submit"> <i class="fa-solid fa-heart fa-xl"></i></button>
                 </form>
 
@@ -87,11 +85,9 @@
                         <% }) %>
 
 
-
                 </div>
                 <div class="buy-cart">
-                    <form id="cartForm" action="/user/cart/<%=product._id %>" method="POST">
-                        <!-- Add any necessary input fields for the cart form -->
+                    <form id="cartForm" data-product-id="<%= product._id %>">
                         <button class="cart-btn" type="submit">
                             <i class="fa-solid fa-cart-shopping fa-xl"></i>
                             <h3> Add to Cart</h3>
@@ -111,7 +107,6 @@
             </div>
             <!-- full product images end here left ends -->
 
-
             <!-- Full product info starts -->
             <div id="right">
 
@@ -128,7 +123,6 @@
                         <%= product.productName %>
                     </h3>
 
-
                     <h3>
                         <i class="fa fa-inr"></i>
                         <%= product.discountedPrice %>
@@ -139,12 +133,12 @@
                     </h4>
 
                     <h4 class="off-percentage">
-                        <%= Math.floor(((product.productPrice-product.discountedPrice) / product.productPrice)*100) %> % off
+                        <%= Math.floor(((product.productPrice-product.discountedPrice) / product.productPrice)*100) %> %
+                            off
                     </h4>
                     <div class="rating-screen">
                         <% if (numberOfRatings>0) { %>
                             <button style="<%= getBackgroundColorStyle(averageRating) %>">
-
                                 <i class="fa-solid fa-star fa-2xs"></i>
                                 <%= roundToOneDecimalPlace(averageRating) %>
                             </button>
@@ -209,7 +203,8 @@
                                 <p>
                                     <%= numberOfRatings %> Ratings and <%= numberOfReviews %> Reviews
                                 </p>
-                    </div> <!-- Overall rating ends -->
+                    </div> 
+                    <!-- Overall rating ends -->
 
 
                     <div class="userReviewInput">
@@ -225,14 +220,7 @@
                             <span class="star" data-rating="5"><i class="fa-solid fa-star"></i></span>
                             <input type="hidden" id="rating" name="rating" value="1">
 
-
-
-
-
-
-                            <textarea name="reviewText" id="" cols="30" rows="10"
-                                placeholder="Write a review. (Optional)"></textarea>
-
+                            <textarea name="reviewText" id="" cols="30" rows="10" placeholder="Write a review. (Optional)"></textarea>
 
                             <button type="submit">Submit</button>
 
@@ -244,14 +232,14 @@
                     <!-- Customer review output -->
                     <div class="userReviewContainer">
                         <h3>Product Reviews:</h3>
-                        <% if (product.reviews && product.reviews.length> 0 && product.reviews.some(element =>element.review)) { %>
+                        <% if (product.reviews && product.reviews.length> 0 && product.reviews.some(element=>element.review)) { %>
                             <% product.reviews.forEach(element=> { %>
                                 <% if (element.review) { %>
 
                                     <div class="userReviewBlock">
 
                                         <div class="rating-screen-detailed">
-                                            <button style="<%= getBackgroundColorStyle(averageRating) %>">
+                                            <button style="<%= getBackgroundColorStyle(element.rating) %>">
                                                 <i class="fa-solid fa-star fa-2xs"></i>
                                                 <%= element.rating %>
                                             </button>
@@ -268,15 +256,14 @@
 
                                             <%= element.user %>
                                                 ,
-                                                <%= element.reviewDate.toLocaleDateString('en-US', { weekday: 'short' , year: 'numeric' , month: 'short' , day: 'numeric' }) %>
+                                                <%= element.reviewDate.toLocaleDateString('en-US', { weekday: 'short' ,year: 'numeric' , month: 'short' , day: 'numeric' }) %>
 
                                         </p>
                                     </div>
                                     <% } %>
                                         <% }); %>
                                             <% } else { %>
-                                                <p
-                                                    style="font-size: medium; color: darkgray; text-align: center; border: 1px solid rgba(184, 184, 184, 0.742); box-sizing: border-box; padding: 0.7rem .8rem .7rem 1rem;">
+                                                <p style="font-size: medium; color: darkgray; text-align: center; border: 1px solid rgba(184, 184, 184, 0.742); box-sizing: border-box; padding: 0.7rem .8rem .7rem 1rem;">
                                                     No reviews yet
                                                 </p>
                                                 <% } %>
@@ -299,7 +286,71 @@
         <!-- footer -->
         <%- include('partials/footer') %>
 
+            <script>
 
+                document.querySelectorAll('#wishlistForm').forEach(form => {
+
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault();
+
+                        const productId = this.getAttribute('data-product-id');
+
+                        async function addToWishlist(productId) {
+                            try {
+                                const response = await fetch(`/user/wishlist/${productId}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error(`Failed to add product to wishlist. Status: ${response.status}`);
+                                }
+
+                                const data = await response.json();
+                                alert(data.message);
+                                window.location.href = `/product/${productId}`; 
+                            } catch (error) {
+                                console.error('Error:', error);
+                            }
+                        }
+
+                        addToWishlist(productId);
+
+                    });
+                });
+
+            </script>
+
+            <script>
+
+                document.querySelectorAll('#cartForm').forEach(form => {
+
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault();
+
+                        const productId = this.getAttribute('data-product-id');
+
+                        fetch(`/user/cart/${productId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                alert(data.message);
+                                window.location.href = `/product/${productId}`; // Redirect to the user's cart page
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                // Handle errors or show an appropriate message to the user
+                            });
+                    })
+                });
+            </script>
+            
             <script>
                 // Get all the star elements
                 const stars = document.querySelectorAll('.star');
@@ -324,6 +375,7 @@
                     });
                 });
             </script>
+
             <script src="/js/imgswitch.js"></script>
 
     </body>

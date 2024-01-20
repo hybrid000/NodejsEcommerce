@@ -20,7 +20,7 @@ const registerFunction = async (req, res, next) => {
         });
     } catch (err) {
         console.error(err);
-        res.redirect('/register');
+        res.redirect('/user/register');
     }
 };
 
@@ -28,11 +28,11 @@ const loginFunction = (req, res, next) => {
     passport.authenticate('custom-local', (err, user, info) => {
         if (err) {
             console.error(err);
-            return res.redirect('/login');
+            return res.redirect('/user/login');
         }
 
         if (!user) {
-            return res.redirect('/login');
+            return res.redirect('/user/login');
         }
 
         req.login(user, (err) => {
@@ -46,9 +46,31 @@ const loginFunction = (req, res, next) => {
     })(req, res, next);
 };
 
-const logoutFunction = (req, res) => {
-    req.logout();
-    res.redirect('/');
+const logoutFunction = (req, res, next) => {
+    req.logout((err) => {
+        if (err) { return next(err); }
+        res.redirect('/');
+    });
 };
 
-module.exports = { registerFunction, loginFunction, logoutFunction };
+
+const userProfile = (req, res) => {
+
+
+    order = ["lawda", "gand", "condom", "jhaan ke baal"];
+
+    res.render("userProfile", {
+        logoutFunction,
+        username: "lodu sushant",
+        order
+    })
+
+
+}
+
+
+
+
+
+
+module.exports = { registerFunction, loginFunction, logoutFunction, userProfile };

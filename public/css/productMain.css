@@ -83,13 +83,12 @@ body {
 
 }
 
-/* #wishlistForm .fa-heart {
+#wishlistForm .fa-heart {
     color: rgba(176, 176, 176, 0.9);
-} */
-
-/* #wishlistForm button:hover .fa-heart {
+} 
+ #wishlistForm button:hover .fa-heart {
     color: rgb(253, 82, 82);
-} */
+}
 
 
 

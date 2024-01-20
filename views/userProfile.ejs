@@ -1,0 +1,42 @@
+<%- include('partials/head') %>
+    <link rel="stylesheet" href="/css/login.css">
+    <title>
+
+        <%=username%>
+
+    </title>
+    </head>
+
+    <body>
+        <div id="layer1">
+            <a href="/"><img src="/resources/logo6.png" class="logoimg" alt="logo of site"> </a>
+        </div>
+        <div class="main-container">
+
+            <img src="/resources/userani.gif" alt="" class="user">
+
+            <div class="username">
+
+                <b>
+
+                    <%=username %>
+
+                </b>
+
+
+            </div>
+
+            <div class="orderHistory">
+
+
+            </div>
+
+            <div class="logout">
+                <a href="/user/logout">Logout kar bsdk</a>
+            </div>
+        </div>
+
+        <%-include('partials /footer')%>
+    </body>
+
+    </html>

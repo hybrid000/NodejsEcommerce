@@ -7,7 +7,9 @@ const categorySchema = new mongoose.Schema({
         unique: true,
     },
     categoryDescription: String,
-    categoryAllProducts: [{
+
+    // this contains product of a particular category type
+    categoryAllProducts: [{  
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
     }],

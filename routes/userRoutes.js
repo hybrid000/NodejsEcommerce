@@ -1,5 +1,7 @@
 const express = require('express');
+
 const router = express.Router();
+
 const wishCartController = require('../controllers/wishCartController')
 
 const userController = require("../controllers/userController");
@@ -29,9 +31,6 @@ router.get('/wishlist', wishCartController.getWishlist);
 
 router.post('/wishlist/:productId', wishCartController.addToWishlist);
 
-// router.get("/checkwishlist/:productId",wishCartController.wishlistCheck);
-
-
-
+router.get('/profile', userController.userProfile);
 
 module.exports = router;
