@@ -176,6 +176,30 @@ const postReviews = async (req, res) => {
     }
 };
 
+// Assuming you have already imported your Product and Category models
 
+async function searchProducts(searchTerm) {
+    try {
+        // Search by product name
+        const productsByName = await Product.find({ productName: { $regex: searchTerm, $options: 'i' } }).populate('category');
 
-module.exports = { getProductList, getProduct, postReviews };
+        // Search by category name
+        const category = await Category.findOne({ categoryName: { $regex: searchTerm, $options: 'i' } });
+        const productsByCategory = category ? await Product.find({ category: category._id }).populate('category') : [];
+
+        // Combine and return the results
+        const combinedResults = [...productsByName, ...productsByCategory];
+        console.log(combinedResults);
+        return combinedResults;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Search failed');
+    }
+}
+
+// // Example usage:
+// searchProducts('searchTerm')
+//     .then(products => console.log(products))
+//     .catch(error => console.error(error));
+
+module.exports = { getProductList, getProduct, postReviews, searchProducts};

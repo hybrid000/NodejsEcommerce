@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const cartAndorderController = require("../controllers/cartAndorderController");
 
 router.get('/', (req, res) => {
     res.render('index', { activePage: 'Home' });
 });
 
+router.get("/checkout/:productId", cartAndorderController.checkoutFn);
 
 router.get('/seller', (req, res) => {
     res.render('seller', { activePage: 'Seller' });
@@ -20,7 +22,24 @@ router.get('/support', (req, res) => {
         contactEmail: 'neekplaysitbest@gmail.com',
 
 
-    });
+    })
 });
+
+
+router.post('/search', async (req, res) => {
+    const { search } = req.body;
+
+    try {
+        const products = await productController.searchProducts(search);
+        console.log(products);
+        // Render your view with the found products
+        res.render('search', { products });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
+});
+
 
 module.exports = router;

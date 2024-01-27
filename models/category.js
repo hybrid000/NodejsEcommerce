@@ -8,7 +8,6 @@ const categorySchema = new mongoose.Schema({
     },
     categoryDescription: String,
 
-    // this contains product of a particular category type
     categoryAllProducts: [{  
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',

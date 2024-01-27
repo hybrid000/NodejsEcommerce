@@ -1,0 +1,78 @@
+<%-include('partials/head')%>
+    <link rel="stylesheet" href="/css/productList.css">
+    <title>
+    
+    </title>
+
+
+    </head>
+
+
+    <body>
+
+
+        <%- include('partials/navbar') %>
+
+
+            <!-- llayer2 -->
+            <div id=layer2>
+
+                <div class="productz">
+                    <% products.forEach(product=> { %>
+                        <a href="/product/<%= product._id %>">
+                            <div class="product-container">
+                                <!-- <img src="<%= product.imagePath %>" class="laptop" width="13rem" alt=""> -->
+                                <div class="product-info">
+                                    <button><i class="fa-solid fa-heart fa-xl"></i></button>
+                                    <h4>
+                                        <%= product.productName %>
+                                    </h4>
+                                    <div class="rev">
+
+
+
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                        <h6>
+                                            <%= product.reviews.length %> Ratings
+                                        </h6>
+                                    </div>
+                                    <h4> <i class="fa fa-inr"></i>
+                                        <%= product.discountedPrice %>
+                                    </h4>
+                                    <h5 class="disc">
+                                        <%= product.productPrice %>
+                                    </h5>
+                                    <h5 class="disc1">
+                                        <%=Math.floor( ((product.productPrice-product.discountedPrice) /
+                                            product.productPrice)*100) %> % off
+                                    </h5>
+                                    <h5>Free Delivery</h5>
+                                    <ul>
+                                        <li>
+                                            <%= product.descriptionPoints[0] %>
+                                        </li>
+                                        <li>
+                                            <%= product.descriptionPoints[1] %>
+                                        </li>
+                                        <li>
+                                            <%= product.descriptionPoints[2] %>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                        <% }); %>
+
+                </div>
+
+
+            </div>
+
+            <%- include('partials/footer') %>
+    </body>
+
+    </html>

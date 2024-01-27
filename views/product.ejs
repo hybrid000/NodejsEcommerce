@@ -11,372 +11,350 @@
 
     <body>
 
-        <navbar id="layer1">
-            <!-- sublayer 1 -->
-            <div id="sublayer1">
+        <%-include('partials/navbar') %>
+            <div id="llayer2">
 
-                <div class="part1">
-                    <!-- logo -->
-                    <a href="/"><img src="/resources/logo6.png" class="logoimg" alt="logo of site"> </a>
-                    <!-- search bar -->
-                    <div class="search">
-                        <input type="search" name="search" class="search-field" placeholder="Search Product, Brand">
-                        <button type="submit" class="searchbtn">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="part2">
-                    <!-- login-signup -->
-                    <div class="login-signup">
+                <!-- full product images -->
+                <div id="left">
 
-                        <% if (isAuthenticated) { %>
-                            <p>
-                                <i class="fa-solid fa-user fa-lg"> </i>
-                                <%= username %>!
-                            </p>
-                            <!-- Other content for authenticated users -->
-                            <% } else { %>
-                                <p>
-                                    <i class="fa-solid fa-user fa-lg"> </i>
-                                    <a href="/user/login" class="ls">Login</a>
-                                    or
-                                    <a href="/user/register" class="ls">Sign Up</a>
-                                </p>
-                                <% } %>
+                    <div class="main-img-block">
+                        <img src="<%=imgPath%>/img1.png" width="90%" height="100%" id="main-img" alt="">
 
                     </div>
-
-                    <!-- wishlist & cart -->
-
-                    <a href="/user/wishlist/" class="wishlist">
-                        <i class="fa-regular fa-heart fa-xl"> </i>
-                        <p> Wishlist</p>
-                    </a>
-                    <a href="/user/cart" class="cart">
-                        <i class="fa-solid fa-cart-shopping fa-xl"> </i>
-                        <p>My Cart</p>
-                    </a>
-
-                </div>
-
-            </div>
-        </navbar>
-
-        <div id="llayer2">
-
-            <!-- full product images -->
-            <div id="left">
-
-                <div class="main-img-block">
-                    <img src="<%=imgPath%>/img1.png" width="90%" height="100%" id="main-img" alt="">
-
-                </div>
-                <form id="wishlistForm" data-product-id="<%= product._id %>">
-                    <button id="wishlistBtn" type="submit"> <i class="fa-solid fa-heart fa-xl"></i></button>
-                </form>
-
-                <div class="small-img-section">
-
-                    <% imgFiles.forEach(img=>{ %>
-                        <div class="small-img-block">
-                            <img src="<%=imgPath%>/<%=img%>" width="100%" height="100%" class="smallimg" alt="">
-                        </div>
-                        <% }) %>
-
-
-                </div>
-                <div class="buy-cart">
-                    <form id="cartForm" data-product-id="<%= product._id %>">
-                        <button class="cart-btn" type="submit">
-                            <i class="fa-solid fa-cart-shopping fa-xl"></i>
-                            <h3> Add to Cart</h3>
-                        </button>
+                    <form id="wishlistForm" data-product-id="<%= product._id %>">
+                        <button id="wishlistBtn" type="submit"> <i class="fa-solid fa-heart fa-xl"></i></button>
                     </form>
 
-                    <form id="buyForm" action="/product/buy" method="GET">
-                        <!-- Add any necessary input fields for the buy now form -->
-                        <button class="buy-btn" type="submit">
-                            <i class="fa-regular fa-credit-card fa-xl"></i>
-                            <h3> Buy Now</h3>
-                        </button>
-                    </form>
-                </div>
+                    <div class="small-img-section">
+
+                        <% imgFiles.forEach(img=>{ %>
+                            <div class="small-img-block">
+                                <img src="<%=imgPath%>/<%=img%>" width="100%" height="100%" class="smallimg" alt="">
+                            </div>
+                            <% }) %>
 
 
-            </div>
-            <!-- full product images end here left ends -->
-
-            <!-- Full product info starts -->
-            <div id="right">
-
-                <div class="product-details">
-
-                    <p style="display: flex;" class="category-heading">
-                        <a href="/category">Categories</a> &nbsp;> &nbsp;<a
-                            href="/category/<%= product.category.categoryName %>">
-                            <%= product.category.categoryName %>
-                        </a>
-                    </p>
-
-                    <h3>
-                        <%= product.productName %>
-                    </h3>
-
-                    <h3>
-                        <i class="fa fa-inr"></i>
-                        <%= product.discountedPrice %>
-                    </h3>
-
-                    <h4 class="regular-price">
-                        <%= product.productPrice %>
-                    </h4>
-
-                    <h4 class="off-percentage">
-                        <%= Math.floor(((product.productPrice-product.discountedPrice) / product.productPrice)*100) %> %
-                            off
-                    </h4>
-                    <div class="rating-screen">
-                        <% if (numberOfRatings>0) { %>
-                            <button style="<%= getBackgroundColorStyle(averageRating) %>">
-                                <i class="fa-solid fa-star fa-2xs"></i>
-                                <%= roundToOneDecimalPlace(averageRating) %>
-                            </button>
-                            <%} %>
-
-                                <p>
-                                    <%= numberOfRatings %> Ratings and <%= numberOfReviews %> Reviews
-                                </p>
                     </div>
+                    <div class="buy-cart">
 
-                    <i class="fa-solid fa-truck-fast">
-                        <h4 class="shipping">Free Shipping</h4>
-                    </i>
-                    <% if (product.offers && product.offers.length> 0) { %>
-                        <h4>Available Offers</h4>
-                        <ul class="offer-list">
-                            <% product.offers.forEach(offer=> { %>
-                                <li>
-                                    <span><i class="fa-solid fa-tag"></i>
-                                        <%= offer %>
-                                    </span>
-                                </li>
-                                <% }); %>
-                        </ul>
-                        <% } %>
-
-                </div>
-
-                <div class="description">
-
-                    <h3>Description</h3>
-                    <p style="margin-bottom: 0.5rem;">
-                        <%= product.description %>
-                    </p>
-
-                    <hr>
-                    <% if (product.warranty) { %>
-                        <div class="warranty">
-                            <p>
-                                <i class="fa-solid fa-clipboard-check fa-lg"></i>
-                                &nbsp; <%= product.warranty %>
-                            </p>
-                            <a href="#" class="TnC">T&C applied</a>
-
-                        </div>
-                        <% } %>
-
-                </div>
-
-                <div class="ratingsNreviews">
-
-                    <!-- Overall rating starts -->
-                    <div class="rating-screen">
-                        <% if (numberOfRatings>0) { %>
-
-                            <button style="<%= getBackgroundColorStyle(averageRating) %>">
-                                <i class="fa-solid fa-star fa-2xs"></i>
-                                <%= roundToOneDecimalPlace(averageRating) %>
+                        <form id="cartForm" data-product-id="<%= product._id %>">
+                            <button class="cart-btn" type="submit">
+                                <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                                <h3> Add to Cart</h3>
                             </button>
-                            <%} %>
-
-                                <p>
-                                    <%= numberOfRatings %> Ratings and <%= numberOfReviews %> Reviews
-                                </p>
-                    </div> 
-                    <!-- Overall rating ends -->
-
-
-                    <div class="userReviewInput">
-                        <h3>Rate and review this product</h3>
-
-                        <!-- Customer rating and review input -->
-                        <form class="review-form" action="/product/<%=product._id %>" method="post">
-
-                            <span class="star" data-rating="1"><i class="fa-solid fa-star"></i></span>
-                            <span class="star" data-rating="2"><i class="fa-solid fa-star"></i></span>
-                            <span class="star" data-rating="3"><i class="fa-solid fa-star"></i></span>
-                            <span class="star" data-rating="4"><i class="fa-solid fa-star"></i></span>
-                            <span class="star" data-rating="5"><i class="fa-solid fa-star"></i></span>
-                            <input type="hidden" id="rating" name="rating" value="1">
-
-                            <textarea name="reviewText" id="" cols="30" rows="10" placeholder="Write a review. (Optional)"></textarea>
-
-                            <button type="submit">Submit</button>
-
                         </form>
+
+                        <form id="buyForm" action="/checkout/<%=product._id%>" method="GET" data-product-id="<%=product._id%>">
+                            <!-- Add any necessary input fields for the buy now form -->
+                            <input type="hidden" name="product" value="<%=product._id%>">
+                            <button class="buy-btn" type="submit">
+                                <i class="fa-regular fa-credit-card fa-xl"></i>
+                                <h3> Buy Now</h3>
+                            </button>
+                        </form>
+
                     </div>
 
-                    <!-- Customer review and ratings input ends -->
 
-                    <!-- Customer review output -->
-                    <div class="userReviewContainer">
-                        <h3>Product Reviews:</h3>
-                        <% if (product.reviews && product.reviews.length> 0 && product.reviews.some(element=>element.review)) { %>
-                            <% product.reviews.forEach(element=> { %>
-                                <% if (element.review) { %>
+                </div>
+                <!-- full product images end here left ends -->
 
-                                    <div class="userReviewBlock">
+                <!-- Full product info starts -->
+                <div id="right">
 
-                                        <div class="rating-screen-detailed">
-                                            <button style="<%= getBackgroundColorStyle(element.rating) %>">
-                                                <i class="fa-solid fa-star fa-2xs"></i>
-                                                <%= element.rating %>
-                                            </button>
-                                            <p>
-                                                <%= ratingTocomment[element.rating] %>
+                    <div class="product-details">
+
+                        <p style="display: flex;" class="category-heading">
+                            <a href="/category">Categories</a> &nbsp;> &nbsp;<a
+                                href="/category/<%= product.category.categoryName %>">
+                                <%= product.category.categoryName %>
+                            </a>
+                        </p>
+
+                        <h3>
+                            <%= product.productName %>
+                        </h3>
+
+                        <h3>
+                            <i class="fa fa-inr"></i>
+                            <%= product.discountedPrice %>
+                        </h3>
+
+                        <h4 class="regular-price">
+                            <%= product.productPrice %>
+                        </h4>
+
+                        <h4 class="off-percentage">
+                            <%= Math.floor(((product.productPrice-product.discountedPrice) / product.productPrice)*100)
+                                %> %
+                                off
+                        </h4>
+                        <div class="rating-screen">
+                            <% if (numberOfRatings>0) { %>
+                                <button style="<%= getBackgroundColorStyle(averageRating) %>">
+                                    <i class="fa-solid fa-star fa-2xs"></i>
+                                    <%= roundToOneDecimalPlace(averageRating) %>
+                                </button>
+                                <%} %>
+
+                                    <p>
+                                        <%= numberOfRatings %> Ratings and <%= numberOfReviews %> Reviews
+                                    </p>
+                        </div>
+
+                        <i class="fa-solid fa-truck-fast">
+                            <h4 class="shipping">Free Shipping</h4>
+                        </i>
+                        <% if (product.offers && product.offers.length> 0) { %>
+                            <h4>Available Offers</h4>
+                            <ul class="offer-list">
+                                <% product.offers.forEach(offer=> { %>
+                                    <li>
+                                        <span><i class="fa-solid fa-tag"></i>
+                                            <%= offer %>
+                                        </span>
+                                    </li>
+                                    <% }); %>
+                            </ul>
+                            <% } %>
+
+                    </div>
+
+                    <div class="description">
+
+                        <h3>Description</h3>
+                        <p style="margin-bottom: 0.5rem;">
+                            <%= product.description %>
+                        </p>
+
+                        <hr>
+                        <% if (product.warranty) { %>
+                            <div class="warranty">
+                                <p>
+                                    <i class="fa-solid fa-clipboard-check fa-lg"></i>
+                                    &nbsp; <%= product.warranty %>
+                                </p>
+                                <a href="#" class="TnC">T&C applied</a>
+
+                            </div>
+                            <% } %>
+
+                    </div>
+
+                    <div class="ratingsNreviews">
+
+                        <!-- Overall rating starts -->
+                        <div class="rating-screen">
+                            <% if (numberOfRatings>0) { %>
+
+                                <button style="<%= getBackgroundColorStyle(averageRating) %>">
+                                    <i class="fa-solid fa-star fa-2xs"></i>
+                                    <%= roundToOneDecimalPlace(averageRating) %>
+                                </button>
+                                <%} %>
+
+                                    <p>
+                                        <%= numberOfRatings %> Ratings and <%= numberOfReviews %> Reviews
+                                    </p>
+                        </div>
+                        <!-- Overall rating ends -->
+
+
+                        <div class="userReviewInput">
+                            <h3>Rate and review this product</h3>
+
+                            <!-- Customer rating and review input -->
+                            <form class="review-form" action="/product/<%=product._id %>" method="post">
+
+                                <span class="star" data-rating="1"><i class="fa-solid fa-star"></i></span>
+                                <span class="star" data-rating="2"><i class="fa-solid fa-star"></i></span>
+                                <span class="star" data-rating="3"><i class="fa-solid fa-star"></i></span>
+                                <span class="star" data-rating="4"><i class="fa-solid fa-star"></i></span>
+                                <span class="star" data-rating="5"><i class="fa-solid fa-star"></i></span>
+                                <input type="hidden" id="rating" name="rating" value="1">
+
+                                <textarea name="reviewText" id="" cols="30" rows="10"
+                                    placeholder="Write a review. (Optional)"></textarea>
+
+                                <button type="submit">Submit</button>
+
+                            </form>
+                        </div>
+
+                        <!-- Customer review and ratings input ends -->
+
+                        <!-- Customer review output -->
+                        <div class="userReviewContainer">
+                            <h3>Product Reviews:</h3>
+                            <% if (product.reviews && product.reviews.length> 0 &&
+                                product.reviews.some(element=>element.review)) { %>
+                                <% product.reviews.forEach(element=> { %>
+                                    <% if (element.review) { %>
+
+                                        <div class="userReviewBlock">
+
+                                            <div class="rating-screen-detailed">
+                                                <button style="<%= getBackgroundColorStyle(element.rating) %>">
+                                                    <i class="fa-solid fa-star fa-2xs"></i>
+                                                    <%= element.rating %>
+                                                </button>
+                                                <p>
+                                                    <%= ratingTocomment[element.rating] %>
+                                                </p>
+                                            </div>
+
+                                            <p class="userReviewContent">
+                                                <%= element.review %>
+                                            </p>
+
+                                            <p class="userReviewName">
+
+                                                <%= element.user %>
+                                                    ,
+                                                    <%= element.reviewDate.toLocaleDateString('en-US', {
+                                                        weekday: 'short' ,year: 'numeric' , month: 'short' ,
+                                                        day: 'numeric' }) %>
+
                                             </p>
                                         </div>
+                                        <% } %>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <p
+                                                        style="font-size: medium; color: darkgray; text-align: center; border: 1px solid rgba(184, 184, 184, 0.742); box-sizing: border-box; padding: 0.7rem .8rem .7rem 1rem;">
+                                                        No reviews yet
+                                                    </p>
+                                                    <% } %>
 
-                                        <p class="userReviewContent">
-                                            <%= element.review %>
-                                        </p>
+                        </div>
 
-                                        <p class="userReviewName">
-
-                                            <%= element.user %>
-                                                ,
-                                                <%= element.reviewDate.toLocaleDateString('en-US', { weekday: 'short' ,year: 'numeric' , month: 'short' , day: 'numeric' }) %>
-
-                                        </p>
-                                    </div>
-                                    <% } %>
-                                        <% }); %>
-                                            <% } else { %>
-                                                <p style="font-size: medium; color: darkgray; text-align: center; border: 1px solid rgba(184, 184, 184, 0.742); box-sizing: border-box; padding: 0.7rem .8rem .7rem 1rem;">
-                                                    No reviews yet
-                                                </p>
-                                                <% } %>
 
                     </div>
+                    <!-- customer reviews output end -->
 
 
                 </div>
-                <!-- customer reviews output end -->
+                <!-- right ends here -->
 
 
             </div>
-            <!-- right ends here -->
+            <!-- full product info ends -->
 
 
-        </div>
-        <!-- full product info ends -->
+            <!-- footer -->
+            <%- include('partials/footer') %>
 
+                <script>
 
-        <!-- footer -->
-        <%- include('partials/footer') %>
+                    document.querySelectorAll('#wishlistForm').forEach(form => {
 
-            <script>
+                        form.addEventListener('submit', function (event) {
+                            event.preventDefault();
 
-                document.querySelectorAll('#wishlistForm').forEach(form => {
+                            const productId = this.getAttribute('data-product-id');
 
-                    form.addEventListener('submit', function (event) {
-                        event.preventDefault();
+                            async function addToWishlist(productId) {
+                                try {
+                                    const response = await fetch(`/user/wishlist/${productId}`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                    });
 
-                        const productId = this.getAttribute('data-product-id');
+                                    if (!response.ok) {
+                                        throw new Error(`Failed to add product to wishlist. Status: ${response.status}`);
+                                    }
 
-                        async function addToWishlist(productId) {
-                            try {
-                                const response = await fetch(`/user/wishlist/${productId}`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                });
-
-                                if (!response.ok) {
-                                    throw new Error(`Failed to add product to wishlist. Status: ${response.status}`);
+                                    else if (response.redirected) {
+                                        // If the response indicates a redirect
+                                        window.location.href = response.url;
+                                    }
+                                    else {
+                                        const data = await response.json();
+                                        alert(data.message);
+                                        window.location.href = `/product/${productId}`;
+                                    }
+                                } catch (error) {
+                                    console.error('Error:', error);
                                 }
-
-                                const data = await response.json();
-                                alert(data.message);
-                                window.location.href = `/product/${productId}`; 
-                            } catch (error) {
-                                console.error('Error:', error);
                             }
-                        }
 
-                        addToWishlist(productId);
+                            addToWishlist(productId);
 
+                        });
                     });
-                });
 
-            </script>
+                </script>
 
-            <script>
+                <script>
 
-                document.querySelectorAll('#cartForm').forEach(form => {
+                    document.querySelectorAll('#cartForm').forEach(form => {
+                        form.addEventListener('submit', function (event) {
+                            event.preventDefault();
 
-                    form.addEventListener('submit', function (event) {
-                        event.preventDefault();
+                            const productId = this.getAttribute('data-product-id');
 
-                        const productId = this.getAttribute('data-product-id');
-
-                        fetch(`/user/cart/${productId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                alert(data.message);
-                                window.location.href = `/product/${productId}`; // Redirect to the user's cart page
+                            fetch(`/user/cart/${productId}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
                             })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                // Handle errors or show an appropriate message to the user
-                            });
-                    })
-                });
-            </script>
-            
-            <script>
-                // Get all the star elements
-                const stars = document.querySelectorAll('.star');
+                                .then(response => {
+                                    if (response.redirected) {
+                                        // If the response indicates a redirect
+                                        window.location.href = response.url; // Redirect to the login page
+                                    } else {
+                                        return response.json(); // Otherwise, continue processing the response
+                                    }
+                                })
+                                .then(data => {
+                                    if (!data.message) {
+                                        console.error('Unexpected response format:', data);
+                                        return;
+                                    }
 
-                // Add a click event listener to each star
-                stars.forEach((star) => {
-                    star.addEventListener('click', () => {
-                        // Get the rating value from the data-rating attribute
-                        const rating = parseInt(star.getAttribute('data-rating'));
-
-
-                        // Update the hidden input field value
-                        document.getElementById('rating').value = rating;
-
-                        // Remove the 'active' class from all stars
-                        stars.forEach((s) => s.classList.remove('activate'));
-
-                        // Add the 'active' class to the clicked star and previous stars
-                        for (let i = 0; i < rating; i++) {
-                            stars[i].classList.add('activate');
-                        }
+                                    alert(data.message);
+                                    if (!response.redirected) {
+                                        window.location.href = `/product/${productId}`; // Redirect to the user's cart page
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    // Handle errors or show an appropriate message to the user
+                                });
+                        })
                     });
-                });
-            </script>
 
-            <script src="/js/imgswitch.js"></script>
+                </script>
+
+                <script>
+                    // Get all the star elements
+                    const stars = document.querySelectorAll('.star');
+
+                    // Add a click event listener to each star
+                    stars.forEach((star) => {
+                        star.addEventListener('click', () => {
+                            // Get the rating value from the data-rating attribute
+                            const rating = parseInt(star.getAttribute('data-rating'));
+
+
+                            // Update the hidden input field value
+                            document.getElementById('rating').value = rating;
+
+                            // Remove the 'active' class from all stars
+                            stars.forEach((s) => s.classList.remove('activate'));
+
+                            // Add the 'active' class to the clicked star and previous stars
+                            for (let i = 0; i < rating; i++) {
+                                stars[i].classList.add('activate');
+                            }
+                        });
+                    });
+                </script>
+
+                <script src="/js/imgswitch.js"></script>
 
     </body>
 

@@ -26,6 +26,8 @@ app.set('view engine', 'ejs');
 // Parse URL-encoded bodies for form data
 app.use(express.urlencoded({ extended: true }));
 
+app.use(express.json());
+
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
 
@@ -58,20 +60,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-    })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-
 app.use(authMiddleware);
-// Routers
+
 
 
 app.use('/', mainRouter);

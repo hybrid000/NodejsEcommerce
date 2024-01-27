@@ -55,15 +55,16 @@ const logoutFunction = (req, res, next) => {
 
 
 const userProfile = (req, res) => {
-
-
-    order = ["lawda", "gand", "condom", "jhaan ke baal"];
-
-    res.render("userProfile", {
-        logoutFunction,
-        username: "lodu sushant",
-        order
-    })
+    if (req.isAuthenticated()) {
+        res.redirect('/user/login')
+    }
+    else {
+        res.render("userProfile", {
+            logoutFunction,
+            username: req.user.username,
+            order
+        })
+    }
 
 
 }
@@ -71,6 +72,4 @@ const userProfile = (req, res) => {
 
 
 
-
-
-module.exports = { registerFunction, loginFunction, logoutFunction, userProfile };
+module.exports = { registerFunction, loginFunction, logoutFunction, userProfile};
