@@ -197,9 +197,4 @@ async function searchProducts(searchTerm) {
     }
 }
 
-// // Example usage:
-// searchProducts('searchTerm')
-//     .then(products => console.log(products))
-//     .catch(error => console.error(error));
-
 module.exports = { getProductList, getProduct, postReviews, searchProducts};

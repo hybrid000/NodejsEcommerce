@@ -1,4 +1,5 @@
 const User = require("../models/user")
+const Order=require("../models/order")
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
@@ -141,27 +142,58 @@ const checkoutFn = async (req, res) => {
 
     if (req.isAuthenticated()) {
 
-        const productCheckout = req.params.productId;
+        const userId= req.user.id;
+        const foundUser = await User.findById(userId).populate({
+            path: 'cart.product',
+            model: 'Product',
+        });
 
-        const user = req.user.id;
-        console.log(`User ${user} is trying to checkout the product with id ${productCheckout}`);
+        const products = foundUser.cart;
 
-        res.render("checkout", { product: productCheckout });
+        console.log(products)
+
+        res.render("checkout", { products })
     }
+
     else {
         res.redirect('/user/login');
     }
 
-
-
-
-
 }
+const orderFn = async (req, res) => {
+    try {
+        const { address, paymentMethod, products } = req.body;
+
+        // Save the order in the database
+        const newOrder = new Order({
+            user: req.user._id, // Assuming user is authenticated
+            orderedProducts: products.map(item => ({ product: item.product._id, quantity: item.quantity })),
+            address: address,
+            paymentMethod: paymentMethod,
+            status: false, // Default status as false
+            orderDate: new Date().toISOString(), // Current date as order date
+        });
+        await newOrder.save();
+
+        if (paymentMethod =='cashOnDelivery'){
+            await User.findByIdAndUpdate(req.user._id, { $push: { orders: newOrder._id } });
+            res.status(200).json({ success: true, message: 'Order placed successfully' });
+        }
+
+        else{
+            res.send("waiting for online payment confirmation");
+        }
+        // Update the user's order history with the newly created order
+
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ success: false, message: 'Failed to place order' });
+    }
+};
 
 
 
 
 
 
-
-module.exports = { getCart, addToCart, deleteCartItem, updateCart, checkoutFn };
+module.exports = { getCart, addToCart, deleteCartItem, updateCart, checkoutFn, orderFn };

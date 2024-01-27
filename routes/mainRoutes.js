@@ -6,7 +6,9 @@ router.get('/', (req, res) => {
     res.render('index', { activePage: 'Home' });
 });
 
-router.get("/checkout/:productId", cartAndorderController.checkoutFn);
+router.get("/checkout", cartAndorderController.checkoutFn);
+
+router.post("/order",cartAndorderController.orderFn)
 
 router.get('/seller', (req, res) => {
     res.render('seller', { activePage: 'Seller' });

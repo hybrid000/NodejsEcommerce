@@ -44,7 +44,7 @@
                             </button>
                         </form>
 
-                        <form id="buyForm" action="/checkout/<%=product._id%>" method="GET" data-product-id="<%=product._id%>">
+                        <form id="buyForm" action="/checkout" method="GET" data-product-id="<%=product._id%>">
                             <!-- Add any necessary input fields for the buy now form -->
                             <input type="hidden" name="product" value="<%=product._id%>">
                             <button class="buy-btn" type="submit">
