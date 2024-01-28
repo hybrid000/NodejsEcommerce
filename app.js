@@ -12,6 +12,7 @@ const mainRouter = require('./routes/mainRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
 const categoryRouter = require('./routes/categoryRoutes.js');
 const productRouter = require('./routes/productRoutes.js');
+const authMiddleware=require("./middleware/authMiddleware.js")
 
 const app = express();
 dotenv.config();
@@ -90,16 +91,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
-    if (req.isAuthenticated()) {
-        res.locals.isAuthenticated = true;
-        res.locals.username = req.user ? req.user.username : null;
-    } else {
-        res.locals.isAuthenticated = false;
-        res.locals.username = null;
-    }
-    next();
-});
+app.use(authMiddleware);
 
 app.use('/', mainRouter);
 app.use('/category', categoryRouter);
