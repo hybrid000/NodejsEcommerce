@@ -6,7 +6,7 @@ const userController = require("../controllers/userController");
 
 // USER REALTED
 router.get('/login', (req, res) => {
-    res.render('userLogin');
+    res.render('userlogin'); 
 });
 router.get('/register', (req, res) => {
     res.render('userRegister');

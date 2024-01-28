@@ -1,38 +1,55 @@
 const express = require('express');
-const connectdb = require('./db.js');
-const mainRouter = require('./routes/mainRoutes.js');
-const categoryRouter = require('./routes/categoryRoutes.js');
-const productRouter = require('./routes/productRoutes.js');
-const authMiddleware = require('./middleware/authMiddleware');
-const passport = require('passport');
-const session = require('express-session');
-const customLocalStrategy = require('./middleware/strategy.js'); // Import the custom local strategy
-const User = require('./models/user.js');
-
 const dotenv = require('dotenv');
 
-dotenv.config()
+const connectdb = require('./db.js');
 
+const passport = require('passport');
+const session = require('express-session');
+const bcrypt = require('bcrypt');
+const LocalStrategy = require('passport-local').Strategy;
+const User = require('./models/user.js');
+
+const mainRouter = require('./routes/mainRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
+const categoryRouter = require('./routes/categoryRoutes.js');
+const productRouter = require('./routes/productRoutes.js');
+
+const authMiddleware = require('./middleware/authMiddleware');
 
 
 const app = express();
+dotenv.config()
+connectdb();
 
 const PORT = process.env.PORT;
 
-// Set EJS as the view engine
 app.set('view engine', 'ejs');
 
-// Parse URL-encoded bodies for form data
+
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
-
-// Serve static files from the 'public' directory
 app.use(express.static('public'));
 
+// CUSTOM PASSPORT LOCAL STRATEGY
+const customLocalStrategy = new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
+    try {
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            return done(null, false, { message: 'Incorrect email.' });
+        }
 
-connectdb();
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+            return done(null, false, { message: 'Incorrect password.' });
+        }
+
+        return done(null, user);
+    } catch (err) {
+        return done(err);
+    }
+});
+
 
 passport.use('custom-local', customLocalStrategy);
 
@@ -62,12 +79,11 @@ app.use(passport.session());
 
 app.use(authMiddleware);
 
-
-
 app.use('/', mainRouter);
 app.use('/category', categoryRouter);
 app.use('/product', productRouter);
 app.use('/user', userRouter);
+
 
 // Start the server
 app.listen(PORT, () => {

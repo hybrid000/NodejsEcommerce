@@ -23,7 +23,6 @@ const registerFunction = async (req, res, next) => {
         res.redirect('/user/register');
     }
 };
-
 const loginFunction = (req, res, next) => {
     passport.authenticate('custom-local', (err, user, info) => {
         if (err) {
@@ -32,21 +31,33 @@ const loginFunction = (req, res, next) => {
         }
 
         if (!user) {
-            return res.redirect('/user/login');
+            return res.redirect('/user/register');
         }
 
         req.login(user, (err) => {
             if (err) {
-                console.log(err);
-                return res.redirect('/login');
+                console.error(err);
+                return res.redirect('/user/login');
             }
+            console.log("req.session.returnTo", req.session.returnTo);
 
-            return res.redirect('/');
+            
+            const redirectTo = req.session.returnTo || '/';
+            delete req.session.returnTo;
+            
+            console.log("redirecting to", redirectTo);
+
+            return res.redirect(redirectTo);
         });
-    })(req, res, next);
+
+    })(req, res, next); // Call passport.authenticate with req, res, next
 };
 
+
+
 const logoutFunction = (req, res, next) => {
+
+
     req.logout((err) => {
         if (err) { return next(err); }
         res.redirect('/');
