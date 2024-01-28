@@ -6,7 +6,7 @@ const userController = require("../controllers/userController");
 
 // USER REALTED
 router.get('/login', (req, res) => {
-    res.render('userlogin'); 
+    res.render('userLogin');
 });
 router.get('/register', (req, res) => {
     res.render('userRegister');
@@ -28,7 +28,4 @@ router.get('/wishlist', wishlistController.getWishlist);
 router.post('/wishlist/:productId', wishlistController.addToWishlist);
 
 
-
-// USER ORDERS
-router.get("/orders", cartAndorderController.showOrders); 
 module.exports = router;

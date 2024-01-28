@@ -15,7 +15,6 @@ const registerFunction = async (req, res, next) => {
             if (err) {
                 return next(err);
             }
-
             return res.redirect('/');
         });
     } catch (err) {
@@ -31,7 +30,7 @@ const loginFunction = (req, res, next) => {
         }
 
         if (!user) {
-            return res.redirect('/user/register');
+            return res.redirect('/user/login');
         }
 
         req.login(user, (err) => {
@@ -39,20 +38,17 @@ const loginFunction = (req, res, next) => {
                 console.error(err);
                 return res.redirect('/user/login');
             }
-            console.log("req.session.returnTo", req.session.returnTo);
 
-            
-            const redirectTo = req.session.returnTo || '/';
-            delete req.session.returnTo;
-            
-            console.log("redirecting to", redirectTo);
+            // Retrieve the returnTo value from the cookie
+            const returnTo = req.cookies.returnTo || '/';
 
-            return res.redirect(redirectTo);
+            res.clearCookie('returnTo');
+
+            // Redirect the user to the returnTo value after successful login
+            return res.redirect(returnTo);
         });
-
-    })(req, res, next); // Call passport.authenticate with req, res, next
+    })(req, res, next);
 };
-
 
 
 const logoutFunction = (req, res, next) => {
