@@ -28,4 +28,7 @@ router.get('/wishlist', wishlistController.getWishlist);
 router.post('/wishlist/:productId', wishlistController.addToWishlist);
 
 
+
+// USER ORDERS
+router.get("/orders", cartAndorderController.showOrders); 
 module.exports = router;

@@ -36,7 +36,7 @@ const orderSchema = new mongoose.Schema({
 
     deliveryStatus: {
         type: String,
-        default:"Order Placed",
+        default: "Order Placed",
     },
     expectedDeliveryDate: String,
     deliveryDate: String

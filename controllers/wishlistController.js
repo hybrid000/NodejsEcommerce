@@ -21,7 +21,7 @@ const getWishlist = async (req, res) => {
                 imagePath: `/resources/products/${element._id}/img1.png`,
             }));
 
-            res.render('wishlist', { products: productsWithImages });
+            res.render('userWishlist', { products: productsWithImages });
 
         } else {
             res.redirect('/user/login');

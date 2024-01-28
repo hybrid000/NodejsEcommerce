@@ -1,5 +1,5 @@
 const User = require("../models/user")
-const Order=require("../models/order")
+const Order = require("../models/order")
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
@@ -28,7 +28,7 @@ const getCart = async (req, res) => {
                 imagePath: `/resources/products/${element.product._id}/img1.png`,
             }));
 
-            res.render('cart', { products: productsWithImages, totalPrice });
+            res.render('userCart', { products: productsWithImages, totalPrice });
         } else {
             res.redirect('/user/login');
         }
@@ -142,7 +142,7 @@ const checkoutFn = async (req, res) => {
 
     if (req.isAuthenticated()) {
 
-        const userId= req.user.id;
+        const userId = req.user.id;
         const foundUser = await User.findById(userId).populate({
             path: 'cart.product',
             model: 'Product',
@@ -161,39 +161,79 @@ const checkoutFn = async (req, res) => {
 
 }
 const orderFn = async (req, res) => {
+
     try {
         const { address, paymentMethod, products } = req.body;
 
-        // Save the order in the database
-        const newOrder = new Order({
-            user: req.user._id, // Assuming user is authenticated
-            orderedProducts: products.map(item => ({ product: item.product._id, quantity: item.quantity })),
-            address: address,
-            paymentMethod: paymentMethod,
-            status: false, // Default status as false
-            orderDate: new Date().toISOString(), // Current date as order date
-        });
-        await newOrder.save();
+        if (paymentMethod == 'cashOnDelivery') {
 
-        if (paymentMethod =='cashOnDelivery'){
+            const newOrder = new Order({
+
+                user: req.user._id,
+                orderedProducts: products.map(item => ({ product: item.product._id, quantity: item.quantity })),
+                address: address,
+                paymentMethod: paymentMethod,
+                status: true,
+                orderDate: new Date().toISOString(),
+            });
+
+            await newOrder.save();
+
+
             await User.findByIdAndUpdate(req.user._id, { $push: { orders: newOrder._id } });
             res.status(200).json({ success: true, message: 'Order placed successfully' });
         }
 
-        else{
+        else {
             res.send("waiting for online payment confirmation");
         }
-        // Update the user's order history with the newly created order
 
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ success: false, message: 'Failed to place order' });
+    }
+
+};
+
+const showOrders = async (req, res) => {
+    if (req.isAuthenticated()) {
+        const userId = req.user.id;
+
+        try {
+            // Populate user's orders with product details
+            const userFound = await User.findById(userId).populate({
+                path: "orders",
+                model: "Order",
+                populate: {
+                    path: 'orderedProducts.product',
+                    model: 'Product'
+                }
+            });
+
+            // Map each order's orderedProducts to include imagePath
+            const ordersWithImages = userFound.orders.map(order => ({
+                ...order.toObject(), // Convert order to plain object
+                orderedProducts: order.orderedProducts.map(orderedProduct => ({
+                    ...orderedProduct.toObject(), // Convert orderedProduct to plain object
+                    product: {
+                        ...orderedProduct.product.toObject(), // Convert product to plain object
+                        imagePath: `/resources/products/${orderedProduct.product._id}/img1.png`
+                    }
+                }))
+            }));
+
+                      res.render("userOrders", { orders: ordersWithImages });
+        } catch (error) {
+            console.error(error);
+            // Handle error
+            res.status(500).send("Internal Server Error");
+        }
+    } else {
+        res.redirect("/user/login");
     }
 };
 
 
 
 
-
-
-module.exports = { getCart, addToCart, deleteCartItem, updateCart, checkoutFn, orderFn };
+module.exports = { getCart, addToCart, deleteCartItem, updateCart, checkoutFn, orderFn, showOrders };

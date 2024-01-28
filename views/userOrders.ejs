@@ -1,0 +1,122 @@
+<%-include('partials/head')%>
+    <link rel="stylesheet" href="/css/wishcart.css">
+    <title>Cart</title>
+
+<style>
+    
+    .order-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        padding: 20px;
+    }
+
+    .order {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 20px;
+    }
+
+    .order h5 {
+        margin: 0;
+        color: #333;
+    }
+
+    .orderbox {
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .orderbox h5 {
+        margin: 5px 0;
+        color: #555;
+    }
+
+    .address h6 {
+        margin: 5px 0;
+        color: #777;
+    }
+    .order-product{
+        padding-right: 25rem;
+        display:flex;
+        justify-content: space-between;
+    }
+
+    .payment-method {
+        margin-top: 10px;
+        color: #555;
+    }
+
+    .block:last-child {
+        border: none;
+    }
+    .order-img{
+        height: 4rem;
+        width:4rem;
+    }
+</style>
+    </head>
+
+
+    <body>
+
+
+        <%-include('partials/navbar') %>
+  
+</head>
+
+<body>
+
+    <div class="order-container">
+        <% orders.forEach(element=> { %>
+            <div class="order">
+                <h5>Order Id: OD<%= element._id %>
+                </h5>
+                <h5>Ordered On: <%= element.orderDate %>
+                </h5>
+                <h5>Status: <%= element.deliveryStatus %>
+                </h5>
+
+                <% element.orderedProducts.forEach(orderItem=> { %>
+                    <div class="orderbox">
+                        <a href="/product/<%=orderItem.product._id%>" class="order-product">
+                        <img src="<%=orderItem.product.imagePath%>" alt="" class="order-img">
+                        <h5>
+                            <%= orderItem.product.productName %>
+                        </h5>
+                    
+                    </a> 
+                        <h5>Quantity: <%= orderItem.quantity %>
+                        </h5>
+                    </div>
+                    <% }) %>
+
+                        <div class="address">
+                            <h5>Address:</h5>
+                            <h6>
+                                <%= element.address.streetOne %>
+                            </h6>
+                            <h6>
+                                <%= element.address.streetTwo %>
+                            </h6>
+                            <h6>
+                                <%= element.address.city %>, <%= element.address.state %>
+                                        <%= element.address.pincode %>
+                            </h6>
+                        </div>
+
+                        <div class="payment-method">
+                            <h5>Payment Method: <%= element.paymentMethod %>
+                            </h5>
+                        </div>
+            </div>
+            <% }); %>
+    </div>
+<%-include('partials/footer') %>
+</body>
+
+</html>

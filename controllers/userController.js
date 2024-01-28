@@ -56,20 +56,20 @@ const logoutFunction = (req, res, next) => {
 
 const userProfile = (req, res) => {
     if (req.isAuthenticated()) {
-        res.redirect('/user/login')
-    }
-    else {
+
         res.render("userProfile", {
             logoutFunction,
             username: req.user.username,
-            order
         })
+    }
+    else {
+        res.redirect('/user/login')
+   
     }
 
 
 }
 
-
-
+ 
 
 module.exports = { registerFunction, loginFunction, logoutFunction, userProfile};
