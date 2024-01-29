@@ -5,50 +5,48 @@
 
     <body>
 
-    <div id="layer1">
-        <a href="/"><img src="/resources/logo6.png" class="logoimg" alt="logo of site"> </a>
-    </div>
+        <div id="layer1">
+            <a href="/"><img src="/resources/logo6.png" class="logoimg" alt="logo of site"> </a>
+        </div>
 
 
-        <div id="llayer2">
-            <div id="mainbox">
-                <h2>Registration</h2>
+        <div id="mainbox">
+            <h2>Registration</h2>
 
 
-                        <form method="post" action="/user/register">
-                            <div class="input-field">
-                                <i class="fa-solid fa-user-large fa-xl"></i>
-                                <input type="text" name="username" placeholder="Enter your name" required
-            value="<%= locals.username || '' %>">
-                            </div>
+            <form method="post" action="/user/register">
+                <div class="input-field">
+                    <i class="fa-solid fa-user-large fa-xl"></i>
+                    <input type="text" name="username" placeholder="Enter your name" required
+                        value="<%= locals.username || '' %>">
+                </div>
 
-                            <div class="input-field">
-                                <i class="fa fa-envelope fa-xl"></i>
-                                <input type="email" name="email" placeholder="Enter your email" required
-                                    value="<%= locals.email || '' %>">
-                            </div>
+                <div class="input-field">
+                    <i class="fa fa-envelope fa-xl"></i>
+                    <input type="email" name="email" placeholder="Enter your email" required
+                        value="<%= locals.email || '' %>">
+                </div>
 
-                            <div class="input-field">
-                                <i class="fa-solid fa-key fa-xl"></i>
-                                <input type="password" name="password" class="password" placeholder="Create a password"
-                                    required>
-                            </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-key fa-xl"></i>
+                    <input type="password" name="password" class="password" placeholder="Create a password" required>
+                </div>
 
-                            <div class="checkbox-text">
-                                <input type="checkbox" id="termcon">&nbsp;<b>I agree to all terms and conditions.</b>
-                            </div>
+                <div class="checkbox-text">
+                    <input type="checkbox" id="termcon" required>&nbsp;I agree to all terms and conditions.
+                </div>
 
-                            <button type="submit" class="button">
-                                <i class="fa-solid fa-user-plus"> &nbsp;</i>Sign Up
-                            </button>
-                        </form>
+                <button type="submit" class="button">
+                    <i class="fa-solid fa-user-plus"> &nbsp;</i>Sign Up
+                </button>
+            </form>
 
-                        <div class="login-signup">
-                            <b>Already a member?</b><a href="user/login" class="text login-link"><b>&nbsp; &nbsp; Login
-                                    Now</b></a>
-                        </div>
+            <div class="login-signup">
+                <b>Already a member?</b><a href="/user/login" class="text login-link"><b> Login
+                        Now</b></a>
             </div>
         </div>
+
 
         <%- include('partials/footer') %>
     </body>
