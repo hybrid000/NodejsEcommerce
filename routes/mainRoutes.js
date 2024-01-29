@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const cartAndorderController = require("../controllers/cartAndorderController");
+const productController = require('../controllers/productController');
+
 
 router.get('/', (req, res) => {
     res.render('index', { activePage: 'Home' });
-
+    
 });
+
+router.get('/category/:categoryName', productController.getProductList);
 
 router.get("/checkout", cartAndorderController.checkoutFn);
 
 router.post("/order",cartAndorderController.orderFn)
-
-router.get('/seller', (req, res) => {
-    res.render('seller', { activePage: 'Seller' });
-});
 
 router.get('/support', (req, res) => {
     console.log(req.originalUrl)

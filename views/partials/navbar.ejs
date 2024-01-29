@@ -1,77 +1,66 @@
 <navbar id="layer1">
-    <!-- sublayer 1 -->
-    <div id="sublayer1">
 
-        <div class="part1">
-            <!-- logo -->
-            <a href="/"><img src="/resources/logo6.png" class="logoimg" alt="logo of site"> </a>
-            <!-- search bar -->
-            <div class="search">
-                <form action="/search" method="POST">
+    <div class="part1">
+        <!-- logo -->
+        <a href="/"><img src="/resources/logo6.png" class="logoimg" alt="logo of site"> </a>
+    </div>
+    <div class="part2">
 
-                    <input type="search" name="search" class="search-field" placeholder="Search Product, Brand">
-                    <button type="submit" class="searchbtn">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="part2">
-            <!-- login-signup -->
-            <div class="login-signup">
 
-                <% if (isAuthenticated) { %>
-                    <p>
-                        <a href="/user/profile">
+        <form action="/search" method="POST" class="search">
+            <input type="search" name="search" class="search-field" placeholder="Search Product, Brand">
+            <button type="submit" class="searchbtn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="part3">
+        <!-- login-signup -->
+        <div class="login-signup">
+
+            <% if (isAuthenticated) { %>
+                <p>
+                    <a href="/user/profile">
                         <i class="fa-solid fa-user fa-lg"> </i>
                         <%= username %>
-                        </a>
+                    </a>
+                </p>
+                <!-- Other content for authenticated users -->
+                <% } else { %>
+                    <p>
+                        <i class="fa-solid fa-user fa-lg"> </i>
+                        <a href="/user/login" class="ls">Login</a>
+                        or
+                        <a href="/user/register" class="ls">Sign Up</a>
                     </p>
-                    <!-- Other content for authenticated users -->
-                    <% } else { %>
-                        <p>
-                            <i class="fa-solid fa-user fa-lg"> </i>
-                            <a href="/user/login" class="ls">Login</a>
-                            or
-                            <a href="/user/register" class="ls">Sign Up</a>
-                        </p>
-                        <% } %>
+                    <% } %>
 
-            </div>
+        </div>
 
-            <!-- wishlist & cart -->
-
-            <a href="/user/wishlist/" class="wishlist">
-                <i class="fa-regular fa-heart fa-xl"> </i>
-                <p> Wishlist</p>
+        <div class="wish-order-cart">
+            <a href="/user/orders" class="cc"><i class="fa-solid fa-bag-shopping fa-xl"></i>
+                &nbsp; Orders
             </a>
-            <a href="/user/cart" class="cart">
+
+            <a href="/user/cart" class="cc">
                 <i class="fa-solid fa-cart-shopping fa-xl"> </i>
-                <p>My Cart</p>
+                &nbsp; Cart
+            </a>
+            <a href="/user/wishlist/" class="cc">
+                <i class="fa-regular fa-heart fa-xl"> </i>
+                &nbsp; Wishlist
             </a>
 
         </div>
+        <!-- wishlist & cart -->
+
+    </div>
 
     </div>
     <!-- sublayer 1 ends -->
 
     <!-- subplayer 2 starts -->
-    <div id="sublayer2">
-
-    <ul id="navibaritems">
-    
-       
-            <li><a href="/">Home</a></li>
-            <li><a href="/category">Categories</a></li>
-            <li><a href="/support">Support</a></li>
-            <li><a href="/seller">Sell here</a></li>
-        
-                
-             
-    </ul>
-
-
-    </div>
 
     <!-- sublayer 1 ends -->
 

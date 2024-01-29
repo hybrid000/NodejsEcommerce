@@ -1,12 +1,18 @@
 /* Import external styles */
 @import "stylemain.css";
 
+#layer2 {
+    padding: 0rem .5rem;
+    margin: 1rem auto;
+
+}
+
 /* Slide Container */
 /* Slider Container */
 .slider-container {
     position: relative;
     overflow: hidden;
-    height: 300px;
+    height: 250px;
     /* Set the desired fixed height for the slider */
 }
 
@@ -30,7 +36,7 @@
 img {
     width: 100%;
     height: 100%;
-  
+
     /* Make the images cover the entire slide container */
 }
 
@@ -63,41 +69,109 @@ button:hover {
     background-color: #f1f1f1;
 }
 
-/* Hide buttons on mobile */
+.most-bought-items {
 
+    padding: 1.5rem;
 
-/* Hide buttons on mobile */
-
-/* Styling for ZX and ZX1 elements */
-.zx h1,
-.zx h3,
-.zx1 h1 {
-    padding-left: 1.2rem;
 }
 
-.zx img,
-.zx1 img {
-    width: 100%;
-    height: 17.5rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+.most-bought-items h2 {
+    margin-bottom: 1rem;
+}
+
+.prodemo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pro {
+    background-color: white;
+    height: 12rem;
+    margin-top: 2rem;
+    box-shadow: 0px 3px 8px #383838;
+    transition: 0.2s ease;
+}
+
+.pro img {
+    width: 22rem;
+    height: 12rem;
+}
+
+.pro:hover {
+    color: rgb(42, 85, 165);
+    transform: scale(1.05);
     cursor: pointer;
 }
 
+.category-set {
+    padding: 1.5rem;
+}
+
+
+.block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+
+}
+
+/* Items section */
+.items {
+    text-align: center;
+    align-items: center;
+    flex: 0 0 auto;
+    background-color: white;
+    border-radius: .5rem;
+    transition: .2s ease-out;
+    padding: .3rem;
+    box-shadow: 0px 4px 3.5px 2px #bab8b9c9;
+    transition: transform 0.3s ease;
+}
+
+.items img {
+    height: 7rem;
+    width: 7rem;
+}
+
+.items h3 {
+    padding-top: 0.3rem;
+}
+
+.items:hover {
+    /* color: rgb(42, 85, 165); */
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.Banner {
+    padding: 1rem 0;
+}
+
+.Banner h1 {
+    padding: 0rem 1rem 1rem 1rem;
+}
+
+.Banner img {
+    height: 16rem;
+}
 
 /* Media Queries */
 @media only screen and (max-width: 767px) {
 
 
     .slider-container {
-            height: 170px;
-            /* Set the desired fixed height for the slider */
-        }
+        height: 170px;
+        /* Set the desired fixed height for the slider */
+    }
+
     /* Adjusting Slide Container height for smaller screens */
     .prev-button,
-        .next-button {
-            display: none;
-        }
+    .next-button {
+        display: none;
+    }
 
     /* Adjusting font size for ZX and ZX1 headings */
     .zx h1,

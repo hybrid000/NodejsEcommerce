@@ -6,15 +6,15 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/user.js');
-const cookieParser = require('cookie-parser'); // Import cookie-parser middleware
+const cookieParser = require('cookie-parser'); 
 
 const mainRouter = require('./routes/mainRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
-const categoryRouter = require('./routes/categoryRoutes.js');
 const productRouter = require('./routes/productRoutes.js');
 const authMiddleware=require("./middleware/authMiddleware.js")
 
 const app = express();
+
 dotenv.config();
 
 const connectdb = async () => {
@@ -35,13 +35,7 @@ app.use(express.static('public'));
 // Middleware to parse cookies
 app.use(cookieParser());
 
-// Middleware to store previous URL in a cookie
-app.use((req, res, next) => {
-    if (req.url !== '/user/login' && req.url !== '/user/register') {
-        res.cookie('returnTo', req.originalUrl, { maxAge: 90000, httpOnly: true });
-    }
-    next();
-});
+
 
 // Custom passport local strategy
 const customLocalStrategy = new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
@@ -85,16 +79,22 @@ app.use(
     session({
         secret: process.env.SESSION_SECRET,
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true,
     })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(authMiddleware);
+// Middleware to store previous URL in a cookie
+app.use((req, res, next) => {
+    if (!req.isAuthenticated() && req.url !== '/user/login' && req.url !== '/user/register') {
+        res.cookie('returnTo', req.originalUrl, { maxAge: 90000, httpOnly: true });
+    }
+    next();
+});
 
 app.use('/', mainRouter);
-app.use('/category', categoryRouter);
 app.use('/product', productRouter);
 app.use('/user', userRouter);
 

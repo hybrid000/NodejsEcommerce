@@ -1,77 +1,58 @@
 <%-include('partials/head')%>
     <link rel="stylesheet" href="/css/wishcart.css">
     <title>Cart</title>
-
-
     </head>
 
-
     <body>
-
-
-    <%-include('partials/navbar') %>
-        <!-- llayer2 -->
-        <div id=layer2>
-            <h1>Your Cart</h1>
-
-            <div class="productz">
-                <% products.forEach(cartItem=> { %>
-                    <div class="product-container">
-
-                        <a href="/product/<%= cartItem.product._id %>">
-                            <img src="<%= cartItem.imagePath %>" class="laptop" width="13rem" alt="">
-                        </a>
-
-                        <div class="product-info">
-                            <a href="/product/<%= cartItem.product._id %> ">
-                                <h4 class="headinG">
-                                    <%= cartItem.product.productName %>
-                                </h4>
-                                <div class="rev">
-                                    <!-- Your star ratings and other information -->
-                                </div>
-                                <h4><i class="fa fa-inr"></i>
-                                    <%= cartItem.product.discountedPrice * cartItem.quantity %>
-                                </h4>
-
-                                <h5>Free Delivery</h5>
+        <%-include('partials/navbar') %>
+            <div id="layer2">
+              
+                <div class="productz">
+                    <% products.forEach(cartItem=> { %>
+                        <div class="product-container" data-product-id="<%= cartItem.product._id %>">
+                            <a href="/product/<%= cartItem.product._id %>">
+                                <img src="<%= cartItem.imagePath %>" class="laptop" width="13rem" alt="">
                             </a>
-                            <div class="qty-and-btn">
-                                <div class="quantity-control">
-                                    <label for="number">Set Quantity</label>
-                                    <button class="quantity-btn" data-action="decrement"
-                                        data-product-id="<%= cartItem.product._id %>">-</button>
-                                    <input type="number" name="quantity" id="quantity_<%= cartItem.product._id %>"
-                                        value="<%= cartItem.quantity %>" readonly>
-
-                                    <button class="quantity-btn" data-action="increment"
-                                        data-product-id="<%= cartItem.product._id %>">+</button>
+                            <div class="product-info">
+                                <a href="/product/<%= cartItem.product._id %>">
+                                    <h4 class="headinG">
+                                        <%= cartItem.product.productName %>
+                                    </h4>
+                                    </a>
+                                    <h4 class="productPrice" data-discounted-price="<%= cartItem.product.discountedPrice %>">
+                                        <%= cartItem.product.discountedPrice * cartItem.quantity %>
+                                    </h4>
+                                    <h5>Free Delivery</h5>
+                                
+                                <div class="qty-and-btn">
+                                    <div class="quantity-control">
+                                        <label for="number">Set Quantity</label>
+                                        <button class="quantity-btn" data-action="decrement"
+                                            data-product-id="<%= cartItem.product._id %>">-</button>
+                                        <input type="number" name="quantity" id="quantity_<%= cartItem.product._id %>"
+                                            value="<%= cartItem.quantity %>" readonly>
+                                        <button class="quantity-btn" data-action="increment"
+                                            data-product-id="<%= cartItem.product._id %>">+</button>
+                                    </div>
+                                    <form id="deleteCartForm" data-product-id="<%= cartItem.product._id %>">
+                                        <button type="submit" id="del-btn"><i class="fa-solid fa-trash"></i>Delete Item
+                                            from
+                                            cart</button>
+                                    </form>
                                 </div>
-
-                                <form id="deleteCartForm" data-product-id="<%= cartItem.product._id %>">
-                                    <button type="submit" id="del-btn"><i class="fa-solid fa-trash"></i>Delete Item from
-                                        cart</button>
-                                </form>
                             </div>
                         </div>
-                        </a>
-
-
-                    </div>
-
-                    <% }); %>
-                        <div class="total">
-                            <h2>Total Cart: &#8377; <%= totalPrice %>
-                            </h2>
-                        </div>
-                        <div class="proceed">
-                            <h2><a href="/checkout">checkout</a></h2>
-                        </div>
+                        <% }); %>
+                            <div class="total">
+                                <h2>Total Cart: &#8377; <%= totalPrice %>
+                                </h2>
+                            </div>
+                            <div class="checkout-btn">
+                                <h2><a href="/checkout">checkout</a></h2>
+                            </div>
+                </div>
             </div>
-        </div>
-
-        <%- include('partials/footer') %>
-
+            <%- include('partials/footer') %>
             <script>
                 document.querySelectorAll('.quantity-btn').forEach(button => {
                     button.addEventListener('click', async function () {
@@ -89,7 +70,13 @@
 
                         quantityInput.value = newQuantity;
 
-                        // Make an asynchronous request to update the quantity in the database
+                        const productPriceElement = document.querySelector(`.product-container[data-product-id="${productId}"] .productPrice`);
+                        const discountedPrice = parseFloat(productPriceElement.dataset.discountedPrice);
+                        const newProductPrice = discountedPrice * newQuantity;
+
+                        // Update individual product price in the DOM without the Indian Rupee symbol
+                        productPriceElement.textContent = `${newProductPrice.toFixed(2)}`;
+
                         const response = await fetch(`/user/updatecart/${productId}`, {
                             method: 'PATCH',
                             headers: {
@@ -100,43 +87,37 @@
 
                         if (response.ok) {
                             const data = await response.json();
-                            // Update the displayed total price based on the server's response
                             document.querySelector('.total h2').textContent = `Total Amount: ${data.totalPrice}`;
                         } else {
-                            // Handle errors or show an appropriate message to the user
                             console.error('Error updating quantity:', response.statusText);
                         }
                     });
                 });
             </script>
 
-            <script>
-
-                document.querySelectorAll('#deleteCartForm').forEach(form => {
-                    form.addEventListener('submit', function (event) {
-                        event.preventDefault();
-
-                        const productId = this.getAttribute('data-product-id');
-
-                        fetch(`/user/deletecart/${productId}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            }
-                    
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                alert(data.message);
-                                window.location.href = '/user/cart'; // Redirect to the user's cart page
+                <script>
+                    document.querySelectorAll('#deleteCartForm').forEach(form => {
+                        form.addEventListener('submit', function (event) {
+                            event.preventDefault();
+                            const productId = this.getAttribute('data-product-id');
+                            fetch(`/user/deletecart/${productId}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                }
                             })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                // Handle errors or show an appropriate message to the user
-                            });
+                                .then(response => response.json())
+                                .then(data => {
+                                    alert(data.message);
+                                    window.location.href = '/user/cart'; // Redirect to the user's cart page
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    // Handle errors or show an appropriate message to the user
+                                });
+                        });
                     });
-                });
-            </script>
+                </script>
     </body>
 
     </html>

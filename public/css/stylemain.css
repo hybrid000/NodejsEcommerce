@@ -1,8 +1,20 @@
 /* Global styles */
-* {font-family: 'Poppins', sans-serif;
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+#layer2 {
+    padding: 0rem .5rem;
+    margin: 1rem auto;
+    min-height: 60vh;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 a {
@@ -10,36 +22,38 @@ a {
     color: inherit;
 }
 
-/* (Main) Layer 1 */
+/* Layer 1 */
 #layer1 {
     position: sticky;
+    display: flex;
+        padding: .75rem 4rem;
+        align-items: center;
     top: 0;
     left: 0;
-    z-index: 10;
-    box-shadow: 0 5px 10px #9897978e;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 99999;
+    justify-content: space-between;
 }
 
-#sublayer1 {
-    background-color: rgb(222, 225, 218);
+.part1, .part2, .part3{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 3rem;
-    border-bottom: 0.7px solid #828181;
+  
+  
 }
-
-.part1 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 55%;
+.part3{
+    width:40%;
 }
-
 .logoimg {
-    margin-left: 0.5rem;
+
     height: 4rem;
-    width: 4.5rem;
-    border: none;
+    
+    width: 4rem;
+
+
 }
 
 .search {
@@ -47,132 +61,66 @@ a {
     align-items: center;
 }
 
-/* Search button */
 .search-field {
-    padding-left: 1vw;
-    width: 35vw;
-    height: 2.3rem;
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
-    text-align: left;
-    background: white;
-    color: rgb(0, 0, 0);
-    border: 1px solid #383838;
+
+  width:40rem;
+   
+    height: 2.5rem;
+  
+    padding: 0.5rem;
+  
+    border: 1px solid #ccc;
+ 
+    border-radius: 0.25rem 0 0 0.25rem;
+
 }
 
 .searchbtn {
-    border: none;
-    height: 2.3rem;
-    width: 3rem;
-    color: white;
-    background: #383838;
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
-    cursor: pointer;
-}
-
-.search button:hover {
-    border: 1px solid #383838;
-    border-left: none;
-    opacity: 1;
-    color: rgb(9, 9, 9);
-    background: #d8d6d6;
-}
-
-.part2 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 35%;
-}
-
-/* Login and Signup */
-.login-signup {
-    color: black;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.login-signup a:hover {
-    color: rgb(42, 85, 165);
-    transition: 0.35s ease;
-}
-
-/* Wishlist and Cart */
-.wishlist,
-.cart {
-    display: flex;
-    align-items: center;
-}
-
-.wishlist p,
-.cart p {
-    padding-left: 0.5rem;
-}
-
-.wishlist:hover p,
-.cart:hover p {
-    color: rgb(42, 85, 165);
-    transition: 0.35s ease;
-}
-
-/* Sublayer 2 */
-#sublayer2 {
-    background-color: rgb(240, 240, 240);
-    padding: 0.4rem 7rem;
-    border-bottom: 0.7px solid #828181;
-}
-
-#sublayer2 ul {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: rgb(240, 240, 240);
-}
-
-#navibaritems li {
-    list-style: none;
-}
-
-.submenu {
-    display: none;
-}
-
-#navibaritems li a:hover {
-    color: rgb(42, 85, 165);
-}
-
-#navibaritems li:hover .submenu {
-    position: absolute;
-    display: block;
-    padding-bottom: 2rem;
-}
-
-#navibaritems li:hover .submenu ul {
-    display: block;
-    width: fit-content;
-    border: 0.8px solid rgb(195, 194, 194);
     padding: 0.5rem;
-    margin: 0.4rem -3.5rem;
+    height: 2.5rem;
+
+    border: none;
+    background-color: #383838;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 0 0.25rem 0.25rem 0;
+
 }
 
-#navibaritems li:hover .submenu ul li {
-    border-bottom: 1px solid rgb(195, 194, 194);
-    padding: 0.4rem;
+.searchbtn:hover {
+    background-color: #555;
+   
 }
 
-.active{
-    color: rgb(42, 85, 165);
+
+
+
+.wish-order-cart{
+    display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width:70%;
 }
+
+.cc {
+    display: flex;
+    align-items: center;
+
+ 
+}
+
+
+/* Sublayer 2 (Navigation) */
 
 .context {
     padding: 1rem;
 }
 
 #layer2 {
-    padding: 1rem 0;
+    padding: 0rem 0;
+    margin: 1rem 0;
 }
+
 
 /* Footer */
 footer {

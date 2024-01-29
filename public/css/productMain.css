@@ -1,4 +1,5 @@
 @import "stylemain.css";
+
 .hide {
     display: none;
 }
@@ -16,21 +17,15 @@ body {
     position: sticky;
     top: 0;
     left: 0;
-    z-index:3;
+    z-index: 3;
     box-shadow: 0 5px 10px #9897978e;
 }
-.fa-heart{
-    color:black;
+
+.fa-heart {
+    color: black;
 }
 
-#sublayer1 {
-    background-color: rgb(222, 225, 218);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 3rem;
-    border-bottom: 0.7px solid #828181;
-}
+
 .logoimg {
     margin-left: 0.5rem;
     height: 4rem;
@@ -52,7 +47,7 @@ body {
 #left {
     position: sticky;
     z-index: 2;
-    top: 96.2px;
+    top: 108.2px;
     width: 38%;
     padding: 1rem;
     box-sizing: border-box;
@@ -72,7 +67,7 @@ body {
 
 #wishlistBtn {
     position: absolute;
-   top: 0.6rem;
+    top: 0.6rem;
     right: 0.6rem;
     padding: .5rem .4rem .5rem .4rem;
     background-color: rgb(250, 250, 250);
@@ -85,8 +80,9 @@ body {
 
 #wishlistForm .fa-heart {
     color: rgba(176, 176, 176, 0.9);
-} 
- #wishlistForm button:hover .fa-heart {
+}
+
+#wishlistForm button:hover .fa-heart {
     color: rgb(253, 82, 82);
 }
 
@@ -122,8 +118,10 @@ body {
     margin: 0 auto;
     justify-content: space-between;
 }
-.buyForm, .cartForm{
-    width:200%;
+
+.buyForm,
+.cartForm {
+    width: 200%;
 }
 
 .buy-btn,
@@ -135,24 +133,22 @@ body {
     margin: 0;
     cursor: pointer;
     align-items: center;
-transition: .2s ease-in;
-    width:230px;
+    transition: .2s ease-in;
+    width: 230px;
     /* max-width: 90%; */
     justify-content: space-evenly
 }
 
-
 .buy-btn:hover {
-    transform: scale(1.05);
-        cursor: pointer;
-    }
+    background-color: rgb(238, 123, 52);
+    cursor: pointer;
+}
 
 
 .cart-btn:hover {
-    transform: scale(1.05);
-        cursor: pointer;
+    background-color: rgb(238, 123, 52);
+    cursor: pointer;
 }
-
 #right {
     width: 60%;
     /* padding: 1rem; */
@@ -195,7 +191,7 @@ transition: .2s ease-in;
     font-size: small;
     color: white;
     margin-bottom: 1rem;
-    
+
 }
 
 .rating-screen p {
@@ -360,7 +356,7 @@ td:nth-of-type(1) {
     text-transform: uppercase;
     height: 40px;
     border: none;
- 
+
 }
 
 .review-form button:hover {
@@ -373,7 +369,7 @@ td:nth-of-type(1) {
     border: 1px solid rgba(118, 117, 117, 0.742);
     box-sizing: border-box;
     border-radius: .1rem;
-    margin-bottom:.5rem;
+    margin-bottom: .5rem;
     padding: .5rem;
 
 }
@@ -387,7 +383,7 @@ td:nth-of-type(1) {
     text-align: center;
     border: none;
     font-size: small;
-margin-bottom: .5rem;
+    margin-bottom: .5rem;
     color: white;
 }
 
@@ -396,12 +392,13 @@ margin-bottom: .5rem;
 
     font-size: medium;
     text-decoration: solid;
-    margin-left:.5rem;
+    margin-left: .5rem;
 
 }
+
 .userReviewContent {
- font-size: smaller;
- margin-bottom: .5rem;
+    font-size: smaller;
+    margin-bottom: .5rem;
 }
 
 
@@ -419,8 +416,9 @@ pre {
     white-space: pre-wrap;
 }
 
-.fa-truck-fast, .shipping{
-    color:rgb(164, 13, 13);
+.fa-truck-fast,
+.shipping {
+    color: rgb(164, 13, 13);
 
     text-shadow: black 1px solid;
 }

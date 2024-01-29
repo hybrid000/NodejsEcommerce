@@ -6,7 +6,17 @@ const userController = require("../controllers/userController");
 
 // USER REALTED
 router.get('/login', (req, res) => {
-    res.render('userLogin');
+    if(req.isAuthenticated()){
+        const returnTo = req.cookies.returnTo || '/';
+
+        res.clearCookie('returnTo');
+
+        // Redirect the user to the returnTo value after successful login
+        return res.redirect(returnTo);
+    }else{
+        
+        res.render('userLogin');
+    }
 });
 router.get('/register', (req, res) => {
     res.render('userRegister');
@@ -26,6 +36,8 @@ router.delete('/deletecart/:productId', cartAndorderController.deleteCartItem);
 // USER WISHLIST REALTED
 router.get('/wishlist', wishlistController.getWishlist);
 router.post('/wishlist/:productId', wishlistController.addToWishlist);
+
+router.get("/orders",cartAndorderController.showOrders);
 
 
 module.exports = router;

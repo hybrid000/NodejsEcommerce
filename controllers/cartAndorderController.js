@@ -1,8 +1,6 @@
 const User = require("../models/user")
 const Order = require("../models/order")
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
-const { ObjectId } = Schema.Types;
 
 
 const getCart = async (req, res) => {
@@ -13,8 +11,6 @@ const getCart = async (req, res) => {
                 path: 'cart.product',
                 model: 'Product',
             });
-
-            console.log("triggered")
 
             let totalPrice = 0;
             const productsInCart = foundUser.cart;
@@ -76,7 +72,6 @@ const addToCart = async (req, res) => {
         }
         else {
             console.log("user not logged in");
-            // res.send("done")
             res.redirect('/user/login');
         }
     } catch (error) {
@@ -112,7 +107,7 @@ const updateCart = async (req, res) => {
         const userId = req.user._id;
         const productId = req.params.productId;
         const newQuantity = req.body.quantity;
-        console.log("quantity", newQuantity)
+   
         // Update the cart asynchronously
         await User.updateOne(
             { _id: userId, 'cart.product': productId },
@@ -130,6 +125,8 @@ const updateCart = async (req, res) => {
         foundUser.cart.forEach(element => {
             totalPrice += element.product.discountedPrice * element.quantity;
         });
+
+        
 
         res.json({ totalPrice });
     } catch (err) {
