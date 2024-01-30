@@ -1,28 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const cartAndorderController = require("../controllers/cartAndorderController");
-const wishlistController=require("../controllers/wishlistController");
+const wishlistController = require("../controllers/wishlistController");
 const userController = require("../controllers/userController");
+
+const  zodValidation = require('../middleware/validationMiddleware.js');
+
+
 
 // USER REALTED
 router.get('/login', (req, res) => {
-    if(req.isAuthenticated()){
-        const returnTo = req.cookies.returnTo || '/';
-
-        res.clearCookie('returnTo');
-
-        // Redirect the user to the returnTo value after successful login
-        return res.redirect(returnTo);
-    }else{
-        
+    if (req.isAuthenticated()) {
+        res.redirect("/")
+    } else {
         res.render('userLogin');
     }
 });
+
 router.get('/register', (req, res) => {
     res.render('userRegister');
 });
+
 router.post('/login', userController.loginFunction);
-router.post('/register', userController.registerFunction);
+
+router.post('/register', zodValidation.validateRegistration, userController.registerFunction);
+
+
+
 router.get('/logout', userController.logoutFunction);
 router.get('/profile', userController.userProfile);
 
@@ -37,7 +41,7 @@ router.delete('/deletecart/:productId', cartAndorderController.deleteCartItem);
 router.get('/wishlist', wishlistController.getWishlist);
 router.post('/wishlist/:productId', wishlistController.addToWishlist);
 
-router.get("/orders",cartAndorderController.showOrders);
+router.get("/orders", cartAndorderController.showOrders);
 
 
 module.exports = router;

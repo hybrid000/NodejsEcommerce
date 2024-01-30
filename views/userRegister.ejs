@@ -9,22 +9,24 @@
             <a href="/"><img src="/resources/logo6.png" class="logoimg" alt="logo of site"> </a>
         </div>
 
-
         <div id="mainbox">
             <h2>Registration</h2>
 
+            <div id="error-container">
 
-            <form method="post" action="/user/register">
+            </div> <!-- Container for error messages -->
+
+            <form id="register-form">
+                <!-- Form fields -->
+
                 <div class="input-field">
                     <i class="fa-solid fa-user-large fa-xl"></i>
-                    <input type="text" name="username" placeholder="Enter your name" required
-                        value="<%= locals.username || '' %>">
+                    <input type="text" name="username" placeholder="Enter your name" required>
                 </div>
 
                 <div class="input-field">
                     <i class="fa fa-envelope fa-xl"></i>
-                    <input type="email" name="email" placeholder="Enter your email" required
-                        value="<%= locals.email || '' %>">
+                    <input type="text" name="email" placeholder="Enter your email" required>
                 </div>
 
                 <div class="input-field">
@@ -32,8 +34,14 @@
                     <input type="password" name="password" class="password" placeholder="Create a password" required>
                 </div>
 
+                <div class="input-field">
+                    <i class="fa-solid fa-key fa-xl"></i>
+                    <input type="text" name="confirmPassword" class="password" placeholder="Confirm your password" required>
+                </div>
+
                 <div class="checkbox-text">
-                    <input type="checkbox" id="termcon" required>&nbsp;I agree to all terms and conditions.
+                    <input type="checkbox" id="termcon" name="termcon" required>&nbsp;I agree to all terms and
+                    conditions.
                 </div>
 
                 <button type="submit" class="button">
@@ -42,13 +50,67 @@
             </form>
 
             <div class="login-signup">
-                <b>Already a member?</b><a href="/user/login" class="text login-link"><b> Login
-                        Now</b></a>
+                <b>Already a member?</b><a href="/user/login" class="text login-link"><b> Login Now</b></a>
             </div>
         </div>
 
-
         <%- include('partials/footer') %>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('register-form');
+        const errorContainer = document.getElementById('error-container');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const serializedFormData = Object.fromEntries(formData.entries()); // Serialize form data
+
+            try {
+                const response = await fetch('/user/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // Set content type to JSON
+                    },
+                    body: JSON.stringify(serializedFormData) // Stringify serialized form data
+                });
+
+                if (!response.ok) {
+                    const errorMessages = await response.json();
+                    displayErrors(errorMessages)
+                    console.log("here are ur errors:", errorMessages);
+                } else {
+                    // Redirect or show success message
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        function displayErrors(errors) {
+            errorContainer.innerHTML = ''; // Clear previous errors
+
+            if (typeof errors === 'string') {
+                const errorElement = document.createElement('p');
+                errorElement.textContent = errors;
+                errorContainer.appendChild(errorElement); // Append error message to errorContainer
+            } else if (typeof errors === 'object') {
+                for (const key in errors) {
+                    if (Object.hasOwnProperty.call(errors, key)) {
+                        const errorElement = document.createElement('p');
+                        errorElement.textContent = errors[key];
+                        errorContainer.appendChild(errorElement); // Append error message to errorContainer
+                    }
+                }
+            } else {
+                console.error('Unexpected error format:', errors);
+            }
+        }
+    });
+</script>
+
+
     </body>
 
     </html>

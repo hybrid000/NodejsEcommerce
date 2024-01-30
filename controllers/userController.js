@@ -2,26 +2,37 @@ const passport = require('passport');
 const User = require('../models/user.js');
 const bcrypt = require('bcrypt');
 
-const registerFunction = async (req, res, next) => {
-    const { username, email, password } = req.body;
 
+const registerFunction = async (req, res, next) => {
     try {
+        const { username, email, password, confirmPassword } = req.body;
+
+        if (password !== confirmPassword) {
+            return res.status(400).json({ error: "Passwords do not match" });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ username, email, password: hashedPassword });
-
         await newUser.save();
 
-        await req.login(newUser, (err) => {
+        req.login(newUser, (err) => {
             if (err) {
-                return next(err);
+                console.error("Error during login:", err);
+                return res.status(500).json({ error: "An error occurred during login." });
             }
             return res.redirect('/');
         });
-    } catch (err) {
-        console.error(err);
-        res.redirect('/user/register');
+    } catch (error) {
+        if (error.code === 11000) {
+            return res.status(400).json({ error: "Email already exists" });
+        }
+
+        console.error("Unexpected error:", error);
+        return res.status(500).json({ error: "An unexpected error occurred" });
     }
 };
+
+
 const loginFunction = (req, res, next) => {
     passport.authenticate('custom-local', (err, user, info) => {
         if (err) {

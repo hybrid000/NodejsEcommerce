@@ -86,6 +86,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(authMiddleware);
+
+
 // Middleware to store previous URL in a cookie
 app.use((req, res, next) => {
     if (!req.isAuthenticated() && req.url !== '/user/login' && req.url !== '/user/register') {

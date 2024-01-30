@@ -86,4 +86,8 @@ const wishlistCheck = async (req, res) => {
     }
 };
 
+
+const deleteWishlist=async (req, res)=>{
+
+}
 module.exports={wishlistCheck,getWishlist, addToWishlist};

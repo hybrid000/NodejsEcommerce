@@ -149,7 +149,7 @@ const checkoutFn = async (req, res) => {
 
         console.log(products)
 
-        res.render("checkout", { products })
+        res.render("buying", { products })
     }
 
     else {
