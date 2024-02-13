@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Include Stripe.js -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <!-- Your other meta tags, title, stylesheets, etc. -->
+</head>
+
+<body>
+
+  <div id="checkout">
+    <!-- Checkout will insert the payment form here -->
+  </div>
+<script>
+  const stripe = Stripe("pk_test_51M6IM2SFS09Es6txZKfg4Hy2rcPlFQ1pSNSrienwKGS6nSUNRlMJedAFpp4exgPqmaYcguQoPnlQTZ81a7jpZ6nu00Zodl8XHq");
+  // Pass the sessionId to the initializeCheckout function
+  initializeCheckout("<%= sessionId %>");
+
+  async function initializeCheckout(sessionId) {
+    const checkout = await stripe.redirectToCheckout({
+      sessionId: sessionId
+    });
+
+    if (checkout.error) {
+      // Handle checkout error
+      console.error('Error:', checkout.error.message);
+    }
+  }
+</script>
+
+</body>
+
+</html>

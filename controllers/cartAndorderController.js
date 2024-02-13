@@ -1,8 +1,35 @@
 const User = require("../models/user")
 const Order = require("../models/order")
-const mongoose = require("mongoose");
+
+const stripe = require('stripe')("sk_test_51M6IM2SFS09Es6txKfm0VzTpJMZhI4NhUknRxjk8XKscatm5WnbdBxRsokEOEmwKaWMRijgR9lkqNlxiEf8tq4x900PGTm9ikm");
 
 
+const paymentSuccess = async (req, res) => {
+    try {
+        const orderId = req.query.orderId;
+
+
+        const user = await User.findById(req.user._id).populate('orders');
+
+
+        const order = user.orders.find(order => order._id.equals(orderId));
+
+        if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+
+
+        order.orderStatus = 'Order Placed';
+        order.paymentStatus = 'Completed';
+        await order.save();
+
+        // Redirect to a thank you page or any other page
+        res.redirect('/user/orders');
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ success: false, message: 'Failed to update order status' });
+    }
+};
 const getCart = async (req, res) => {
     try {
         if (req.isAuthenticated()) {
@@ -107,7 +134,7 @@ const updateCart = async (req, res) => {
         const userId = req.user._id;
         const productId = req.params.productId;
         const newQuantity = req.body.quantity;
-   
+
         // Update the cart asynchronously
         await User.updateOne(
             { _id: userId, 'cart.product': productId },
@@ -126,7 +153,7 @@ const updateCart = async (req, res) => {
             totalPrice += element.product.discountedPrice * element.quantity;
         });
 
-        
+
 
         res.json({ totalPrice });
     } catch (err) {
@@ -135,7 +162,7 @@ const updateCart = async (req, res) => {
     }
 };
 
-const checkoutFn = async (req, res) => {
+const buyFn = async (req, res) => {
 
     if (req.isAuthenticated()) {
 
@@ -144,11 +171,7 @@ const checkoutFn = async (req, res) => {
             path: 'cart.product',
             model: 'Product',
         });
-
         const products = foundUser.cart;
-
-        console.log(products)
-
         res.render("buying", { products })
     }
 
@@ -157,39 +180,65 @@ const checkoutFn = async (req, res) => {
     }
 
 }
-const orderFn = async (req, res) => {
 
+const orderFn = async (req, res) => {
     try {
         const { address, paymentMethod, products } = req.body;
 
-        if (paymentMethod == 'cashOnDelivery') {
+        if (paymentMethod === 'cashOnDelivery') {
+
 
             const newOrder = new Order({
-
                 user: req.user._id,
                 orderedProducts: products.map(item => ({ product: item.product._id, quantity: item.quantity })),
                 address: address,
-                paymentMethod: paymentMethod,
-                status: true,
-                orderDate: new Date().toISOString(),
+                paymentMethod: "Cash on Delivery",
+                paymentStatus: "Pending",
+                orderStatus: 'Order Placed',
             });
 
             await newOrder.save();
 
-
             await User.findByIdAndUpdate(req.user._id, { $push: { orders: newOrder._id } });
-            res.status(200).json({ success: true, message: 'Order placed successfully' });
-        }
+            const redirectUrl = '/user/orders'
+            res.status(200).json({ redirect: redirectUrl });
 
-        else {
-            res.send("waiting for online payment confirmation");
-        }
+        } else if (paymentMethod === 'payOnline') {
 
+            const newOrder = new Order({
+                user: req.user._id,
+                orderedProducts: products.map(item => ({ product: item.product._id, quantity: item.quantity })),
+                address: address,
+                paymentMethod: "Online",
+                paymentStatus: "Pending",
+
+            });
+
+            await newOrder.save();
+            const orderId = newOrder._id;
+
+            await User.findByIdAndUpdate(req.user._id, { $push: { orders: orderId } });
+
+
+            const session = await stripe.checkout.sessions.create({
+                payment_method_types: ['card'],
+                line_items: products.map(product => ({
+                    price: product.product.stripePriceId,
+                    quantity: product.quantity
+                })),
+                mode: 'payment',
+                success_url: `http://localhost:3000/payment-success?orderId=${orderId}`, // Redirect to success page after payment
+                cancel_url: 'http://localhost:3000/user/cart',
+            });
+
+            const redirectUrl = `/checkout?sessionId=${session.id}`;
+            res.status(200).json({ redirect: redirectUrl });
+
+        }
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ success: false, message: 'Failed to place order' });
     }
-
 };
 
 const showOrders = async (req, res) => {
@@ -218,8 +267,8 @@ const showOrders = async (req, res) => {
                     }
                 }))
             }));
-
-                      res.render("userOrders", { orders: ordersWithImages });
+            const userOrderArray = ordersWithImages.reverse();
+            res.render("userOrders", { orders: userOrderArray });
         } catch (error) {
             console.error(error);
             // Handle error
@@ -233,4 +282,4 @@ const showOrders = async (req, res) => {
 
 
 
-module.exports = { getCart, addToCart, deleteCartItem, updateCart, checkoutFn, orderFn, showOrders };
+module.exports = { getCart, addToCart, deleteCartItem, updateCart, buyFn, orderFn, showOrders, paymentSuccess };

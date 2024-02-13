@@ -4,16 +4,24 @@ const cartAndorderController = require("../controllers/cartAndorderController");
 const productController = require('../controllers/productController');
 
 
+router.get('/checkout', (req, res) => {
+    const sessionId = req.query.sessionId;
+    res.render('checkout', { sessionId });
+});
+
+
+router.post("/order", cartAndorderController.orderFn);
+
+
+router.get('/payment-success', cartAndorderController.paymentSuccess);
+
 router.get('/', (req, res) => {
-    res.render('index', { activePage: 'Home' });
-    
+    res.render('index');
 });
 
 router.get('/category/:categoryName', productController.getProductList);
 
-router.get("/checkout", cartAndorderController.checkoutFn);
-
-router.post("/order",cartAndorderController.orderFn)
+router.get("/buy", cartAndorderController.buyFn);
 
 router.get('/support', (req, res) => {
     console.log(req.originalUrl)
@@ -23,10 +31,11 @@ router.get('/support', (req, res) => {
         contactNumber: 7088226647,
         contactAddress: 'Lyon',
         contactEmail: 'neekplaysitbest@gmail.com',
-
-
     })
 });
+
+
+
 
 
 router.post('/search', async (req, res) => {

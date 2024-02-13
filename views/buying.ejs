@@ -140,63 +140,71 @@
     <div id="paymentPopup" class="popup">
         <h2>Payment Method</h2>
         <form id="paymentForm" data-products="<%=JSON.stringify(products)%>">
-            <input type="radio" id="payOnline" name="paymentMethod" value="payOnline">
-            <label for="payOnline">Pay Online</label><br>
-            <input type="radio" id="cashOnDelivery" name="paymentMethod" value="cashOnDelivery">
-            <label for="cashOnDelivery">Cash on Delivery</label><br><br>
-            <button type="submit">Complete Purchase</button>
+        
+
+<!-- Inside the paymentForm -->
+<input type="radio" id="payOnline" name="paymentMethod" value="payOnline">
+<label for="payOnline">Pay Online</label><br>
+<input type="radio" id="cashOnDelivery" name="paymentMethod" value="cashOnDelivery">
+<label for="cashOnDelivery">Cash on Delivery</label><br><br>
+<button type="submit" id="completePurchase">Complete Purchase</button>
+
+
+            
             <button type="button" onclick="goBackToAddress()" class="back-button">
                 << Go Back</button>
         </form>
     </div>
 
-   <script>
-    document.getElementById('paymentForm').addEventListener('submit', async function (event) {
-        event.preventDefault(); // Prevent default form submission
-        const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-        const productsTobuy = JSON.parse(this.getAttribute('data-products')); // Parse the JSON string to convert it into an array
-        let streetOne = document.getElementById("streetOne").value;
-        let streetTwo = document.getElementById("streetTwo").value;
-        let city = document.getElementById("city").value;
-        let state = document.getElementById("state").value;
-        let pincode = document.getElementById("pincode").value;
-        let contactNumber = document.getElementById("contactNumber").value;
-        let altContactNumber = document.getElementById("altContactNumber").value;
+    <script>
+        document.getElementById('paymentForm').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent default form submission
+            const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            const productsTobuy = JSON.parse(this.getAttribute('data-products')); // Parse the JSON string to convert it into an array
+            let streetOne = document.getElementById("streetOne").value;
+            let streetTwo = document.getElementById("streetTwo").value;
+            let city = document.getElementById("city").value;
+            let state = document.getElementById("state").value;
+            let pincode = document.getElementById("pincode").value;
+            let contactNumber = document.getElementById("contactNumber").value;
+            let altContactNumber = document.getElementById("altContactNumber").value;
 
-        const addressData = {
-            streetOne: streetOne,
-            streetTwo: streetTwo,
-            city: city,
-            state: state,
-            pincode: pincode,
-            contactNumber: contactNumber,
-            altContactNumber: altContactNumber
-        };
+            const addressData = {
+                streetOne: streetOne,
+                streetTwo: streetTwo,
+                city: city,
+                state: state,
+                pincode: pincode,
+                contactNumber: contactNumber,
+                altContactNumber: altContactNumber
+            };
 
-       
-        try {
-            // Send address data to the server
-            const response = await fetch("/order", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ address: addressData, products: productsTobuy, paymentMethod: selectedPaymentMethod }),
-            });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data.message);
-                proceedToPayment();
-            } else {
-                console.error('Error:', response.statusText);
+          try {
+                // Send address data to the server
+                const response = await fetch("/order", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ address: addressData, products: productsTobuy, paymentMethod: selectedPaymentMethod }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                        // Redirect the user to the provided URL
+                        window.location.href = data.redirect;
+                  
+                
+                } else {
+                    console.error('Error:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    });
-
-</script>
+        });
+    </script>
 
     <script>
         document.querySelectorAll('.quantity-btn').forEach(button => {

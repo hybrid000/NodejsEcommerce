@@ -20,22 +20,33 @@ const orderSchema = new mongoose.Schema({
 
     ],
     address: addressSchema,
-    status: {
-        type: Boolean,
-        default: false,
-    },
     paymentMethod: String,
-    paymentStatus: String,
+    paymentStatus: {
+        type: String,
+        enum: ['Completed', 'Pending', 'Failed', 'Cash on Delivery'],
+        default: 'Pending' // Optional: Set a default value if needed
+    },
+
     shippingCost: {
         type: Number,
         default: 0,
     },
 
     transactionID: String,
-    orderDate: String,
-
-    deliveryStatus: {
+    orderDate: {
         type: String,
+        default: function () {
+            const date = new Date();
+            const day = date.getDate();
+            const month = date.toLocaleString('default', { month: 'long' }); // Get full month name
+            const year = date.getFullYear();
+            return `${day} ${month} ${year}`;
+        }
+    },
+
+    orderStatus: {
+        type: String,
+        enum:['Order Placed', 'Failed','Processing', 'Shipped', 'Out for Delivery', 'Delivered'],
         default: "Order Placed",
     },
     expectedDeliveryDate: String,

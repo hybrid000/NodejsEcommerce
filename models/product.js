@@ -25,6 +25,7 @@ const productSchema = new mongoose.Schema({
         required: true,
     },
     discountedPrice: Number,
+    stripePriceId:String,
     offers: [{
         type: String,
     }],
