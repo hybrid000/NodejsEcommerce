@@ -1,0 +1,101 @@
+@import "stylemain.css";
+
+.logoimg {
+
+    height: 4rem;
+
+    width: 4.5rem;
+
+
+}
+
+
+ #mainbox {
+     background-color: #ffffff;
+     border-radius: 8px;
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+     padding: 20px;
+     width: 350px;
+     margin: 50px auto;
+ }
+
+ h2 {
+     font-size: 24px;
+     text-align: center;
+  
+     margin-bottom: 1rem;
+ }
+
+ .login-line {
+     font-size: 14px;
+     color: #888888;
+     margin-bottom: 20px;
+     text-align: center;
+ }
+
+ .box {
+     position: relative;
+     margin-bottom: 20px;
+
+
+ }
+
+ .box i {
+     position: absolute;
+     top: 50%;
+     transform: translateY(-50%);
+     left: 10px;
+     color: #888888;
+ }
+
+ input[type="email"],
+ input[type="password"] {
+     width: 100%;
+     padding: 10px;
+     padding-left: 50px;
+     border-radius: 5px;
+     border: 1px solid #cccccc;
+     outline: none;
+ }
+
+ .reme-forgot {
+     margin-bottom: 20px;
+     text-align: right;
+ }
+
+ .forgopass {
+     font-size: 14px;
+     color: #888888;
+     text-decoration: none;
+ }
+
+ .button {
+     background-color: #383838;
+     color: white;
+     border: none;
+     border-radius: 5px;
+     padding: 10px 20px;
+     cursor: pointer;
+     font-size: 16px;
+     transition: background-color 0.3s;
+     width:100%;
+     margin-bottom: 1rem;
+ }
+
+ .button:hover {
+     background-color: #45a049;
+ }
+
+ .login-signup {
+     font-size: 14px;
+     color: #888888;
+     text-align: center;
+ }
+
+ .signup-link {
+     color:rgb(42, 101, 227);
+     text-decoration: none;
+ }
+ .signup-link:hover{
+    text-decoration: underline;
+ }

@@ -1,0 +1,7 @@
+node_modules
+.env
+views
+seed
+/backend/public/css
+/frontend/public/js
+/backend/public/js

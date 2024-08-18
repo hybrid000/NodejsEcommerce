@@ -1,0 +1,424 @@
+@import "stylemain.css";
+
+.hide {
+    display: none;
+}
+
+body {
+    background-color: rgb(231, 229, 229);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#layer1 {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    box-shadow: 0 5px 10px #9897978e;
+}
+
+.fa-heart {
+    color: black;
+}
+
+
+.logoimg {
+    margin-left: 0.5rem;
+    height: 4rem;
+    width: 4.5rem;
+    border: none;
+}
+
+#llayer2 {
+    padding: 0;
+    display: flex;
+    margin: 0 auto;
+    width: 90%;
+    background-color: white;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+#left {
+    position: sticky;
+    z-index: 2;
+    top: 108.2px;
+    width: 38%;
+    padding: 1rem;
+    box-sizing: border-box;
+    height: max-content;
+    border-radius: .2rem;
+    border: 1px solid rgba(118, 117, 117, 0.742);
+}
+
+.main-img-block {
+    display: flex;
+    align-content: center;
+    height: 22rem;
+    justify-content: center;
+}
+
+
+
+#wishlistBtn {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    padding: .5rem .4rem .5rem .4rem;
+    background-color: rgb(250, 250, 250);
+    border: 0.5px solid rgb(250, 250, 250);
+    border-radius: 10rem;
+    cursor: pointer;
+
+
+}
+
+#wishlistForm .fa-heart {
+    color: rgba(176, 176, 176, 0.9);
+}
+
+#wishlistForm button:hover .fa-heart {
+    color: rgb(253, 82, 82);
+}
+
+
+
+
+.small-img-section {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    margin: .75rem 0;
+}
+
+.small-img-block {
+    flex: 0 0 auto;
+    padding: .5rem .2rem;
+    align-items: center;
+    height: 80px;
+    border: 1.5px solid rgb(218, 218, 218);
+    border-radius: .12rem;
+    transition: .2s ease-out;
+    cursor: pointer;
+
+}
+
+.buy-cart {
+    display: flex;
+    /* width: 100%; */
+    box-sizing: border-box;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+.buyForm,
+.cartForm {
+    width: 200%;
+}
+
+.buy-btn,
+.cart-btn {
+    display: flex;
+    padding: 1rem;
+    background-color: rgb(238, 173, 52);
+    border: none;
+    margin: 0;
+    cursor: pointer;
+    align-items: center;
+    transition: .2s ease-in;
+    width: 230px;
+    /* max-width: 90%; */
+    justify-content: space-evenly
+}
+
+.buy-btn:hover {
+    background-color: rgb(238, 123, 52);
+    cursor: pointer;
+}
+
+
+.cart-btn:hover {
+    background-color: rgb(238, 123, 52);
+    cursor: pointer;
+}
+#right {
+    width: 60%;
+    /* padding: 1rem; */
+    box-sizing: border-box;
+}
+
+.category-heading {
+    color: rgb(130, 129, 129);
+    text-decoration: solid;
+    margin-bottom: .5rem;
+    font-size: smaller;
+}
+
+.category-heading :hover {
+    color: rgb(75, 75, 244);
+}
+
+.product-details {
+    display: block;
+
+}
+
+.product-details h4,
+.product-details .offer-list,
+.product-details h2,
+.product-details h3,
+.product-details h5 {
+
+    margin-bottom: 1rem;
+
+}
+
+
+.rating-screen button {
+    width: fit-content;
+    padding: .1rem .3rem;
+    border-radius: .2rem;
+    text-align: center;
+    border: none;
+    font-size: small;
+    color: white;
+    margin-bottom: 1rem;
+
+}
+
+.rating-screen p {
+    display: inline-flex;
+    margin-left: .7rem;
+    font-size: smaller;
+
+}
+
+.regular-price {
+    display: inline;
+    text-decoration: line-through;
+    color: rgb(84, 83, 83);
+
+}
+
+.off-percentage {
+    margin-bottom: 500rem;
+
+    margin-left: .5rem;
+    display: inline;
+    color: rgb(3, 100, 3);
+
+}
+
+
+.warranty {
+
+    display: flex;
+    font-size: small;
+    margin-top: .5rem;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.TnC {
+    font-size: small;
+    color: #2980b9;
+}
+
+
+
+ul li {
+    list-style-type: none;
+    font-size: medium;
+
+}
+
+.fa-tag {
+    color: rgb(5, 109, 5);
+
+}
+
+
+
+.description {
+    border: 1px solid rgba(118, 117, 117, 0.742);
+    box-sizing: border-box;
+    padding: 0.7rem .8rem;
+    border-radius: .1rem;
+    margin-bottom: 1rem;
+}
+
+#myBtn {
+    background-color: transparent;
+    border: none;
+    color: rgb(50, 50, 156);
+    padding-top: .5rem;
+    padding-left: 0.3rem;
+    font-size: medium;
+    cursor: pointer;
+}
+
+th {
+    align-content: initial;
+    text-align: left;
+    text-align: start;
+    width: fit-content;
+    padding: 1rem 2rem .5rem 0rem;
+
+}
+
+td {
+    font-size: smaller;
+    align-content: initial;
+    text-align: left;
+    text-align: start;
+    width: 30rem;
+    padding: 0.3rem 2rem .2rem .5rem;
+}
+
+td:nth-of-type(1) {
+    width: 12rem;
+    color: #979696;
+    font-weight: 600;
+}
+
+
+
+
+.ratingsNreviews {
+    display: block;
+}
+
+
+#more {
+    display: none;
+}
+
+
+
+.llayer3 h2 {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    padding-left: 1.2rem;
+
+}
+
+.llayer3 {
+    padding-bottom: .5rem;
+    margin: 0;
+}
+
+.userReviewInput {
+    height: fit-content;
+    border: 1px solid rgba(118, 117, 117, 0.742);
+    box-sizing: border-box;
+    padding: 0.7rem;
+    border-radius: .1rem;
+    margin-bottom: 1rem
+}
+
+.star {
+    font-size: 24px;
+    cursor: pointer;
+    color: rgb(120, 120, 120);
+    margin-right: 15px;
+    margin-bottom: .5rem;
+}
+
+.star.activate {
+    color: rgb(244, 207, 0);
+}
+
+
+
+.review-form textarea {
+    padding: .5rem;
+    font-size: small;
+    width: 100%;
+    height: 150px;
+    resize: none;
+    border: 1px solid rgba(118, 117, 117, 0.742);
+}
+
+.review-form button {
+    width: 100%;
+    background-color: rgb(200, 203, 200);
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    text-transform: uppercase;
+    height: 40px;
+    border: none;
+
+}
+
+.review-form button:hover {
+    background-color: rgb(118, 249, 118);
+    color: green;
+}
+
+
+.userReviewBlock {
+    border: 1px solid rgba(118, 117, 117, 0.742);
+    box-sizing: border-box;
+    border-radius: .1rem;
+    margin-bottom: .5rem;
+    padding: .5rem;
+
+}
+
+
+.rating-screen-detailed button {
+
+    width: 2rem;
+    padding: .1rem .2rem;
+    border-radius: .2rem;
+    text-align: center;
+    border: none;
+    font-size: small;
+    margin-bottom: .5rem;
+    color: white;
+}
+
+.rating-screen-detailed p {
+    display: inline-flex;
+
+    font-size: medium;
+    text-decoration: solid;
+    margin-left: .5rem;
+
+}
+
+.userReviewContent {
+    font-size: smaller;
+    margin-bottom: .5rem;
+}
+
+
+.userReviewName {
+    font-size: smaller;
+    color: rgb(147, 150, 150);
+
+}
+
+.post {
+    border: 1px solid grey;
+}
+
+pre {
+    white-space: pre-wrap;
+}
+
+.fa-truck-fast,
+.shipping {
+    color: rgb(164, 13, 13);
+
+    text-shadow: black 1px solid;
+}
