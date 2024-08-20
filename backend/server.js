@@ -101,13 +101,19 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Middleware to store previous URL in a cookie
-app.use((req, res, next) => {
-    if (!req.isAuthenticated() && req.url !== '/user/login' && req.url !== '/user/register') {
-        res.cookie('returnTo', req.originalUrl, { maxAge: 90000, httpOnly: true });
+const authUser = (req, res, next) => {
+
+    if (req.isAuthenticated()) {
+        res.locals.isAuthenticated = true;
+        res.locals.username = req.user ? req.user.username : null;
+    } else {
+        res.locals.isAuthenticated = false;
+        res.locals.username = null;
     }
+
     next();
-});
+};
+app.use(authUser)
 
 // Routes
 app.use('/', mainRouter);
