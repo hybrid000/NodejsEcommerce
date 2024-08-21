@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import "../styles/login.css";
+import { AuthContext } from "./AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,11 +21,21 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
-        credentials: "include", // Ensure cookies are sent
+        credentials: "include",
       });
 
       if (response.ok) {
-        navigate("/"); // Redirect to home or another protected route
+        const data = await response.json();
+       // In Login.jsx
+if (data.success) {
+    setUser(data.user); 
+    console.log("user setted post login ok:",data.user);// Update context with logged-in user
+    navigate("/"); // Redirect to the provided URL or home
+
+
+        } else {
+          setError(data.message || "Login failed");
+        }
       } else {
         const errorData = await response.json();
         setError(errorData.message || "Login failed");
@@ -52,7 +64,7 @@ const Login = () => {
       <div id="mainbox">
         <h2>Login</h2>
         <p className="login-line">
-          Get access to your Orders, Wishlist and More
+          Get access to your Orders, Wishlist, and More
         </p>
 
         {error && <p className="error">{error}</p>}
@@ -91,7 +103,7 @@ const Login = () => {
           </div>
 
           <button type="submit" className="button">
-            <i className="fa-solid fa-arrow-right-to-bracket ">&nbsp;</i>
+            <i className="fa-solid fa-arrow-right-to-bracket">&nbsp;</i>
             Login
           </button>
         </form>

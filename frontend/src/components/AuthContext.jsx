@@ -1,38 +1,43 @@
-// AuthContext.js
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [username, setUsername] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        // Function to check if the user is authenticated
-        const checkAuth = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/checkAuth', {
-                    credentials: 'include',
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setIsAuthenticated(true);
-                    setUsername(data.username);
-                } else {
-                    setIsAuthenticated(false);
-                    setUsername(null);
-                }
-            } catch (error) {
-                console.error('Auth check failed', error);
-            }
-        };
+  useEffect(() => {
+    console.log("useEffect running");
+    const fetchUser = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/user/check-auth", {
+          method: "GET",
+          credentials: "include",
+        });
 
-        checkAuth();
-    }, []);
+        console.log("fetched login status");
 
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, username }}>
-            {children}
-        </AuthContext.Provider>
-    );
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Fetched user login status:", data); // Log data
+          setUser(data.user);
+        } else {
+          console.log("not logged it");
+        }
+      } catch (error) {
+        console.error("Auth check failed:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ user, setUser, loading }}>
+      {!loading ? children : <div>Loading...</div>}{" "}
+      {/* Optional loading state */}
+    </AuthContext.Provider>
+  );
 };

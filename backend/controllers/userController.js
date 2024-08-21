@@ -34,9 +34,9 @@ const registerFunction = async (req, res, next) => {
 };
 
 
-
 const loginFunction = (req, res, next) => {
-    console.log("LOGIN NIGGA")
+    console.log("Login attempt");
+
     passport.authenticate('custom-local', (err, user, info) => {
         if (err) {
             console.error(err);
@@ -62,6 +62,7 @@ const loginFunction = (req, res, next) => {
         });
     })(req, res, next);
 };
+
 
 
 const logoutFunction = (req, res, next) => {

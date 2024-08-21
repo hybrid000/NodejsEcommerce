@@ -11,7 +11,6 @@ const cookieParser = require('cookie-parser');
 const mainRouter = require('./routes/mainRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
 const productRouter = require('./routes/productRoutes.js');
-
 const cors = require('cors');
 
 dotenv.config();
@@ -27,26 +26,23 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Middleware to parse cookies
+app.use(cookieParser());
+
 // Serve static files
 app.use('/resources', express.static(path.join(__dirname, 'public/resources')));
 
-const connectdb = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log('mongoDB connected successfully');
-    } catch (err) {
-        console.error(err);
-    }
-};
-
-connectdb();
-
-const PORT = process.env.PORT;
-
-app.use(express.static('public'));
-
-// Middleware to parse cookies
-app.use(cookieParser());
+// Session Configuration
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false, // Only create sessions for logged-in users
+    cookie: {
+        httpOnly: true,
+        secure: false, // Set to true if using HTTPS
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
+}));
 
 // Passport Local Strategy for login
 const customLocalStrategy = new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
@@ -83,26 +79,15 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-// Session Configuration
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false, // Only create sessions for logged-in users
-    cookie: {
-        httpOnly: true,
-        secure: false, // Set to true if using HTTPS
-        maxAge: 24 * 60 * 60 * 1000, // 1 day
-    },
-}));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
-const authUser = (req, res, next) => {
+// Middleware to parse request bodies
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
+// Authentication Middleware
+app.use((req, res, next) => {
     if (req.isAuthenticated()) {
         res.locals.isAuthenticated = true;
         res.locals.username = req.user ? req.user.username : null;
@@ -110,17 +95,28 @@ const authUser = (req, res, next) => {
         res.locals.isAuthenticated = false;
         res.locals.username = null;
     }
-
     next();
-};
-app.use(authUser)
+});
 
 // Routes
 app.use('/', mainRouter);
 app.use('/product', productRouter);
 app.use('/user', userRouter);
 
+// Connect to database
+const connectdb = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log('MongoDB connected successfully');
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+connectdb();
+
 // Start the server
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

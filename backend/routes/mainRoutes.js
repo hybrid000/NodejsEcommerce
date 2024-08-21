@@ -16,9 +16,14 @@ router.post("/order", cartAndorderController.orderFn);
 router.get('/checkAuth', (req, res) => {
     console.log("triggered")
     if (req.isAuthenticated()) {
-        return res.json({ username: req.user.username });
+        console.log("ok ")
+
+        res.json({ username: req.user.username });
     }
-    res.status(401).json({ message: 'Not authenticated' });
+    else{
+        console.log("not ok ")
+        res.status(401).json({ message: 'Not authenticated' });
+    }
 });
 
 module.exports = router;
