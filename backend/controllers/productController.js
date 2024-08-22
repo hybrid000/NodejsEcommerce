@@ -3,11 +3,9 @@ const path = require('path');
 const Product = require("../models/product");
 const Category = require("../models/category");
 
- // Adjust the path as needed
 
 const getProduct = async (req, res) => {
 
-    console.log("FUCK U")
     // Function to convert average rating to a color style
     const getBackgroundColorStyle = (averageRating) => {
         if (averageRating >= 4) return 'background-color: green';
@@ -50,7 +48,7 @@ const getProduct = async (req, res) => {
         };
 
         const imgFiles = await filesReader(folderPath);
-console.log(imgFiles)
+        console.log(imgFiles)
         const numberOfRatings = product.reviews.length;
 
         let numberOfReviews = 0;
@@ -68,8 +66,8 @@ console.log(imgFiles)
             3: "It's Okay",
             4: "Good",
             5: "Love it",
-        };
-console.log(imgPath)
+        }
+
         res.json({
             product,
             averageCalculator,
@@ -120,12 +118,15 @@ const getProductList = async (req, res) => {
         res.status(500).json({ message: `Internal Server Error: ${error.message}` });
     }
 };
- 
+
 
 
 
 const postReviews = async (req, res) => {
     try {
+
+        if(req.isAuthenticated()){
+
         const productId = req.params.productId;
         const { rating, reviewText } = req.body;
 
@@ -136,7 +137,7 @@ const postReviews = async (req, res) => {
         }
 
         const newReview = {
-            user: "Sushant",
+            user: req.userame,
             rating,
             review: reviewText,
             reviewDate: new Date(),
@@ -146,15 +147,20 @@ const postReviews = async (req, res) => {
         await product.save();
 
         res.status(200).json({ product });
+
+    }
+    else{
+        res.readdir('/user/login')
+    }
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
     }
 };
 
-// Assuming you have already imported your Product and Category models
 
-async function searchProducts(searchTerm) {
+
+const searchProducts= async (searchTerm)=>{
     try {
         // Search by product name
         const productsByName = await Product.find({ productName: { $regex: searchTerm, $options: 'i' } }).populate('category');
@@ -173,4 +179,4 @@ async function searchProducts(searchTerm) {
     }
 }
 
-module.exports = { getProductList, getProduct, postReviews, searchProducts};
+module.exports = { getProductList, getProduct, postReviews, searchProducts };

@@ -4,63 +4,41 @@ const cartAndorderController = require("../controllers/cartAndorderController");
 const productController = require('../controllers/productController');
 
 
+router.get("/auth/check", (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({
+            isAuthenticated: true,
+            username: req.user.username
+        });
+    } else {
+        res.json({
+            isAuthenticated: false,
+            username: null
+        });
+    }
+});
+
+router.get("/buy", cartAndorderController.buyFn);
+
+router.post("/order", cartAndorderController.orderFn);
+
 router.get('/checkout', (req, res) => {
     const sessionId = req.query.sessionId;
     res.render('checkout', { sessionId });
 });
 
-
-router.post("/order", cartAndorderController.orderFn);
-
-
-router.get('/checkAuth', (req, res) => {
-    console.log("triggered")
-    if (req.isAuthenticated()) {
-        console.log("ok ")
-
-        res.json({ username: req.user.username });
-    }
-    else{
-        console.log("not ok ")
-        res.status(401).json({ message: 'Not authenticated' });
-    }
-});
-
-module.exports = router;
-
 router.get('/payment-success', cartAndorderController.paymentSuccess);
-
-router.get('/', (req, res) => {
-    res.render('index');
-});
 
 router.get('/category/:categoryName', productController.getProductList);
 
-router.get("/buy", cartAndorderController.buyFn);
-
-router.get('/support', (req, res) => {
-    console.log(req.originalUrl)
-    res.render('support', {
-        activePage: 'Support',
-        contactAddressLink: 'https://www.google.com/maps/place/Lyon,+France/@45.7579211,4.7527293,12z/data=!3m1!4b1!4m6!3m5!1s0x47f4ea516ae88797:0x408ab2ae4bb21f0!8m2!3d45.764043!4d4.835659!16zL20vMGRwcmc?hl=fr&entry=ttu',
-        contactNumber: 7088226647,
-        contactAddress: 'Lyon',
-        contactEmail: 'neekplaysitbest@gmail.com',
-    })
-});
-
-
-
-
-
 router.post('/search', async (req, res) => {
+
     const { search } = req.body;
 
     try {
         const products = await productController.searchProducts(search);
         console.log(products);
-        // Render your view with the found products
-        res.render('search', { products });
+        res.json({ products });
 
     } catch (error) {
         console.error(error);

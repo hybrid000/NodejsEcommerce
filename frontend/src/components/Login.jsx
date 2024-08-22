@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext); // Ensure this line correctly accesses setUser
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,13 +26,10 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-       // In Login.jsx
-if (data.success) {
-    setUser(data.user); 
-    console.log("user setted post login ok:",data.user);// Update context with logged-in user
-    navigate("/"); // Redirect to the provided URL or home
 
-
+        if (data.success) {
+          setUser({ username: data.username }); // Correctly update the user in context
+          navigate("/"); // Redirect to the home page
         } else {
           setError(data.message || "Login failed");
         }

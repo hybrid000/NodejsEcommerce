@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 
 export const AuthContext = createContext();
 
@@ -6,38 +6,36 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    console.log("useEffect running");
-    const fetchUser = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/user/check-auth", {
-          method: "GET",
-          credentials: "include",
-        });
+  const fetchAuthStatus = useCallback(async () => {
+    try {
+      const response = await fetch("http://localhost:5000/auth/check", {
+        method: "GET",
+        credentials: "include",
+      });
 
-        console.log("fetched login status");
+      if (response.ok) {
+        const data = await response.json();
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Fetched user login status:", data); // Log data
-          setUser(data.user);
+        if (data.isAuthenticated) {
+          setUser({ username: data.username });
         } else {
-          console.log("not logged it");
+          setUser(null);
         }
-      } catch (error) {
-        console.error("Auth check failed:", error);
-      } finally {
-        setLoading(false);
       }
-    };
-
-    fetchUser();
+    } catch (error) {
+      console.error("Auth check failed:", error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchAuthStatus();
+  }, [fetchAuthStatus]);
 
   return (
     <AuthContext.Provider value={{ user, setUser, loading }}>
-      {!loading ? children : <div>Loading...</div>}{" "}
-      {/* Optional loading state */}
+      {!loading ? children : <div>Loading...</div>}
     </AuthContext.Provider>
   );
 };

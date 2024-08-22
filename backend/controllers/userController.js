@@ -25,7 +25,7 @@ const registerFunction = async (req, res, next) => {
                 console.error("Error during login:", err);
                 return res.status(500).json({ error: { login: "An error occurred during login." } });
             }
-            return res.status(200).json({ success: true }); // Send success response
+            return res.status(200).json({ success: true }); 
         });
     } catch (error) {
         console.error("Unexpected error:", error);
@@ -52,13 +52,7 @@ const loginFunction = (req, res, next) => {
                 console.error(err);
                 return res.status(500).json({ message: 'Login failed' });
             }
-
-            // Retrieve the returnTo value from the cookie
-            const returnTo = req.cookies.returnTo || '/';
-            res.clearCookie('returnTo');
-
-            // Respond with success and redirect URL
-            return res.json({ success: true, redirect: returnTo });
+            return res.json({ success: true, redirect: '/' });
         });
     })(req, res, next);
 };
@@ -66,7 +60,6 @@ const loginFunction = (req, res, next) => {
 
 
 const logoutFunction = (req, res, next) => {
-
 
     req.logout((err) => {
         if (err) { return next(err); }
@@ -77,19 +70,16 @@ const logoutFunction = (req, res, next) => {
 
 const userProfile = (req, res) => {
     if (req.isAuthenticated()) {
-
-        res.render("userProfile", {
-            logoutFunction,
+        // Send JSON response with user data
+        res.json({
             username: req.user.username,
-        })
+        });
+    } else {
+        // Send an error response if not authenticated
+        res.status(401).json({ message: 'Unauthorized' });
     }
-    else {
-        res.redirect('/user/login')
-   
-    }
+};
 
-
-}
 
  
 

@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom"; // Updated import
 import { Helmet } from "react-helmet-async";
+import { AuthContext } from "./AuthContext"; // Assuming you have an AuthContext
 import "../styles/stylemain.css";
 import "../styles/productMain.css";
 
 const Product = () => {
-  const { productId } = useParams(); // Get the productId from the URL
+  const { productId } = useParams();
+  const navigate = useNavigate(); // Updated useHistory to useNavigate
+  const { isAuthenticated } = useContext(AuthContext);
   const [product, setProduct] = useState(null);
   const [imgFiles, setImgFiles] = useState([]);
   const [error, setError] = useState(null);
   const [imgPath, setImgPath] = useState("");
-  const [currentImg, setCurrentImg] = useState(""); // New state for current image
-
+  const [currentImg, setCurrentImg] = useState("");
   const [rating, setRating] = useState(0);
   const [numberOfRatings, setNumberOfRatings] = useState(0);
   const [averageRating, setAverageRating] = useState(0);
   const [numberOfReviews, setNumberOfReviews] = useState(0);
+  const [isInWishlist, setIsInWishlist] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -27,26 +30,54 @@ const Product = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log(data); // Check the structure of data here
         setProduct(data.product);
         setImgFiles(data.imgFiles);
-        setImgPath(data.imgPath); 
-        setCurrentImg(`${data.imgPath}/img1.png`); // Initialize with the first image
+        setImgPath(data.imgPath);
+        setCurrentImg(`${data.imgPath}/img1.png`);
+
+        console.log("product page isAuthenticated status-", isAuthenticated)
+        // Check if the product is in the wishlist only if the user is authenticated
+        if (isAuthenticated) {
+          const wishlistResponse = await fetch(
+            `http://localhost:5000/user/wishlist`
+          );
+          const wishlistData = await wishlistResponse.json();
+          setIsInWishlist(
+            wishlistData.products.some((item) => item._id === productId)
+          );
+        }
       } catch (error) {
         setError(error.message);
       }
     };
 
     fetchProduct();
-  }, [productId]);
+  }, [productId, isAuthenticated]);
+
+  const handleWishlistSubmit = async (e) => {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      navigate("/user/login"); // Updated history.push to navigate
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/user/wishlist/${productId}`,
+        {
+          method: "POST",
+        }
+      );
+      const result = await response.json();
+      setIsInWishlist(!isInWishlist); // Toggle the wishlist state
+      console.log(result.message);
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+    }
+  };
 
   const handleImageClick = (img) => {
     setCurrentImg(`${imgPath}/${img}`);
-  };
-
-  const handleWishlistSubmit = (e) => {
-    e.preventDefault();
-    // Handle wishlist submission
   };
 
   const handleCartSubmit = (e) => {
@@ -57,6 +88,16 @@ const Product = () => {
   const handleStarClick = (starValue) => {
     setRating(starValue);
     // Handle star rating
+  };
+
+  const getBackgroundColorStyle = (averageRating) => {
+    if (averageRating >= 4) {
+      return { backgroundColor: "green", color: "white" };
+    } else if (averageRating >= 2) {
+      return { backgroundColor: "orange", color: "white" };
+    } else {
+      return { backgroundColor: "red", color: "white" };
+    }
   };
 
   if (error) return <p>Error: {error}</p>;
@@ -71,7 +112,7 @@ const Product = () => {
         <div id="left">
           <div className="main-img-block">
             <img
-              src={currentImg} // Use currentImg state
+              src={currentImg}
               width="90%"
               height="100%"
               id="main-img"
@@ -84,7 +125,11 @@ const Product = () => {
             data-product-id={product._id}
             onSubmit={handleWishlistSubmit}
           >
-            <button id="wishlistBtn" type="submit">
+            <button
+              id="wishlistBtn"
+              type="submit"
+              style={{ color: isInWishlist ? "red" : "black" }}
+            >
               <i className="fa-solid fa-heart fa-xl"></i>
             </button>
           </form>
@@ -94,7 +139,7 @@ const Product = () => {
               <div
                 className="small-img-block"
                 key={index}
-                onClick={() => handleImageClick(img)} // Set the clicked image as current image
+                onClick={() => handleImageClick(img)}
               >
                 <img
                   src={`${imgPath}/${img}`}
@@ -234,81 +279,12 @@ const Product = () => {
                 <button type="submit">Submit</button>
               </form>
             </div>
-            <div className="userReviewContainer">
-              <h3>Product Reviews:</h3>
-              {product.reviews &&
-              product.reviews.length > 0 &&
-              product.reviews.some((review) => review.review) ? (
-                product.reviews.map(
-                  (review, index) =>
-                    review.review && (
-                      <div className="userReviewBlock" key={index}>
-                        <div className="rating-screen-detailed">
-                          <button
-                            style={getBackgroundColorStyle(review.rating)}
-                          >
-                            <i className="fa-solid fa-star fa-2xs"></i>{" "}
-                            {review.rating}
-                          </button>
-                          <p>{ratingTocomment[review.rating]}</p>
-                        </div>
-                        <p className="userReviewContent">{review.review}</p>
-                        <p className="userReviewName">
-                          {review.user},{" "}
-                          {new Date(review.reviewDate).toLocaleDateString(
-                            "en-US",
-                            {
-                              weekday: "short",
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            }
-                          )}
-                        </p>
-                      </div>
-                    )
-                )
-              ) : (
-                <p
-                  style={{
-                    fontSize: "medium",
-                    color: "darkgray",
-                    textAlign: "center",
-                    border: "1px solid rgba(184, 184, 184, 0.742)",
-                    boxSizing: "border-box",
-                    padding: "0.7rem 0.8rem 0.7rem 1rem",
-                  }}
-                >
-                  No reviews yet
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="context">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Cupiditate, sit commodi esse ea tenetur obcaecati est, deserunt
-              temporibus illo, magni quibusdam perspiciatis alias aliquid unde
-              voluptatibus dolore. Tempore, mollitia fugit!
-            </p>
+            <div className="showReviews"></div>
           </div>
         </div>
       </div>
     </>
   );
-};
-
-const getBackgroundColorStyle = (rating) => ({
-  backgroundColor:
-    rating >= 4 ? "darkgreen" : rating >= 3 ? "darkorange" : "darkred",
-});
-
-const ratingTocomment = {
-  1: "Poor",
-  2: "Fair",
-  3: "Good",
-  4: "Very Good",
-  5: "Excellent",
 };
 
 export default Product;

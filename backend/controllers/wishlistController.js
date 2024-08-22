@@ -1,7 +1,6 @@
 const User = require("../models/user")
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const { ObjectId } = Schema.Types;
 
 
 const getWishlist = async (req, res) => {
@@ -16,21 +15,26 @@ const getWishlist = async (req, res) => {
 
             const productsInWishlist = foundUser.wishlist;
 
+            // Map over products and include image paths
             const productsWithImages = productsInWishlist.map(element => ({
                 ...element.toObject(),
                 imagePath: `/resources/products/${element._id}/img1.png`,
             }));
 
-            res.render('userWishlist', { products: productsWithImages });
+            // Respond with JSON data
+
+            console.log(productsWithImages)
+            res.status(200).json({ products: productsWithImages });
 
         } else {
-            res.redirect('/user/login');
+            res.status(401).json({ message: 'User not authenticated' });
         }
     } catch (err) {
         console.error(err);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 const addToWishlist = async (req, res) => {
     try {
@@ -90,4 +94,8 @@ const wishlistCheck = async (req, res) => {
 const deleteWishlist=async (req, res)=>{
 
 }
+
+
+
+
 module.exports={wishlistCheck,getWishlist, addToWishlist};

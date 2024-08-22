@@ -1,6 +1,0 @@
-app.use((req, res, next) => {
-    if (!req.isAuthenticated() && req.url !== '/user/login' && req.url !== '/user/register') {
-        res.cookie('returnTo', req.originalUrl, { maxAge: 90000, httpOnly: true });
-    }
-    next();
-});

@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log("Navbar user context:", user);
-  }, [user]);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <nav id="layer1">
@@ -55,7 +55,6 @@ const Navbar = () => {
             </p>
           )}
         </div>
-
         <div className="wish-order-cart">
           <Link to="/user/orders" className="cc">
             <i className="fa-solid fa-bag-shopping fa-xl"></i>

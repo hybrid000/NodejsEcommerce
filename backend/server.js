@@ -86,17 +86,7 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Authentication Middleware
-app.use((req, res, next) => {
-    if (req.isAuthenticated()) {
-        res.locals.isAuthenticated = true;
-        res.locals.username = req.user ? req.user.username : null;
-    } else {
-        res.locals.isAuthenticated = false;
-        res.locals.username = null;
-    }
-    next();
-});
+
 
 // Routes
 app.use('/', mainRouter);
