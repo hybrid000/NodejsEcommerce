@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const getWishlist = async (req, res) => {
     try {
-        if (req.isAuthenticated()) {
+     
             const userId = req.user._id;
 
             const foundUser = await User.findById(userId).populate({
@@ -21,13 +21,8 @@ const getWishlist = async (req, res) => {
             }));
 
             // Respond with JSON data
-
-            console.log(productsWithImages)
             res.status(200).json({ products: productsWithImages });
 
-        } else {
-            res.status(401).json({ message: 'User not authenticated' });
-        }
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Internal Server Error' });

@@ -48,7 +48,7 @@ const getProduct = async (req, res) => {
         };
 
         const imgFiles = await filesReader(folderPath);
-        console.log(imgFiles)
+    
         const numberOfRatings = product.reviews.length;
 
         let numberOfReviews = 0;
@@ -170,7 +170,7 @@ const searchProducts= async (searchTerm)=>{
 
         // Combine and return the results
         const combinedResults = [...productsByName, ...productsByCategory];
-        console.log(combinedResults);
+   
         return combinedResults;
     } catch (error) {
         console.error(error);

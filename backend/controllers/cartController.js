@@ -1,7 +1,8 @@
-const User = require("../models/user")
 
+const User = require("../models/user")
+const Order = require("../models/order")
 const getOrders = async (req, res) => {
-    if (req.isAuthenticated()) {
+
         const userId = req.user.id;
 
         try {
@@ -33,10 +34,7 @@ const getOrders = async (req, res) => {
             console.error(error);
             res.status(500).json({ error: "Internal Server Error" });
         }
-    } else {
-        res.status(401).json({ error: "Not authenticated" });
-    }
-};
+    };
 
 const getCart = async (req, res) => {
     try {

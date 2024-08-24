@@ -2,14 +2,14 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import "../styles/login.css";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext); // Ensure this line correctly accesses setUser
+  const { setUser,fetchAuthStatus } = useContext(AuthContext); // Ensure this line correctly accesses setUser
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -29,6 +29,7 @@ const Login = () => {
 
         if (data.success) {
           setUser({ username: data.username }); // Correctly update the user in context
+          await fetchAuthStatus();
           navigate("/"); // Redirect to the home page
         } else {
           setError(data.message || "Login failed");

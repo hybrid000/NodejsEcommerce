@@ -5,27 +5,26 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import Home from "./components/Home";
+import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import SignUp from "./components/Signup";
-import Product from "./components/Product";
-import ProductList from "./components/ProductList";
-import UserCart from "./components/UserCart";
-import Login from "./components/Login";
-import UserOrders from "./components/UserOrders";
-import UserWishlist from "./components/UserWishlist";
-import { AuthProvider } from "./components/AuthContext";
+import SignUp from "./pages/Signup";
+import Product from "./pages/Product";
+import ProductList from "./pages/ProductList";
+import UserCart from "./pages/UserCart";
+import Login from "./pages/Login";
+import UserOrders from "./pages/UserOrders";
+import UserWishlist from "./pages/UserWishlist";
+
 import ProtectedRoute from "./components/ProtectedRoute";
-import UserProfile from "./components/UserProfile";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   return (
-    <AuthProvider>
+  
       <Router>
         <AppContent />
       </Router>
-    </AuthProvider>
   );
 }
 

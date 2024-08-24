@@ -53,7 +53,6 @@ const customLocalStrategy = new LocalStrategy({ usernameField: 'email' }, async 
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password);
-
         if (!passwordMatch) {
             return done(null, false, { message: 'Incorrect password.' });
         }
@@ -86,11 +85,12 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Ensure authenticated middleware
 
 
 // Routes
 app.use('/', mainRouter);
-app.use('/product', productRouter);
+app.use('/product', productRouter); // Protect product routes
 app.use('/user', userRouter);
 
 // Connect to database

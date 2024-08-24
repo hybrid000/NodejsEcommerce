@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Updated import
 import { Helmet } from "react-helmet-async";
-import { AuthContext } from "./AuthContext"; // Assuming you have an AuthContext
+import { AuthContext } from "../context/AuthContext"; // Assuming you have an AuthContext
 import "../styles/stylemain.css";
 import "../styles/productMain.css";
 
 const Product = () => {
   const { productId } = useParams();
   const navigate = useNavigate(); // Updated useHistory to useNavigate
-  const { isAuthenticated } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const [product, setProduct] = useState(null);
   const [imgFiles, setImgFiles] = useState([]);
   const [error, setError] = useState(null);
@@ -35,29 +35,42 @@ const Product = () => {
         setImgPath(data.imgPath);
         setCurrentImg(`${data.imgPath}/img1.png`);
 
-        console.log("product page isAuthenticated status-", isAuthenticated)
+        console.log("product page isAuthenticated status-", user);
+
         // Check if the product is in the wishlist only if the user is authenticated
-        if (isAuthenticated) {
-          const wishlistResponse = await fetch(
-            `http://localhost:5000/user/wishlist`
-          );
-          const wishlistData = await wishlistResponse.json();
-          setIsInWishlist(
-            wishlistData.products.some((item) => item._id === productId)
-          );
-        }
+        if(user){
+        const wishlistResponse = await fetch(
+          `http://localhost:5000/user/wishlist`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
+
+        const wishlistData = await wishlistResponse.json();
+        if (response.status === 401) {
+            navigate('/login'); // Redirect if backend sends 401
+          } else {
+   
+        setIsInWishlist(
+          wishlistData.products.some((item) => item._id === productId)
+        );}
+      }
       } catch (error) {
         setError(error.message);
       }
     };
 
     fetchProduct();
-  }, [productId, isAuthenticated]);
+  }, [productId, user]);
 
   const handleWishlistSubmit = async (e) => {
     e.preventDefault();
-    if (!isAuthenticated) {
-      navigate("/user/login"); // Updated history.push to navigate
+    if (!user) {
+      navigate("/user/login"); 
       return;
     }
 
@@ -66,8 +79,13 @@ const Product = () => {
         `http://localhost:5000/user/wishlist/${productId}`,
         {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", 
         }
       );
+
       const result = await response.json();
       setIsInWishlist(!isInWishlist); // Toggle the wishlist state
       console.log(result.message);

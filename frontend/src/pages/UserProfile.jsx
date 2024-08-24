@@ -1,27 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/profile.css"; // Import CSS file
+import { AuthContext } from "../context/AuthContext";
+
+import "../styles/profile.css";
 
 const UserProfile = () => {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
-
+  const { logout } = useContext(AuthContext); 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await fetch("http://localhost:5000/user/profile", {
           credentials: "include",
         });
+
         if (response.ok) {
           const data = await response.json();
           setUsername(data.username);
         } else {
           console.error("Failed to fetch user data");
-          navigate("/user/login"); // Redirect to login if user data is not available
+          navigate("/user/login"); 
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
-        navigate("/user/login"); // Redirect to login on error
+        navigate("/user/login"); 
       }
     };
 
@@ -29,15 +32,8 @@ const UserProfile = () => {
   }, [navigate]);
 
   const handleLogout = async () => {
-    try {
-      await fetch("http://localhost:5000/user/logout", {
-        method: "GET",
-        credentials: "include",
-      });
-      navigate("/"); // Redirect to login after logout
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
+    await logout(); // Call logout from context
+    navigate("/"); 
   };
 
   return (

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import "../styles/home.css"; // Make sure this path is correct or adjust as needed
+import "../styles/home.css"; 
 
 const Home = () => {
   const categories = [
