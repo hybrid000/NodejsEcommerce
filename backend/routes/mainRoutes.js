@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const cartAndorderController = require("../controllers/cartAndorderController");
+const cartAndorderController = require("../controllers/cartController");
 const productController = require('../controllers/productController');
 
 
@@ -17,17 +17,6 @@ router.get("/auth/check", (req, res) => {
         });
     }
 });
-
-router.get("/buy", cartAndorderController.buyFn);
-
-router.post("/order", cartAndorderController.orderFn);
-
-router.get('/checkout', (req, res) => {
-    const sessionId = req.query.sessionId;
-    res.render('checkout', { sessionId });
-});
-
-router.get('/payment-success', cartAndorderController.paymentSuccess);
 
 router.get('/category/:categoryName', productController.getProductList);
 

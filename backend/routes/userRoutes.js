@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const cartAndorderController = require("../controllers/cartAndorderController");
+const cartAndorderController = require("../controllers/cartController.js");
 const wishlistController = require("../controllers/wishlistController");
 const userController = require("../controllers/userController");
 const  zodValidation = require('../middleware/validationMiddleware.js');
@@ -23,7 +23,7 @@ router.get('/wishlist', wishlistController.getWishlist);
 router.post('/wishlist/:productId', wishlistController.addToWishlist);
 
 // user order history related
-router.get("/orders", cartAndorderController.showOrders);
+router.get("/orders", cartAndorderController.getOrders);
 
 
 module.exports = router;

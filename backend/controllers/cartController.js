@@ -1,9 +1,4 @@
 const User = require("../models/user")
-const Order = require("../models/order")
-
-const stripe = require('stripe')("sk_test_51M6IM2SFS09Es6txKfm0VzTpJMZhI4NhUknRxjk8XKscatm5WnbdBxRsokEOEmwKaWMRijgR9lkqNlxiEf8tq4x900PGTm9ikm");
-const PORT = process.env.PORT;
-const URL = process.env.URL || `http://localhost:${PORT}`;
 
 const getOrders = async (req, res) => {
     if (req.isAuthenticated()) {
@@ -176,6 +171,9 @@ const updateCart = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+
+
 
 
 module.exports = { getCart, addToCart, deleteCartItem, updateCart, getOrders };

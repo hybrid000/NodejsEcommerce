@@ -93,7 +93,6 @@ const getProductList = async (req, res) => {
 
     try {
 
-        console.log("hoiyaan")
         const categoryName = req.params.categoryName;
 
         // Find the category by name to get its _id
