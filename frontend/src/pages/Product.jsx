@@ -1,24 +1,24 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Updated import
+import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { AuthContext } from "../context/AuthContext"; // Assuming you have an AuthContext
+import { AuthContext } from "../context/AuthContext";
 import "../styles/stylemain.css";
 import "../styles/productMain.css";
 
 const Product = () => {
   const { productId } = useParams();
-  const navigate = useNavigate(); // Updated useHistory to useNavigate
-  const { user, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
   const [product, setProduct] = useState(null);
   const [imgFiles, setImgFiles] = useState([]);
   const [error, setError] = useState(null);
   const [imgPath, setImgPath] = useState("");
   const [currentImg, setCurrentImg] = useState("");
-  const [rating, setRating] = useState(0);
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  
   const [numberOfRatings, setNumberOfRatings] = useState(0);
   const [averageRating, setAverageRating] = useState(0);
   const [numberOfReviews, setNumberOfReviews] = useState(0);
-  const [isInWishlist, setIsInWishlist] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -26,51 +26,44 @@ const Product = () => {
         const response = await fetch(
           `http://localhost:5000/product/${productId}`
         );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+        if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         setProduct(data.product);
         setImgFiles(data.imgFiles);
         setImgPath(data.imgPath);
         setCurrentImg(`${data.imgPath}/img1.png`);
 
-        console.log("product page isAuthenticated status-", user);
-
-        // Check if the product is in the wishlist only if the user is authenticated
-        if(user){
-        const wishlistResponse = await fetch(
-          `http://localhost:5000/user/wishlist`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
+        if (user) {
+          const wishlistResponse = await fetch(
+            `http://localhost:5000/user/wishlist`,
+            {
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+            }
+          );
+          if (wishlistResponse.status === 401) {
+            navigate("/login");
+            return;
           }
-        );
+          const wishlistData = await wishlistResponse.json();
+          setIsInWishlist(
+            wishlistData.products.some((item) => item._id === productId)
+          );
 
-        const wishlistData = await wishlistResponse.json();
-        if (response.status === 401) {
-            navigate('/login'); // Redirect if backend sends 401
-          } else {
-   
-        setIsInWishlist(
-          wishlistData.products.some((item) => item._id === productId)
-        );}
-      }
+        }
       } catch (error) {
         setError(error.message);
       }
     };
 
     fetchProduct();
-  }, [productId, user]);
+  }, [productId, user, navigate]);
 
   const handleWishlistSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
-      navigate("/user/login"); 
+      navigate("/user/login");
       return;
     }
 
@@ -79,33 +72,62 @@ const Product = () => {
         `http://localhost:5000/user/wishlist/${productId}`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", 
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
         }
       );
 
       const result = await response.json();
-      setIsInWishlist(!isInWishlist); // Toggle the wishlist state
-      console.log(result.message);
+      if (response.ok) {
+        setIsInWishlist(!isInWishlist);
+        alert(
+          result.message.includes("added")
+            ? "Product added to wishlist"
+            : "Product removed from wishlist"
+        );
+      } else {
+        alert("Error updating wishlist");
+      }
     } catch (error) {
       console.error("Error updating wishlist:", error);
     }
   };
 
+const handleCartSubmit = async (e) => {
+  e.preventDefault();
+  if (!user) {
+    navigate("/user/login");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `http://localhost:5000/user/cart/${productId}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      }
+    );
+
+    if (response.ok) {
+      const result = await response.json();
+      if (result.message.includes("This item is already in your cart.")) {
+        alert("Product already in cart");
+      } else {
+        alert("Product added to cart");
+      }
+    } else {
+      alert("Error adding product to cart");
+    }
+  } catch (error) {
+    console.error("Error adding product to cart:", error);
+  }
+};
+
+
   const handleImageClick = (img) => {
     setCurrentImg(`${imgPath}/${img}`);
-  };
-
-  const handleCartSubmit = (e) => {
-    e.preventDefault();
-    // Handle cart submission
-  };
-
-  const handleStarClick = (starValue) => {
-    setRating(starValue);
-    // Handle star rating
   };
 
   const getBackgroundColorStyle = (averageRating) => {
@@ -143,12 +165,15 @@ const Product = () => {
             data-product-id={product._id}
             onSubmit={handleWishlistSubmit}
           >
-            <button
-              id="wishlistBtn"
-              type="submit"
-              style={{ color: isInWishlist ? "red" : "black" }}
-            >
-              <i className="fa-solid fa-heart fa-xl"></i>
+            <button id="wishlistBtn" type="submit">
+              <i
+                className="fa-solid fa-heart fa-xl"
+                style={{
+                  color: isInWishlist
+                    ? "rgb(253, 82, 82)"
+                    : "rgba(176, 176, 176, 0.9)",
+                }}
+              ></i>
             </button>
           </form>
 
@@ -177,7 +202,7 @@ const Product = () => {
             >
               <button className="cart-btn" type="submit">
                 <i className="fa-solid fa-cart-shopping fa-xl"></i>
-                <h3> Add to Cart</h3>
+                <h3>Add to Cart</h3>
               </button>
             </form>
             <form id="buyForm" action="/buy" method="GET">
@@ -243,61 +268,40 @@ const Product = () => {
           <div className="description">
             <h3>Description</h3>
             <p style={{ marginBottom: "0.5rem" }}>{product.description}</p>
-            <hr />
-            {product.warranty && (
-              <div className="warranty">
-                <p>
-                  <i className="fa-solid fa-clipboard-check fa-lg"></i> &nbsp;{" "}
-                  {product.warranty}
-                </p>
-                <a href="#" className="TnC">
-                  T&C applied
-                </a>
-              </div>
-            )}
           </div>
-          <div className="ratingsNreviews">
-            <div className="rating-screen">
-              {numberOfRatings > 0 && (
-                <>
-                  <button style={getBackgroundColorStyle(averageRating)}>
-                    <i className="fa-solid fa-star fa-2xs"></i>{" "}
-                    {averageRating.toFixed(1)}
-                  </button>
-                  <p>
-                    {numberOfRatings} Ratings and {numberOfReviews} Reviews
-                  </p>
-                </>
-              )}
-            </div>
-            <div className="userReviewInput">
-              <h3>Rate and review this product</h3>
-              <form
-                className="review-form"
-                action={`/product/review/${product._id}`}
-                method="post"
-              >
-                {[1, 2, 3, 4, 5].map((starValue) => (
-                  <span
-                    className={`star ${rating >= starValue ? "activate" : ""}`}
-                    key={starValue}
-                    onClick={() => handleStarClick(starValue)}
-                    data-rating={starValue}
-                  >
-                    <i className="fa-solid fa-star"></i>
-                  </span>
+          <div className="review-section">
+            <h3>Reviews</h3>
+            <form
+              id="reviewForm"
+              data-product-id={product._id}
+              // onSubmit={handleReviewSubmit}
+            >
+              <textarea
+                name="review"
+                id="review"
+                cols="30"
+                rows="3"
+                placeholder="Write your review here"
+                required
+              ></textarea>
+              <button className="review-btn" type="submit">
+                Submit Review
+              </button>
+            </form>
+            {product.reviews && product.reviews.length > 0 ? (
+              <ul>
+                {product.reviews.map((review, index) => (
+                  <li key={index} className="review-item">
+                    <p>
+                      <b>{review.username}</b> - {review.date}
+                    </p>
+                    <p>{review.text}</p>
+                  </li>
                 ))}
-                <input type="hidden" id="rating" name="rating" value={rating} />
-                <textarea
-                  name="reviewText"
-                  cols="30"
-                  rows="10"
-                  placeholder="Write a review. (Optional)"
-                ></textarea>
-                <button type="submit">Submit</button>
-              </form>
-            </div>
-            <div className="showReviews"></div>
+              </ul>
+            ) : (
+              <p>No reviews yet.</p>
+            )}
           </div>
         </div>
       </div>

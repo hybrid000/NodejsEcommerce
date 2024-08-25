@@ -25,7 +25,7 @@ const registerFunction = async (req, res, next) => {
                 console.error("Error during login:", err);
                 return res.status(500).json({ error: { login: "An error occurred during login." } });
             }
-            return res.status(200).json({ success: true }); 
+            return res.status(200).json({ success: true });
         });
     } catch (error) {
         console.error("Unexpected error:", error);
@@ -68,18 +68,69 @@ const logoutFunction = (req, res, next) => {
 
 
 const userProfile = (req, res) => {
-    if (req.isAuthenticated()) {
-        // Send JSON response with user data
-        res.json({
-            username: req.user.username,
-        });
-    } else {
-        // Send an error response if not authenticated
-        res.status(401).json({ message: 'Unauthorized' });
+
+    // Send JSON response with user data
+    res.json({
+        username: req.user.username,
+    });
+}
+const changeUsername = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { username: req.body.username },
+            { new: true } // This returns the updated document
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ message: "Username updated successfully", user: updatedUser });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating username", error: error.message });
     }
 };
 
 
- 
 
-module.exports = { registerFunction, loginFunction, logoutFunction, userProfile};
+const changePassword = async (req, res) => {
+    try {
+        // Get the user from the request
+        const userId = req.user._id;
+        const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+        // Check if the new password and confirm new password match
+        if (newPassword !== confirmNewPassword) {
+            return res.status(400).json({ error: { confirmNewPassword: "New passwords do not match" } });
+        }
+
+        // Find the user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Compare current password with the stored hashed password
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ error: { currentPassword: "Current password is incorrect" } });
+        }
+
+        // Hash the new password
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+        // Update the user's password
+        user.password = hashedNewPassword;
+        await user.save();
+
+        res.status(200).json({ message: "Password updated successfully" });
+    } catch (error) {
+        console.error("Error updating password:", error);
+        res.status(500).json({ message: "Error updating password", error: error.message });
+    }
+};
+
+
+module.exports = { registerFunction, loginFunction, logoutFunction, userProfile, changeUsername, changePassword};

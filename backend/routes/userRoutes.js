@@ -12,6 +12,9 @@ router.post('/login', userController.loginFunction);
 router.post('/signup', zodValidation.validateRegistration, userController.registerFunction);
 router.get('/logout', userController.logoutFunction);
 router.get('/profile',authCheck, userController.userProfile);
+router.post('/change-username',authCheck, userController.changeUsername);
+router.post('/change-password',authCheck, userController.changePassword);
+
 
 // USER CART REALTED
 router.post('/cart/:productId', authCheck, cartAndorderController.addToCart);
